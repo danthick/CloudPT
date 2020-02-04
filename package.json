@@ -1,0 +1,23 @@
+{
+  "name": "prco304",
+  "version": "1.0.0",
+  "description": "PRCO304 - Final Year Project - CloudPT",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danthick/PRCO304.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danthick/PRCO304/issues"
+  },
+  "homepage": "https://github.com/danthick/PRCO304#readme",
+  "dependencies": {
+    "mongoose": "^5.8.11"
+  }
+}
