@@ -4,7 +4,7 @@
   "description": "PRCO304 - Final Year Project - CloudPT",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -u tdd tests/test.js",
     "start": "node server.js"
   },
   "repository": {
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/danthick/PRCO304#readme",
   "dependencies": {
+    "mocha": "^7.0.1",
     "mongoose": "^5.8.11"
   }
 }
