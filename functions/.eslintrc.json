@@ -4,7 +4,6 @@
     "ecmaVersion": 2017
   },
   "plugins": [
-    "promise"
   ],
   "extends": "eslint:recommended",
   "rules": {

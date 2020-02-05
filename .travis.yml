@@ -5,7 +5,7 @@ node_js:
 before_install:
   - 'npm i -g firebase-tools'
 before_deploy:
-  - 'npm install -g eslint'
+  - 'npm install -g eslint@latest'
   - 'npm install -g eslint-plugin-promise@latest --save-dev'
 deploy:
   provider: firebase
