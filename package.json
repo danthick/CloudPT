@@ -4,7 +4,6 @@
   "description": "PRCO304 - Final Year Project - CloudPT",
   "main": "server.js",
   "scripts": {
-    
     "start": "node server.js"
   },
   "repository": {
@@ -18,10 +17,14 @@
   },
   "homepage": "https://github.com/danthick/PRCO304#readme",
   "dependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-promise": "^4.2.1",
     "express": "^4.17.1",
     "firebase-tools": "^7.12.1",
     "mocha": "^7.0.1",
     "mongoose": "^5.8.11"
   },
-  "engines": {"node": "8"}
+  "engines": {
+    "node": "8"
+  }
 }
