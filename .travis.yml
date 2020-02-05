@@ -4,6 +4,7 @@ node_js:
 - '10'
 before_install:
   - 'npm install'
+  - 'npm i -g firebase-tools'
 before_deploy:
 deploy:
   provider: firebase
