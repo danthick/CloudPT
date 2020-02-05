@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/danthick/PRCO304#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "firebase-tools": "^7.12.1",
     "mocha": "^7.0.1",
     "mongoose": "^5.8.11"
-  }
+  },
+  "engines": {"node": "8"}
 }
