@@ -2,6 +2,8 @@ dist: trusty
 language: node_js
 node_js:
 - '10'
+before_install:
+  - 'npm i -g firebase-tools'
 deploy:
   provider: firebase
   token:
