@@ -4,6 +4,7 @@ node_js:
 - '10'
 before_install:
   - 'npm i -g firebase-tools'
+  - 'npm install -g eslint'
 deploy:
   provider: firebase
   token:
