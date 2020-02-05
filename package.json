@@ -4,7 +4,7 @@
   "description": "PRCO304 - Final Year Project - CloudPT",
   "main": "server.js",
   "scripts": {
-    "test": "mocha -u tdd tests/test.js",
+    
     "start": "node server.js"
   },
   "repository": {
