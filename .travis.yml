@@ -2,3 +2,9 @@ dist: trusty
 language: node_js
 node_js:
   - "8"
+
+deploy:
+  token:
+    "1//03m1UJczlO2d_CgYIARAAGAMSNwF-L9IrbRTEhMa6tRemyL3B1wIKkGNcVwlcpIgWT-Zctu8SyRea9u_o6jNL63iVplFtIvo2Vu4"
+  project:
+    "prco304-cloudpt"
