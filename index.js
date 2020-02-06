@@ -3,10 +3,11 @@ var express = require("express");
 // Setting up server
 var app = express();
 
-app.get("/", function (req, res){
-    console.log("DEPLOYED");
+app.get("/", function (request, response) {
+    response.status(200).sendFile("/", {
+        root: "client"
+    });
 });
-
 // Setting port to listen on
 var server = app.listen(9000, function () {
     console.log("Listening on 9000");
