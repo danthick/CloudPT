@@ -2,8 +2,12 @@
   "name": "prco304",
   "version": "1.0.0",
   "description": "PRCO304 - Final Year Project - CloudPT",
-  "main": "server.js",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
@@ -15,19 +19,5 @@
   "bugs": {
     "url": "https://github.com/danthick/PRCO304/issues"
   },
-  "homepage": "https://github.com/danthick/PRCO304#readme",
-  "dependencies": {
-    "express": "^4.17.1",
-    "firebase-tools": "^7.12.1",
-    "mocha": "^7.0.1",
-    "mongoose": "^5.8.11"
-  },
-  "devDependencies": {    
-    "eslint": "^6.8.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "firebase-functions-test": "^0.1.6"
-  },
-  "engines": {
-    "node": "8"
-  }
+  "homepage": "https://github.com/danthick/PRCO304#readme"
 }

@@ -7,7 +7,7 @@ before_install:
   - 'npm i -g firebase-tools'
 before_deploy:
   - 'npm install -g eslint'
-  - ''npm install -g eslint-plugin-promise'
+  - 'npm install -g eslint-plugin-promise'
 deploy:
   provider: firebase
   token:
