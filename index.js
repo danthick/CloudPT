@@ -9,7 +9,7 @@ app.get("/", function (request, response) {
     });
 });
 // Setting port to listen on
-var server = app.listen(9000, function () {
+var server = app.listen(process.env.PORT || 5000, function () {
     console.log("Listening on 9000");
 })
 
