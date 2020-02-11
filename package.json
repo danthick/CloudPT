@@ -2,13 +2,13 @@
   "name": "prco304",
   "version": "1.0.0",
   "description": "PRCO304 - Final Year Project - CloudPT",
-  "main": "index.js",
+  "main": "server.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "test": "mocha -u tdd tests",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
   "homepage": "https://github.com/danthick/PRCO304#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mocha": "^7.0.1"
+    "mocha": "^7.0.1",
+    "mongodb": "^3.5.2",
+    "mongoose": "^5.8.11"
   }
 }
