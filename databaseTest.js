@@ -2,7 +2,7 @@ var schemas = require("./schemas");
 
 // Connecting to database
 var mongoose = require("mongoose");
-const uri = "mongodb://dthick:m18WKhWQLWq9Bak2@soft355-shard-00-00-vjwy9.mongodb.net:27017,soft355-shard-00-01-vjwy9.mongodb.net:27017,soft355-shard-00-02-vjwy9.mongodb.net:27017/cloudpt?ssl=true&replicaSet=SOFT355-shard-0&authSource=admin&retryWrites=true&w=majority";
+const uri = "mongodb+srv://dthick:VI55F0PYGAu4BFv3@cluster-vjwy9.mongodb.net/cloudpt?retryWrites=true&w=majority";
 mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true}, function(err, db) {
     if (err) { 
         console.log(err); 
