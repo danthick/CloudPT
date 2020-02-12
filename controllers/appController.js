@@ -1,6 +1,10 @@
 var path = require("path");
 var express = require("express");
+var passport = require("passport")
+
 module.exports = function(app){
+    // Initialise passport
+
     app.use(express.static(path.join(__dirname, '../views')));
     // Setting port to listen on
     var server = app.listen(process.env.PORT || 9000, function () {
