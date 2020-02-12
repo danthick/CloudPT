@@ -21,10 +21,12 @@
   },
   "homepage": "https://github.com/danthick/PRCO304#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "express-session": "^1.17.0",
     "mocha": "^7.0.1",
     "mongodb": "^3.5.2",
     "mongoose": "^5.8.11",
-    "passport": "^0.4.1"
+    "passport": "^0.4.1",
+    "path": "^0.12.7"
   }
 }

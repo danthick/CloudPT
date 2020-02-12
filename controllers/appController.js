@@ -16,4 +16,3 @@ module.exports = function(app){
         response.status(200).sendFile(path.join(__dirname, '../views/login.html'))
     });
 }
-
