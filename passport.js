@@ -1,36 +1,47 @@
-var localStrategy = require("passport-local").Strategy;
-var bcrypt = require("bcryptjs");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require ("bcryptjs");
+var schemas = require("./schemas")
 
-function initPassport(passport, getUserByEmail){
-    var auth = async (email, password, done) => {
-        // Find user by email address
+function initPassport(passport){
+    const auth = async (email, password, done) => {
+        // Find user using email address
         var user = await getUserByEmail(email);
 
         if (user[0] == null){
-            // Email address does not exist
-            return done(null, false, {message: "Email address not found"});
+            // Display message if user is not found
+            return done(null, false, {message: "Email not valid"});
         }
-        try {
-            if (bcrypt.compareSync(passport, user[0].password)){
-                // User successfully logs in
+        try{
+            // Checks password matches
+            if (bcrypt.compareSync(password, user[0].password)){
+                // Returns no errors and logs user in
                 return done(null, user);
             } else {
-                // Password not valid
-                return done(null, false, {message: "Password is not correct"});
+                // Displays message if password in incorrect
+                return done(null, false, {message: "Incorrect password"});
             }
-        } catch (e) {return done(e);}
-    } 
-    // Authenticating using email and password
-    if (passport != null){
-        passport.use(new localStrategy({usernameField: "email"}, auth));
+        } catch (e) { return done(e); }
     }
 
-    // Serialize and de-serialize functions for logging in and out
+    // Authenticates using email and password for login.ejs
+    if (passport != null){
+        passport.use(new LocalStrategy({usernameField: "email"}, auth)); // Password not needed as it is already set to defualts
+    }
+    // Serialize and deserialize functions for logging in and out
     passport.serializeUser((user, done) => {
-        done(null, user[0].email);
+        done(null, user[0].email)})
+    passport.deserializeUser((email, done) => { 
+        done(null, getUserByEmail(email))
     })
-    passport.deserializeUser((email, done) => {
-        done(null, getUserByEmail(email));
-    })
+}
+
+// Function to get user from email
+async function getUserByEmail(email){
+    var user = await schemas.User.find({
+        email: email
+    });
+    console.log(email);
+    console.log(user);
+    return user;
 }
 module.exports.initPassport = initPassport;
