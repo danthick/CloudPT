@@ -40,8 +40,6 @@ async function getUserByEmail(email){
     var user = await schemas.User.find({
         email: email
     });
-    console.log(email);
-    console.log(user);
     return user;
 }
 module.exports.initPassport = initPassport;

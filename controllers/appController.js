@@ -18,21 +18,19 @@ module.exports = function(app){
     })
 
     // Route to index
-    app.get("/", function (request, response) {
+    app.get("/", checkNotAuthenticated, function (request, response) {
         response.status(200).sendFile(path.join(__dirname, '../views/login.html'))
     });
 
-    app.get("/login", function (request, response) {
-        response.status(200).sendFile(path.join(__dirname, '../views/login.html'))
-    });
-
+    // Route to attempt login
     app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
-        successRedirect: "/home.html",
+        successRedirect: "/home",
         failureRedirect: "/login",
         failureFlash: true
     }));
 
-    app.get("/register", function (request, response) {
+    // Route to show register page
+    app.get("/register", checkNotAuthenticated, function (request, response) {
         response.status(200).sendFile(path.join(__dirname, '../views/register.html'))
     });
 
@@ -46,19 +44,23 @@ module.exports = function(app){
         var user = await getUserByEmail(req.body.email);
         if (user[0] == null){
             var newUser = new schemas.User({
-                "email": req.body.email,
-                "password": hash,
-                "firstName": req.body.firstName,
-                "lastName": req.body.lastName
+                email: req.body.email,
+                password: hash,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName
             });
-            console.log(newUser);
             // Save user
             newUser.save();
-            res.sendStatus(200);
+            res.status(200).redirect("/");
         } else {
             res.sendStatus(400);
         }
     })
+    
+    // Route to display home page
+    app.get("/home", checkAuthenticated, function (request, response) {
+        response.status(200).sendFile(path.join(__dirname, '../views/home.html'))
+    });
 
     // Function to get user from email
     async function getUserByEmail(email) {
@@ -67,11 +69,22 @@ module.exports = function(app){
         });
     }
 
+    // Function to check if user is not logged in and if they are
+    // re-direct them to the home page
     function checkNotAuthenticated(req, res, next){
+        console.log(req.isAuthenticated());
         if (req.isAuthenticated()){
-            console.log("Auth");
-            return res.redirect("/home.html");
+            return res.redirect("/home");
         }
         next();
+    }
+    
+    // Function to check if user is logged in and if they are not
+    // re-direct them to the login page
+    function checkAuthenticated(req, res, next){
+        if(req.isAuthenticated()){
+            return next();
+        }
+        res.redirect("/")
     }
 }
