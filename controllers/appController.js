@@ -7,16 +7,7 @@ var bcrypt = require("bcryptjs");
 
 module.exports = function(app){
     // Initialise passport
-    passportFunc.initPassport(passport
-        // Get user from email function
-        // email = async(email) => {
-        //     var user =  await schemas.User.find({
-        //         email: email
-        //     });
-        //     console.log(user[0]);
-        //     return user;
-        //}
-        );
+    passportFunc.initPassport(passport);
 
     // Making views folder public
     app.use(express.static(path.join(__dirname, '../views')));
@@ -37,7 +28,7 @@ module.exports = function(app){
 
     app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
         successRedirect: "/home.html",
-        failureRedirect: "/login.html",
+        failureRedirect: "/login",
         failureFlash: true
     }));
 
@@ -55,11 +46,12 @@ module.exports = function(app){
         var user = await getUserByEmail(req.body.email);
         if (user[0] == null){
             var newUser = new schemas.User({
-                email: req.body.email,
-                passport: hash,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName
+                "email": req.body.email,
+                "password": hash,
+                "firstName": req.body.firstName,
+                "lastName": req.body.lastName
             });
+            console.log(newUser);
             // Save user
             newUser.save();
             res.sendStatus(200);
