@@ -51,6 +51,6 @@ async function getUser(email){
 }
 
 addUser();
-updateUser();
+//updateUser();
 getUser("test@test.com");
-deleteUser();
+//deleteUser();
