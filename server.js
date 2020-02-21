@@ -5,13 +5,13 @@ var passport = require("passport")
 var appController = require("./controllers/appController");
 var flash = require("express-flash");
 
-// Setting up server
+// Setting up server and session settings
 var app = express();
-// Setting session settings
+app.set('engine', 'ejs');
 app.use(flash());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(session({
-    secret: "secret", // NEEDS TO CHANGE!!!!!!!
+    secret: "TxuYJTpXtoQZuIJiHtgt",
     resave: true,
     rolling: true,
     saveUninitialized: true,

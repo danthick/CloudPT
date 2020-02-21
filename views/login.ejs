@@ -11,6 +11,9 @@
     <h1>CloudPT</h1>
     <form action="/login" method="POST">
         <h3>Please enter your login details:</h3>
+        <% if (messages.error) { %>
+            <h3 style="color: darkred; font-size: 15px;"><%= messages.error %></h3>
+            <% } %>
             <input type="email" class="" id="email" name="email" placeholder="Email Address" required>
         </div>  
         <div>

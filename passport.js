@@ -25,7 +25,7 @@ function initPassport(passport){
 
     // Authenticates using email and password for login.ejs
     if (passport != null){
-        passport.use(new LocalStrategy({usernameField: "email"}, auth)); // Password not needed as it is already set to defualts
+        passport.use(new LocalStrategy({usernameField: "email"}, auth)); // Password not needed as it is already set to default
     }
     // Serialize and deserialize functions for logging in and out
     passport.serializeUser((user, done) => {

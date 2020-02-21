@@ -19,13 +19,14 @@ module.exports = function(app){
 
     // Route to index
     app.get("/", checkNotAuthenticated, function (request, response) {
-        response.status(200).sendFile(path.join(__dirname, '../views/login.html'))
+        //response.status(200).sendFile(path.join(__dirname, '../views/login'))
+        response.render('login.ejs');
     });
 
     // Route to attempt login
     app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
         successRedirect: "/home",
-        failureRedirect: "/login",
+        failureRedirect: "/",
         failureFlash: true
     }));
 
@@ -69,18 +70,15 @@ module.exports = function(app){
         });
     }
 
-    // Function to check if user is not logged in and if they are
-    // re-direct them to the home page
+    // Function to check if user is not logged in and if they are re-direct them to the home page
     function checkNotAuthenticated(req, res, next){
-        console.log(req.isAuthenticated());
         if (req.isAuthenticated()){
             return res.redirect("/home");
         }
         next();
     }
     
-    // Function to check if user is logged in and if they are not
-    // re-direct them to the login page
+    // Function to check if user is logged in and if they are not re-direct them to the login page
     function checkAuthenticated(req, res, next){
         if(req.isAuthenticated()){
             return next();
