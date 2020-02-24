@@ -9,7 +9,6 @@ var flash = require("express-flash");
 var session = require("express-session");
 var bcrypt = require("bcryptjs");
 var schemas = require("./schemas")
-const todoRoutes = express.Router();
 const PORT = 4000 || process.env.PORT;
 
 app.use(cors());
@@ -35,12 +34,6 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true}, functio
     else { console.log("Connected to database");}
 });
 
-
-
-todoRoutes.route('/').get(function(req, res) {
-    
-});
-
 // Route to attempt login
 app.post("/login", checkNotAuthenticated, passport.authenticate("local"),
 function(req, res){
@@ -48,12 +41,15 @@ function(req, res){
     return res.json({redirect: '/home'})
 });
 
+app.get("/test", function(req, res){
+    console.log("here")
+});
+
 // Route to register a user
 app.post("/register", checkNotAuthenticated, async function(req, res){
     // Hash password
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(req.body.password, salt);
-
 
     // Checking if email already exists
     var user = await getUserByEmail(req.body.email);
