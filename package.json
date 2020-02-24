@@ -27,7 +27,7 @@
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd backend && nodemon server\"",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
