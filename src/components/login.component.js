@@ -34,7 +34,7 @@ export default class Login extends Component {
 
             axios({
                 method: 'POST',
-                url: 'http://localhost:4000/login',
+                url: 'https://localhost:4000/login',
                 headers: {'Content-Type': 'application/json'},
                 data: loginData,
             }).then(function(res) {
