@@ -37,7 +37,6 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true}, functio
 // Route to attempt login
 app.post("/login", checkNotAuthenticated, passport.authenticate("local"),
 function(req, res){
-    console.log("here")
     return res.json({redirect: '/home'})
 });
 

@@ -4,6 +4,7 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props);
+        // Do something
     }
 
         onSubmit(e) {

@@ -55,7 +55,7 @@ export default class Login extends Component {
                 data: registerData,
             }).then(function(res) {
                     console.log(registerData)
-                    if (res.data.redirect == '/') {
+                    if (res.data.redirect === '/') {
                         window.location = '/'
                     } else {
                         // TO DO - Email already exists

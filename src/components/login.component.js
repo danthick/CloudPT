@@ -34,12 +34,12 @@ export default class Login extends Component {
 
             axios({
                 method: 'POST',
-                url: 'https://localhost:4000/login',
+                url: 'http://localhost:4000/login',
                 headers: {'Content-Type': 'application/json'},
                 data: loginData,
             }).then(function(res) {
                     console.log(loginData)
-                    if (res.data.redirect == '/home') {
+                    if (res.data.redirect === '/home') {
                         window.location = '/home'
                     } else {
                         // TO DO - didn't log in
