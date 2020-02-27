@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 export default class Login extends Component {
-
     constructor(props) {
         super(props);
 
@@ -27,23 +26,27 @@ export default class Login extends Component {
             password: e.target.value
         });
     }
+
         onSubmit(e) {
             e.preventDefault();
 
             const loginData = JSON.stringify(this.state);
 
-            axios({
+            fetch('http://localhost:4000/login', {
                 method: 'POST',
-                url: 'http://localhost:4000/login',
+                credentials: 'include',
                 headers: {'Content-Type': 'application/json'},
-                data: loginData,
-            }).then(function(res) {
-                    console.log(loginData)
-                    if (res.data.redirect === '/home') {
+                body: loginData}
+            ).then(function(res) {
+                res.json().then(log => {
+                    console.log(log)
+                    if (log.redirect === '/home') {
+                        //user = res.data.email;
                         window.location = '/home'
                     } else {
                         // TO DO - didn't log in
                     }
+                });
                 }).catch(error => console.log(error))
 
             this.setState({
@@ -60,6 +63,7 @@ export default class Login extends Component {
                     <div className="form-group"> 
                         <input  type="email"
                                 id="email"
+                                name="email"
                                 className="form-control"
                                 placeholder="Email Address"
                                 value={this.state.email}
@@ -71,6 +75,7 @@ export default class Login extends Component {
                         <input 
                                 type="password" 
                                 id="password"
+                                name="password"
                                 className="form-control"
                                 placeholder="Password"
                                 value={this.state.password}
@@ -89,3 +94,4 @@ export default class Login extends Component {
         )
     }
 }
+export var returnUser;

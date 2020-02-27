@@ -3,14 +3,22 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Login from "./components/login.component";
+import Login, { returnUser } from "./components/login.component";
 import Home from "./components/home.component";
 import Register from "./components/register.component";
 
 class App extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      user: ""
+    }
+  }
+
   render() {
     return (
-      <Router>
+      <Router user={"Dan"}>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="/" className="navbar-brand">CloudPT</Link>
@@ -26,9 +34,11 @@ class App extends Component {
             </div>
           </nav>
           <br/>
-          <Route path="/" exact component={Login} />
+          <Route path="/" exact component={Login}/>
+
           <Route path="/register" exact component={Register}/>
-          <Route path="/home" exact component={Home} />
+          {/* <Route path="/home" exact component={Home} user="Dan"/> */}
+          <Route path="/home" render={props => (<Home {...props} user=""/>)}/>
         </div>
       </Router>
     );

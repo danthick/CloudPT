@@ -3,29 +3,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-var passport = require("passport");
-var passportFunc = require("./passport");
-var flash = require("express-flash");
-var session = require("express-session");
-var bcrypt = require("bcryptjs");
-var schemas = require("./schemas")
+const passport = require("passport");
+const passportFunc = require("./passport");
+const flash = require("express-flash");
+const session = require("express-session");
+const bcrypt = require("bcryptjs");
+const schemas = require("./schemas")
+const cookieParser = require("cookie-parser");
 const PORT = 4000 || process.env.PORT;
-
-app.use(cors());
-app.use(bodyParser.json());
-app.use(flash());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: "TxuYJTpXtoQZuIJiHtgt",
-    resave: true,
-    rolling: true,
-    saveUninitialized: true,
-    cookie: {maxAge: 1 * 60 * 60 * 1000} // 1 hour of inactivity
-}))
-app.use(passport.initialize());
-app.use(passport.session());
-
-passportFunc.initPassport(passport);
 
 // Connect to database
 const uri = "mongodb+srv://dthick:VI55F0PYGAu4BFv3@cluster-vjwy9.mongodb.net/cloudpt?retryWrites=true&w=majority";
@@ -34,14 +19,35 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true}, functio
     else { console.log("Connected to database");}
 });
 
+app.use(session({
+    secret: "TxuYJTpXtoQZuIJiHtgt",
+    name: "session",
+    resave: true,
+    rolling: true,
+    saveUninitialized: true,
+    cookie: {maxAge: 1 * 60 * 60 * 1000} // 1 hour of inactivity
+}))
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(flash());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(
+    cors({
+      origin: "http://localhost:3000", // allow to server to accept request from different origin
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      credentials: true // allow session cookie from browser to pass through
+    })
+  );
+
+passportFunc.initPassport(passport);
+
 // Route to attempt login
 app.post("/login", checkNotAuthenticated, passport.authenticate("local"),
 function(req, res){
-    return res.json({redirect: '/home'})
-});
-
-app.get("/test", function(req, res){
-    console.log("here")
+    return res.json({redirect: '/home', user: req.user})
 });
 
 // Route to register a user
@@ -63,11 +69,27 @@ app.post("/register", checkNotAuthenticated, async function(req, res){
         // Save user
         newUser.save();
         return res.json({redirect: '/'})
-        //res.status(200).redirect("http://localhost:3000/");
     } else {
         res.sendStatus(400);
     }
 })
+
+app.get("/api/auth", function(req, res){
+    console.log(req.user)
+    console.log(req.isAuthenticated())
+    if (!req.user) {
+        console.log("NOT LOGGED IN")
+      } else {
+        console.log("LOGGED IN")
+      }
+})
+
+app.get("/logout", async function (req, res) {
+    req.logOut();
+    req.session.destroy(function (err) {
+        //res.redirect('/');
+      }); 
+});
 
 // Function to check if user is not logged in and if they are re-direct them to the home page
 function checkNotAuthenticated(req, res, next){
