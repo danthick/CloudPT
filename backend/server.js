@@ -36,7 +36,7 @@ app.use(passport.session());
 
 app.use(
     cors({
-      origin: "https://cloudpt.me/", // Allow to server to accept request from different origin
+      origin: "https://cloudpt.me", // Allow to server to accept request from different origin
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true // allow session cookie from browser to pass through
     })
