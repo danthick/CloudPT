@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 export default class Login extends Component{
     constructor(props) {
         super(props);
 
+        this.onChange = this.onChange.bind(this)
+
+        this.state = {
+            auth: false
+          }
+          this.onChange = this.onChange.bind(this)
         // Do something
     }
 
-    authCheck(){
-            fetch('http://localhost:4000/api/auth/', {
+    onChange(e) {
+        this.setState({
+            auth: e.target.value
+        });
+      }
+
+    componentDidMount() {
+        fetch('http://localhost:4000/api/auth/', {
                 method: 'GET',
                 //withCredentials: true,
                 credentials: 'include',
@@ -19,24 +30,25 @@ export default class Login extends Component{
                     "Access-Control-Allow-Credentials": true
                   }
                 }
-            ).then(function(res) {
+            ).then(res => {
                 res.json().then(log => {
                     console.log(log)
-                    // if (log.redirect === '/home') {
+                     if (log.redirect === '/home') {
+                        this.setState({auth: true});
                     //     //user = res.data.email;
                     //     window.location = '/home'
-                    // } else {
-                    //     // TO DO - didn't log in
-                    // }
+                     } else {
+                         window.location = "/"
+                     }
                 });
                 }).catch(error => console.log(error))
+            
+      }
 
-    }
 
     onSubmit(e) {
         e.preventDefault();
-        console.log("hit")
-        fetch('http://localhost:4000/logout', {
+        fetch('http://localhost:4000/api/logout', {
                 method: 'GET',
                 //withCredentials: true,
                 credentials: 'include',
@@ -60,8 +72,7 @@ export default class Login extends Component{
     }
 
     render() {
-        this.authCheck();
-        //const {user} = this.props.data
+        if (!this.state.auth) return null;
         return (
             <div>
             <div style={{marginTop: 10}}>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 export default class Login extends Component {
     constructor(props) {
@@ -12,6 +11,8 @@ export default class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            errorMessage: '',
+            showError: false
         }
     }
 
@@ -27,38 +28,43 @@ export default class Login extends Component {
         });
     }
 
-        onSubmit(e) {
-            e.preventDefault();
+    onSubmit(e) {
+        e.preventDefault();
+        const loginData = JSON.stringify(this.state);
 
-            const loginData = JSON.stringify(this.state);
+        fetch('http://localhost:4000/api/login', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: loginData
+        }).then(res => {
+            res.json().then(log => {
+                if (log.auth === true) {
+                    window.location = '/home'
+                } else {
+                    // TO DO - didn't log in
+                    
+                    this.setState({errorMessage: "Incorrect email or password"});
+                    this.setState({showError: true})
+                }
+            });
+            }).catch(error => console.log(error))
 
-            fetch('http://localhost:4000/login', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {'Content-Type': 'application/json'},
-                body: loginData}
-            ).then(function(res) {
-                res.json().then(log => {
-                    console.log(log)
-                    if (log.redirect === '/home') {
-                        //user = res.data.email;
-                        window.location = '/home'
-                    } else {
-                        // TO DO - didn't log in
-                    }
-                });
-                }).catch(error => console.log(error))
-
-            this.setState({
-                email: '',
-                password: '',
-            })
-        }
+        this.setState({
+            password: '',
+        })
+    }
 
     render() {
         return (
             <div style={{marginTop: 10}}>
                 <h3>Please enter your login details:</h3>
+                { this.state.showError?
+                    <div>
+                    <h4 className="alert alert-danger alert-dismissible" role="alert"> { this.state.errorMessage } </h4>
+                    </div>
+                : null
+                }
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group"> 
                         <input  type="email"
@@ -94,4 +100,3 @@ export default class Login extends Component {
         )
     }
 }
-export var returnUser;

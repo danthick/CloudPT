@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 export default class Login extends Component {
 
@@ -17,6 +16,8 @@ export default class Login extends Component {
             lastName: '',
             email: '',
             password: '',
+            errorMessage: '',
+            showError: false
         }
     }
 
@@ -43,36 +44,45 @@ export default class Login extends Component {
             password: e.target.value
         });
     }
-        onSubmit(e) {
-            e.preventDefault();
+    onSubmit(e) {
+        e.preventDefault();
+        const registerData = JSON.stringify(this.state);
 
-            const registerData = JSON.stringify(this.state);
+        fetch('http://localhost:4000/api/register', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: registerData
+        }).then(res => {
+            res.json().then(log => {
+                if (log.redirect === '/') {
+                    window.location = '/'
+                } else {                  
+                    this.setState({errorMessage: "Email is already in use"});
+                    this.setState({showError: true})
+                }
+            });
+            }).catch(error => console.log(error))
 
-            axios({
-                method: 'POST',
-                url: 'http://localhost:4000/register',
-                headers: {'Content-Type': 'application/json'},
-                data: registerData,
-            }).then(function(res) {
-                    console.log(registerData)
-                    if (res.data.redirect === '/') {
-                        window.location = '/'
-                    } else {
-                        // TO DO - Email already exists
-                    }
-                }).catch(error => console.log(error))
-
-            this.setState({
-                email: '',
-                password: '',
-            })
-        }
+        this.setState({
+            email: '',
+            password: '',
+        })
+    }
 
     render() {
         return (
             <div style={{marginTop: 10}}>
                 <h3>Please enter your details:</h3>
                 <form onSubmit={this.onSubmit}>
+                    
+                    { this.state.showError?
+                        <div>
+                        <h4 className="alert alert-danger alert-dismissible" role="alert"> { this.state.errorMessage } </h4>
+                        </div>
+                    : null
+                    }
+
                     <div className="form-group"> 
                         <input  type="text"
                                 id="firstName"
@@ -117,7 +127,7 @@ export default class Login extends Component {
                         <input type="submit" value="Register" className="btn btn-primary" />
                     </div>
                     <div>
-                        <a href="/login" >Already have account? Click here to login!</a>
+                        <a href="/" >Already have account? Click here to login!</a>
                     </div>
                 </form>
             </div>

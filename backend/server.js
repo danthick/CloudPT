@@ -45,13 +45,22 @@ app.use(
 passportFunc.initPassport(passport);
 
 // Route to attempt login
-app.post("/login", checkNotAuthenticated, passport.authenticate("local"),
-function(req, res){
-    return res.json({redirect: '/home', user: req.user})
+app.post("/api/login", checkNotAuthenticated, passport.authenticate("local", {
+    successRedirect: "/api/login/success",
+    failureRedirect: "/api/login/failed",
+    failureFlash: true
+}));
+
+app.get("/api/login/success", function (req, res){
+    return res.json({auth: true, user: req.user})
+});
+
+app.get("/api/login/failed", function (req, res){
+    return res.json({auth: false, user: req.user})
 });
 
 // Route to register a user
-app.post("/register", checkNotAuthenticated, async function(req, res){
+app.post("/api/register", checkNotAuthenticated, async function(req, res){
     // Hash password
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(req.body.password, salt);
@@ -66,25 +75,24 @@ app.post("/register", checkNotAuthenticated, async function(req, res){
             firstName: req.body.firstName,
             lastName: req.body.lastName
         });
-        // Save user
+        // Save user and return successful redirect
         newUser.save();
         return res.json({redirect: '/'})
     } else {
-        res.sendStatus(400);
+        // Return failed if email is already in use
+        return res.json({redirect: '/fail'})
     }
 })
 
 app.get("/api/auth", function(req, res){
-    console.log(req.user)
-    console.log(req.isAuthenticated())
     if (!req.user) {
-        console.log("NOT LOGGED IN")
+        return res.json({redirect: '/'})
       } else {
-        console.log("LOGGED IN")
+        return res.json({redirect: '/home'})
       }
 })
 
-app.get("/logout", async function (req, res) {
+app.get("/api/logout", async function (req, res) {
     req.logOut();
     req.session.destroy(function (err) {
         //res.redirect('/');
