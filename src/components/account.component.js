@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 
-export default class Home extends Component{
+export default class Account extends Component{
     constructor(props) {
         super(props);
 
@@ -11,7 +11,6 @@ export default class Home extends Component{
             auth: false
           }
           this.onChange = this.onChange.bind(this)
-        // Do something
     }
 
     onChange(e) {
@@ -23,7 +22,6 @@ export default class Home extends Component{
     componentDidMount() {
         fetch('http://localhost:4000/api/auth/', {
                 method: 'GET',
-                //withCredentials: true,
                 credentials: 'include',
                 headers: {
                     Accept: "application/json",
@@ -36,8 +34,6 @@ export default class Home extends Component{
                     console.log(log)
                      if (log.redirect === '/home') {
                         this.setState({auth: true});
-                    //     //user = res.data.email;
-                    //     window.location = '/home'
                      } else {
                          window.location = "/"
                      }
@@ -51,7 +47,6 @@ export default class Home extends Component{
         e.preventDefault();
         fetch('http://localhost:4000/api/logout', {
                 method: 'GET',
-                //withCredentials: true,
                 credentials: 'include',
                 headers: {
                     Accept: "application/json",
@@ -77,16 +72,10 @@ export default class Home extends Component{
         return (
             <Fragment>
 
-                <div>
                 <div style={{marginTop: 10}}>
-                    <h3>You have logged in!{this.props.user}</h3>
+                    <h3>This is the account page</h3>
                 </div>
-                <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                    <input type="submit" value="Logout" className="btn btn-primary" />
-                </div>
-                </form>
-                </div>
+
                 
               
             </Fragment>

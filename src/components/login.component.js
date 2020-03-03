@@ -28,6 +28,29 @@ export default class Login extends Component {
         });
     }
 
+    componentDidMount() {
+        fetch('http://localhost:4000/api/auth/', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                  }
+                }
+            ).then(res => {
+                res.json().then(log => {
+                    console.log(log)
+                     if (log.redirect === '/home') {    
+                        window.location = "/home"
+                     } else {
+                         
+                     }
+                });
+                }).catch(error => console.log(error))
+            
+      }
+
     onSubmit(e) {
         e.preventDefault();
         const loginData = JSON.stringify(this.state);
@@ -57,7 +80,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div style={{marginTop: 10}}>
+                <div style={{marginTop: 10}}>
                 <h3>Please enter your login details:</h3>
                 { this.state.showError?
                     <div>
