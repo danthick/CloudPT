@@ -30,7 +30,7 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:4000/api/auth/', {
+        fetch('/api/auth/', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -55,7 +55,7 @@ export default class Login extends Component {
         e.preventDefault();
         const loginData = JSON.stringify(this.state);
 
-        fetch('http://localhost:4000/api/login', {
+        fetch('/api/login', {
             method: 'POST',
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},

@@ -20,7 +20,7 @@ export default class Workout extends Component{
       }
 
     componentDidMount() {
-        fetch('http://localhost:4000/api/auth/', {
+        fetch('/api/auth/', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

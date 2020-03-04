@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:4000/api/auth/', {
+    fetch('/api/auth/', {
             method: 'GET',
             //withCredentials: true,
             credentials: 'include',

@@ -48,7 +48,7 @@ export default class Login extends Component {
         e.preventDefault();
         const registerData = JSON.stringify(this.state);
 
-        fetch('http://localhost:4000/api/register', {
+        fetch('/api/register', {
             method: 'POST',
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},

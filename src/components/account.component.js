@@ -39,7 +39,7 @@ export default class Account extends Component{
       }
 
     componentDidMount() {
-        fetch('http://localhost:4000/api/auth/', {
+        fetch('/api/auth/', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -63,7 +63,7 @@ export default class Account extends Component{
 
     logout() {
         //e.preventDefault();
-        fetch('http://localhost:4000/api/logout', {
+        fetch('/api/logout', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

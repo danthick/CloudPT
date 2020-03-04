@@ -68,7 +68,7 @@ export default class Weight extends Component{
         e.preventDefault();
         const weightData = JSON.stringify(this.state)
 
-        fetch('http://localhost:4000/api/weight/', {
+        fetch('/api/weight/', {
             method: 'POST',
             credentials: 'include',
             headers: {
