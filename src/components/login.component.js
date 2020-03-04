@@ -82,7 +82,7 @@ export default class Login extends Component {
         return (
             <Fragment>
             <div className="fullscreen-bg">
-                <video loop muted autoPlay poster="" className="fullscreen-bg__video">
+                <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
                     <source src="/login-video.mp4" type="video/mp4"/>
                 </video>
             </div>
