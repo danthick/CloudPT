@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import '../App.css';
 
 export default class Login extends Component {
     constructor(props) {
@@ -40,7 +41,6 @@ export default class Login extends Component {
                 }
             ).then(res => {
                 res.json().then(log => {
-                    console.log(log)
                      if (log.redirect === '/home') {    
                         window.location = "/home"
                      } else {
@@ -80,6 +80,12 @@ export default class Login extends Component {
 
     render() {
         return (
+            <Fragment>
+            <div className="fullscreen-bg">
+                <video loop muted autoPlay poster="" className="fullscreen-bg__video">
+                    <source src="/login-video.mp4" type="video/mp4"/>
+                </video>
+            </div>
                 <div style={{marginTop: 10}}>
                 <h3>Please enter your login details:</h3>
                 { this.state.showError?
@@ -120,6 +126,7 @@ export default class Login extends Component {
                     </div>
                 </form>
             </div>
+            </Fragment>
         )
     }
 }

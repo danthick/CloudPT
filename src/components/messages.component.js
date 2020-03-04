@@ -21,50 +21,23 @@ export default class Messages extends Component{
 
     componentDidMount() {
         fetch('http://localhost:4000/api/auth/', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true
-                  }
-                }
-            ).then(res => {
-                res.json().then(log => {
-                    console.log(log)
-                     if (log.redirect === '/home') {
-                        this.setState({auth: true});
-                     } else {
-                         window.location = "/"
-                     }
-                });
-                }).catch(error => console.log(error))
-            
-      }
-
-
-    onSubmit(e) {
-        e.preventDefault();
-        fetch('http://localhost:4000/api/logout', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true
-                  }
-                }
-            ).then(function(res) {
-                res.json().then(log => {
-                    console.log(log)
-                    if (log.redirect === '/home') {
-                        //user = res.data.email;
-                        window.location = '/home'
-                    } else {
-                        // TO DO - didn't log in
-                    }
-                });
-                }).catch(error => console.log(error))
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true
+          }
+        }
+    ).then(res => {
+        res.json().then(log => {
+             if (log.redirect === '/home') {
+                this.setState({auth: true});
+             } else {
+                 window.location = "/"
+             }
+        });
+        }).catch(error => console.log(error))
     }
 
     render() {

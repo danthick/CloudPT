@@ -33,7 +33,6 @@ export default class Home extends Component{
                 }
             ).then(res => {
                 res.json().then(log => {
-                    console.log(log)
                      if (log.redirect === '/home') {
                         this.setState({auth: true});
                     //     //user = res.data.email;
@@ -46,46 +45,13 @@ export default class Home extends Component{
             
       }
 
-
-    onSubmit(e) {
-        e.preventDefault();
-        fetch('http://localhost:4000/api/logout', {
-                method: 'GET',
-                //withCredentials: true,
-                credentials: 'include',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true
-                  }
-                }
-            ).then(function(res) {
-                res.json().then(log => {
-                    console.log(log)
-                    if (log.redirect === '/home') {
-                        //user = res.data.email;
-                        window.location = '/home'
-                    } else {
-                        // TO DO - didn't log in
-                    }
-                });
-                }).catch(error => console.log(error))
-    }
-
     render() {
         if (!this.state.auth) return null;
         return (
             <Fragment>
 
-                <div>
                 <div style={{marginTop: 10}}>
                     <h3>You have logged in!{this.props.user}</h3>
-                </div>
-                <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                    <input type="submit" value="Logout" className="btn btn-primary" />
-                </div>
-                </form>
                 </div>
                 
               

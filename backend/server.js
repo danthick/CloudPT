@@ -95,9 +95,21 @@ app.get("/api/auth", function(req, res){
 app.get("/api/logout", async function (req, res) {
     req.logOut();
     req.session.destroy(function (err) {
-        //res.redirect('/');
+        return res.json({logout: true})
       }); 
 });
+
+app.post("/api/weight", async function(req, res){
+    // Get user
+    var user = await getUserByEmail(req._passport.session.user);
+    console.log(user);
+    var newWeight = new schemas.Weight({
+        email: user[0].email,
+        weight: req.body.weight,
+        date: req.body.date
+    })
+    newWeight.save();
+})
 
 // Function to check if user is not logged in and if they are re-direct them to the home page
 function checkNotAuthenticated(req, res, next){

@@ -11,10 +11,11 @@ import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles({
     root: {
-        width: '100%',
-        position: 'fixed',
-        bottom: 0,
-        left: '0%'
+      top: 'auto',
+      width: '100%',
+      position: 'fixed',
+      bottom: 0,
+      left: '0%',
     },
   });
   
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
   
     const handleChange = (event, newValue) => {
         history.push(`/${newValue}`);
-        setValue(newValue);
+        setValue(newValue)
     };
   
     return (

@@ -8,5 +8,13 @@ var User = mongoose.model("user", {
     lastName: String,
 });
 
+// Weight data structure
+var Weight = mongoose.model("weight",{
+    email: String,
+    weight: Number,
+    date: Date,
+});
+
 // Export data structures
 module.exports.User = User;
+module.exports.Weight = Weight;
