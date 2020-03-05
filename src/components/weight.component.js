@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 // eslint-disable-next-line
 import {BrowseRouter as Router, Route, Link} from 'react-router-dom'
 import SlideRuler from 'slide-ruler';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 export default class Weight extends Component{
     
@@ -13,11 +14,13 @@ export default class Weight extends Component{
             //auth: false,
             weight: 60,
             date: new Date().toLocaleString(),
+            allWeights: null
         };
         this.onChange = this.onChange.bind(this)
         this.handleValue = this.handleValue.bind(this);
         this.__renderSlideRuler = this.__renderSlideRuler.bind(this);
         this.addWeight = this.addWeight.bind(this);
+        this.getWeight = this.getWeight.bind(this);
     }
 
     onChange(e) {
@@ -42,7 +45,7 @@ export default class Weight extends Component{
       }
     
 
-    componentDidMount() {
+    async componentDidMount() {
         fetch('/api/auth/', {
                 method: 'GET',
                 credentials: 'include',
@@ -61,9 +64,28 @@ export default class Weight extends Component{
                      }
                 });
                 }).catch(error => console.log(error))
-        this.__renderSlideRuler();
+        this.__renderSlideRuler();  
+        this.getWeight();
       }
-
+    
+    getWeight(e){
+        fetch('/api/weight/', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              }
+            }
+        ).then(res => {
+            res.json().then(async log => {
+                this.setState({allWeights: log.weights})
+            });
+            }).catch(error => console.log(error))
+    }
+    
+      
     addWeight(e){
         e.preventDefault();
         const weightData = JSON.stringify(this.state)
@@ -87,7 +109,6 @@ export default class Weight extends Component{
                  }
             });
             }).catch(error => console.log(error))
-
       }
 
 
@@ -111,6 +132,31 @@ export default class Weight extends Component{
 
             <div>
                 <img src="/weight-graph.png"/>
+
+            </div>
+
+            <div>
+                <List>
+                    {this.state.allWeights && this.state.allWeights.map(sectionID => (
+                        <ListItem>
+                            <ListItemText>1</ListItemText>
+                        </ListItem>
+                    ))}
+                </List>
+                
+            </div>
+
+            {/* {this.state.allWeights &&
+                   this.state.allWeights(
+                    <ListItem>
+                        {this.state.allWeights}
+                    </ListItem>
+                )
+            } */}
+
+
+            <div>
+                
             </div>
 
             </Fragment>

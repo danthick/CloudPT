@@ -9,7 +9,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const PORT = 4000 || process.env.PORT;
-const authController = require("./controllers/authControllerr");
+const authController = require("./controllers/authController");
 const dataController = require("./controllers/dataController")
 
 // Connect to database
