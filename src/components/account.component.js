@@ -39,30 +39,11 @@ export default class Account extends Component{
       }
 
     componentDidMount() {
-        fetch('/api/auth/', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true
-                  }
-                }
-            ).then(res => {
-                res.json().then(log => {
-                     if (log.redirect === '/home') {
-                        this.setState({auth: true});
-                     } else {
-                         window.location = "/"
-                     }
-                });
-                }).catch(error => console.log(error))
             
       }
 
 
     logout() {
-        //e.preventDefault();
         fetch('/api/logout', {
                 method: 'GET',
                 credentials: 'include',
@@ -90,7 +71,6 @@ export default class Account extends Component{
     
     render() {
         const classes = this.props;
-        if (!this.state.auth) return null;
         return (
             <Fragment>
                 <div style={{marginTop: 10}}>
@@ -99,7 +79,7 @@ export default class Account extends Component{
 
                 <div className={classes.root}>
                 <List component="nav" aria-label="main mailbox folders">
-                <Link to={'account/weight'}>
+                <Link to={'/account/weight'}>
                 <ListItem>
                 {/* <ListItemIcon>
                     

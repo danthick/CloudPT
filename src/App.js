@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login.component";
@@ -11,20 +11,32 @@ import Account from "./components/account.component";
 import BottomNav from  './components/bottomNavigation.component';
 import Weight from './components/weight.component';
 
+function PrivateRoute ({component: Component, authed, wasInitialised, ...rest}) {
+  return (
+    <Route
+      {...rest}
+      render={(props) => authed === true
+        ? <Component {...props} />
+        : !wasInitialised? ""
+        : <Redirect to={{pathname: '/'}} />}
+    />
+  )
+}
 
 class App extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      auth: false
+      auth: false,
+      wasInitialised: false
     }
+    this.checkAuth();
   }
 
-  componentDidMount() {
+  checkAuth() {
     fetch('/api/auth/', {
             method: 'GET',
-            //withCredentials: true,
             credentials: 'include',
             headers: {
                 Accept: "application/json",
@@ -34,33 +46,31 @@ class App extends Component {
             }
         ).then(res => {
             res.json().then(log => {
-                 if (log.redirect === '/home') {
-                    this.setState({auth: true});
-                 } else {
-                     //window.location = "/"
-                 }
+                if (log.redirect === '/home') {
+                  this.setState({auth: true, wasInitialised: true});
+               } else {
+                  this.setState({auth: false, wasInitialised: true});
+               }
             });
             }).catch(error => console.log(error))
   }
-
-
 
   render() {
     return (
       <Router>
         <div className="container">
           <div>
-          {this.state.auth? <BottomNav /> : null}
-           
+          {this.state.auth? <BottomNav /> : null}           
           </div>
           <br/>
           <Route path="/" exact component={Login}/>
           <Route path="/register" exact component={Register}/>
-          <Route path="/home" exact component={Home}/>
-          <Route path="/workout" exact component={Workout}/>
-          <Route path="/messages" exact component={Messages}/>
-          <Route path="/account" exact component={Account}/>
-          <Route path="/account/weight" exact component={Weight}/>
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/messages' component={Messages} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account' component={Account} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account/weight' component={Weight} />
+          {/* <Route render={() => <Redirect to="/home" />} /> Used to catch all routes */}
         </div>
       </Router>
 

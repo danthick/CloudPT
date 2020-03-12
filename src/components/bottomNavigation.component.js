@@ -16,6 +16,7 @@ const useStyles = makeStyles({
       position: 'fixed',
       bottom: 0,
       left: '0%',
+      zIndex: 100
     },
   });
   
