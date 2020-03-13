@@ -16,7 +16,8 @@ const useStyles = makeStyles({
       position: 'fixed',
       bottom: 0,
       left: '0%',
-      zIndex: 100
+      zIndex: 100,
+      color: "red",
     },
   });
   
@@ -31,10 +32,10 @@ const useStyles = makeStyles({
     };
   
     return (
-      <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-        <BottomNavigationAction label="Home" value="home"  icon={<HomeIcon />}/>
+      <BottomNavigation value={value} onChange={handleChange}  className={classes.root} showLabels>
+        <BottomNavigationAction label="Home" value="home"  icon={<HomeIcon />} />
         <BottomNavigationAction label="Workouts" value="workout"  icon={<FitnessCenterIcon />}/>
-        <BottomNavigationAction label="Messages" value="messages"  icon={<ChatIcon />}/>
+        <BottomNavigationAction label="Messages" value="messages"  icon={<ChatIcon />} />
         <BottomNavigationAction label="Account" value="account" icon={<PersonIcon />} />
       </BottomNavigation>
     );

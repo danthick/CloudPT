@@ -6,6 +6,7 @@ var User = mongoose.model("user", {
     password: String,
     firstName: String,
     lastName: String,
+    height: Number,
 });
 
 // Weight data structure

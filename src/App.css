@@ -72,10 +72,6 @@
   }
 }
 
-img{
-  width: 100%;
-}
-
 @media (max-width: 767px){
   .weightList{
     height: 40vh;

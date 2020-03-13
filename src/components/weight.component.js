@@ -5,15 +5,8 @@ import SlideRuler from 'slide-ruler';
 import { List, ListItem, ListItemText, IconButton, ListItemSecondaryAction } from '@material-ui/core';
 import AppBar from './appBar.component'
 import DeleteIcon from '@material-ui/icons/Delete';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { ResponsiveLine } from '@nivo/line';
-
-
-const DATA = [
-    [{x: 1, y: 10}, {x: 2, y: 7}, {x: 3, y: 15}],
-    [{x: 1, y: 20}, {x: 2, y: 5}, {x: 3, y: 15}]
-  ];
-
-  var sortedArray = [];
 
 export default class Weight extends Component{
     
@@ -23,8 +16,8 @@ export default class Weight extends Component{
         this.state = {
             weight: 60,
             height: 150,
-            date: new Date().toLocaleString(),
-            allWeights: [],
+            userHeight: false,
+            date: new Date(),
         };
         this.handleValueWeight = this.handleValueWeight.bind(this);
         this.handleValueHeight = this.handleValueHeight.bind(this);
@@ -33,15 +26,9 @@ export default class Weight extends Component{
         this.addWeight = this.addWeight.bind(this);
         this.getWeight = this.getWeight.bind(this);
         this.deleteWeight = this.deleteWeight.bind(this);
+        this.updateHeight = this.updateHeight.bind(this);
+        this.getHeight = this.getHeight.bind(this);
     }
-
-    _onMouseLeave = () => {
-        this.setState({crosshairValues: []});
-      };
-
-      _onNearestX = (value, {index}) => {
-        this.setState({crosshairValues: DATA.map(d => d[index])});
-      };
 
       handleValueWeight(value){
         this.setState({weight: value});
@@ -66,15 +53,16 @@ export default class Weight extends Component{
             el: this.refs.slideRulerHeight,
             maxValue: 250,
             minValue: 30,
-            currentValue: 80,
+            currentValue: 150,
             handleValue: this.handleValueHeight,
-            precision: 0.1,
+            precision: 0.5,
             fontColor: "#FFFFFF"
         });
       }
 
       async componentDidMount(){
           this.getWeight();
+          this.getHeight();
           this.renderSlideRulerWeight();
           this.renderSlideRulerHeight();
       }
@@ -119,101 +107,97 @@ export default class Weight extends Component{
                  }
             });
             }).catch(error => console.log(error))
+            window.location.reload();
       }
 
       deleteWeight(weightData){
-          alert(weightData.weight)
+        fetch('/api/weight/' + weightData._id, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              }
+            }
+        ).then(res => {
+            res.json().then(log => {
+                 if (log.redirect === '/home') {
+                    //this.setState({auth: true});
+                 } else {
+                    // window.location = "/"
+                 }
+            });
+            }).catch(error => console.log(error))
+            window.location.reload();
       }
-      
-      custom_sort(a, b) {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
-    }
 
-    sortDate(array){
-        return array.sort(this.custom_sort)
-    }
+      updateHeight(e){
+        const heightData = JSON.stringify(this.state)
+
+        fetch('/api/height/', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              },
+            body: heightData
+            }
+        ).then(res => {
+            res.json().then(log => {
+                 if (log.redirect === '/home') {
+                    //this.setState({auth: true});
+                 } else {
+                    // window.location = "/"
+                 }
+            });
+            }).catch(error => console.log(error))
+            window.location.reload();
+      }
+
+      getHeight(){
+        fetch('/api/height/', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              }
+            }
+        ).then(res => {
+            res.json().then(async log => {
+                this.setState({userHeight: log.height})
+            });
+            }).catch(error => console.log(error))
+      }
+
       
     render() {
         return (
+            
+       
             <Fragment>
-            <AppBar pageName="Manual Weight Input"/>
-            <h3><Link to={'/account'}>&larr;</Link> Manual Weight Input</h3>
-            <h4>Current Height:</h4>
+                <AppBar width="100%" pageName="HEIGHT & WEIGHT" back="/account"/>
+                
+            
+
+            <h4>Current Height: {this.state.userHeight? <b>{this.state.userHeight} cm</b> : null}</h4>
             <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#heightModal">Update Height</button>
             <br/><br/>
             
 
-            <h4>Current Weight: {console.log(this.state.allWeights[1])}</h4>
+            <h4>Current Weight: {} KG</h4>
             <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#weightModal">Update Weight</button>
-            
-            <ResponsiveLine
-                data={{x:1, y:2}}
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-                xScale={{ type: 'point' }}
-                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                    orient: 'bottom',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: 'transportation',
-                    legendOffset: 36,
-                    legendPosition: 'middle'
-                }}
-                axisLeft={{
-                    orient: 'left',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: 'count',
-                    legendOffset: -40,
-                    legendPosition: 'middle'
-                }}
-                colors={{ scheme: 'nivo' }}
-                pointSize={10}
-                pointColor={{ theme: 'background' }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: 'serieColor' }}
-                pointLabel="y"
-                pointLabelYOffset={-12}
-                useMesh={true}
-                legends={[
-                    {
-                        anchor: 'bottom-right',
-                        direction: 'column',
-                        justify: false,
-                        translateX: 100,
-                        translateY: 0,
-                        itemsSpacing: 0,
-                        itemDirection: 'left-to-right',
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: 'circle',
-                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemOpacity: 1
-                                }
-                            }
-                        ]
-                    }
-                ]}
-    />
-  
 
             <div style={{height:"auto"}}>
             <List  className="weightList">
                     {this.state.allWeights && this.state.allWeights.map((weightsData, index) => {
                         return (
                             <ListItem key={index}>
-                                <ListItemText>{weightsData.weight} {new Date(weightsData.date).getDate()}</ListItemText>
+                                <ListItemText>{weightsData.weight} kg - {new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth()}/{new Date(weightsData.date).getFullYear()}</ListItemText>
                                 <ListItemSecondaryAction onClick={() => this.deleteWeight(weightsData)}>
                                     <IconButton edge="end">
                                         <DeleteIcon />
@@ -226,9 +210,7 @@ export default class Weight extends Component{
             </div>
 
 
-        
             <div className="container">
-            
             <div className="modal fade" id="weightModal">
                 <div className="modal-dialog">
                 <div className="modal-content">
@@ -260,13 +242,14 @@ export default class Weight extends Component{
                         Height: {this.state.height} CM
                     </div>
                     <div className="modal-footer">
-                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.addWeight}>Update Height</button>
+                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeight}>Update Height</button>
                     <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
                 </div>
             </div>
             <br/> <br/> <br/>
+            
             </Fragment>
         )
     }
