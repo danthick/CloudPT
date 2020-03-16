@@ -7,6 +7,7 @@ import Home from "./components/home.component";
 import Register from "./components/register.component";
 import Workout from "./components/workout.component";
 import Messages from "./components/messages.component";
+import Chat from "./components/chat.component";
 import Account from "./components/account.component";
 import BottomNav from  './components/bottomNavigation.component';
 import Weight from './components/weight.component';
@@ -68,6 +69,7 @@ class App extends Component {
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/messages' component={Messages} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/chat' component={Chat} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account' component={Account} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account/weight' component={Weight} />
           {/* <Route render={() => <Redirect to="/home" />} /> Used to catch all routes */}
