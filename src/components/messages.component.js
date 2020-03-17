@@ -23,11 +23,21 @@ export default class Messages extends Component{
                         email: "dan.thick@hotmail.co.uk"
                     }
                 },
+                {
+                    text: "This is a test message1",
+                    user:{
+                        firstName: "Dan",
+                        lastName: "Thick",
+                        email: "dan.thick@hotmail.co.uk"
+                    }
+                },
             ]
         }
     }
 
     // GET MESSAGES FOR CURRENT USER REQUIRED
+    // - Get all messages for current user
+    // - Split array up into new arrays for each user communicated with
 
     render() {
         return (
