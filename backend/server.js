@@ -46,7 +46,7 @@ app.use(
 passportFunc.initPassport(passport);
 
 app.get('/serviceWorker.js', (req, res)=> {
-  res.sendFile(path.join(__dirname, './serviceWorker.js'))
+  res.sendFile('./serviceWorker.js')
 });
 
 authController(app);
