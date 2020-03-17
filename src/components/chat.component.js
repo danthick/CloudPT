@@ -52,7 +52,6 @@ export default class Messages extends Component{
                         value = {this.state.text}
                         type = "text"
                         placeholder = ""
-                        autoFocus = "true"
                     />
                 </form>
             </div>
@@ -76,7 +75,7 @@ export default class Messages extends Component{
                         value = {this.state.text}
                         type = "text"
                         placeholder = ""
-                        autoFocus = "true"
+                        autoFocus = {true}
                     />
                 </form>
             </div>
