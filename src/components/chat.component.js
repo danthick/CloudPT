@@ -59,12 +59,11 @@ export default class Messages extends Component{
     }
 
     render() {
-        //const {messages} = this.props.location.state;
-        console.log(this.props.location.message)
+        var messages = this.props.location.message;
         return (
             <Fragment>
                 <div className="messagesList">
-                    {this.props.location.message.map(message => <ul key={message}>{this.renderMessage(message)}</ul>)}
+                    {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
                     
                 </div>
 
