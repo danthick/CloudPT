@@ -9,8 +9,9 @@ const flash = require("express-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const PORT = 4000 || process.env.PORT;
+var path = require('path');
 const authController = require("./controllers/authController");
-const dataController = require("./controllers/dataController")
+const dataController = require("./controllers/dataController");
 
 // Connect to database
 const uri = "mongodb+srv://dthick:VI55F0PYGAu4BFv3@cluster-vjwy9.mongodb.net/cloudpt?retryWrites=true&w=majority";
@@ -43,6 +44,10 @@ app.use(
   );
 
 passportFunc.initPassport(passport);
+
+app.get('/serviceWorker.js', (req, res)=> {
+  res.sendFile(path.join(__dirname, '../src/public/serviceWorker.js'))
+});
 
 authController(app);
 dataController(app);

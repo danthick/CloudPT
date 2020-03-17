@@ -66,11 +66,23 @@ export default class Messages extends Component{
             <Fragment>
                 <div className="messagesList">
                     {this.props.location.message.map(message => <ul key={message}>{this.renderMessage(message)}</ul>)}
+                    
                 </div>
 
-                <input>
-                    {this.renderInput}
-                </input>
+                <div className="chatInput">
+                <form onSubmit={e => this.onSubmit(e)}>
+                    <input
+                        onChange={e => this.onChange(e)}
+                        value = {this.state.text}
+                        type = "text"
+                        placeholder = ""
+                        autoFocus = "true"
+                    />
+                </form>
+            </div>
+                
+                
+               
 
 
                 <br/><br/>
