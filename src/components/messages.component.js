@@ -33,6 +33,49 @@ export default class Messages extends Component{
                 },
             ]
         }
+        this.sendMessage();
+    }
+
+    getMessages(){
+        fetch('/api/messages', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              }
+        }).then(res => {
+            res.json().then(log => {
+                if (log.auth === true) {
+                    
+                } else {
+                    // TO DO - didn't log in
+                    
+                }
+            });
+            }).catch(error => console.log(error))
+    }
+
+    sendMessage(){
+        fetch('/api/messages', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              }
+        }).then(res => {
+            res.json().then(log => {
+                if (log.auth === true) {
+                    
+                } else {
+                    // TO DO - didn't log in
+                    
+                }
+            });
+            }).catch(error => console.log(error))
     }
 
     // GET MESSAGES FOR CURRENT USER REQUIRED
@@ -42,6 +85,8 @@ export default class Messages extends Component{
     render() {
         return (
             <Fragment>
+
+                
 
                 <div style={{marginTop: 10}}>
                     <h3>This is the messages page</h3>

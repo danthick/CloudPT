@@ -16,6 +16,15 @@ var Weight = mongoose.model("weight",{
     date: Date,
 });
 
+// Messages data structure
+var Message = mongoose.model("message", {
+    userTo: String,
+    userFrom: String,
+    text: String,
+    date: String,
+});
+
 // Export data structures
 module.exports.User = User;
 module.exports.Weight = Weight;
+module.exports.Message = Message;

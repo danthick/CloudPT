@@ -49,6 +49,26 @@ module.exports = function (app) {
         await schemas.User.findOneAndUpdate({email: req._passport.session.user}, {height: req.body.height}, {new: true, useFindAndModify: false});
     });
 
+    app.get("/api/messages", async function(req, res){        
+        var user = await getUserByEmail(req._passport.session.user);
+
+        messages = schemas.Message.find({email: user.email})
+        console.log(messages)
+        
+    })
+
+    app.post("/api/messages", async function(req, res){        
+        // Get user
+        var user = await getUserByEmail(req._passport.session.user);
+        var newMessage = new schemas.Message({
+            userTo: "req.body.userTo",
+            userFrom: "user[0].email",
+            text: "req.body.text",
+            date: "req.body.date",
+        })
+        newMessage.save();
+        
+    })
 
     // Function to get user from email
     async function getUserByEmail(email) {

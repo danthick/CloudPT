@@ -128,15 +128,43 @@
 }
 
 .text {
-  padding: 10px;
+  padding: 10px 10px 10px;
   max-width: 400px;
   margin: 0;
   border-radius: 12px;
   background-color: cornflowerblue;
   color: white;
   display: inline-block;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }
 
 .currentUser > .text {
   background-color: orangered;
+}
+
+.chatInputForm{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.chatInput{
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid lightgreen;
+  flex-grow: 1;
+}
+
+.sendButton{
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: lightgreen;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-left: 10px;
 }

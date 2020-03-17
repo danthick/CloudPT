@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
+var messages = []
 export default class Messages extends Component{
+
     constructor(props) {
         super(props);
 
@@ -15,8 +17,15 @@ export default class Messages extends Component{
 
     onSubmit(e) {
         e.preventDefault();
-        this.setState({test: ""});
-        this.props.onSendMessage(this.state.text);
+        this.setState({text: ""});
+        messages.push({
+            text: this.state.text,
+            user:{
+                firstName: "current",
+                lastName: "user",
+                email: "currentuser@email.com"
+            }
+        })
     }
 
     renderMessage(message){
@@ -59,7 +68,7 @@ export default class Messages extends Component{
     }
 
     render() {
-        var messages = this.props.location.message;
+        messages = this.props.location.message;
         return (
             <Fragment>
                 <div className="messagesList">
@@ -68,16 +77,18 @@ export default class Messages extends Component{
                 </div>
 
                 <div className="chatInput">
-                <form onSubmit={e => this.onSubmit(e)}>
+                <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}>
                     <input
+                        className = "form-control"
                         onChange={e => this.onChange(e)}
                         value = {this.state.text}
                         type = "text"
                         placeholder = ""
                         autoFocus = {true}
                     />
+                <button className="sendButton" type="submit">Send</button>
                 </form>
-            </div>
+                </div>
                 
                 
                
