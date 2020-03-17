@@ -75,6 +75,12 @@ export default class Messages extends Component{
                 <div className="messagesList">
                     {this.props.location.message.map(message => <ul key={message}>{this.renderMessage(message)}</ul>)}
                 </div>
+
+                <input>
+                    {this.renderInput}
+                </input>
+
+
                 <br/><br/>
             </Fragment>
         )
