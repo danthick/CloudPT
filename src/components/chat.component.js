@@ -1,12 +1,4 @@
 import React, { Component, Fragment } from 'react';
-// eslint-disable-next-line
-import {BrowseRouter as Router, Route, Link} from 'react-router-dom'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-
 
 export default class Messages extends Component{
     constructor(props) {
