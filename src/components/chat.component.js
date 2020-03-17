@@ -11,6 +11,20 @@ import Divider from '@material-ui/core/Divider';
 export default class Messages extends Component{
     constructor(props) {
         super(props);
+
+        this.state = {
+            text: ""
+        }
+    }
+
+    onChange(e){
+        this.setState({text: e.target.value})
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        this.setState({test: ""});
+        this.props.onSendMessage(this.state.text);
     }
 
     renderMessage(message){
@@ -34,6 +48,22 @@ export default class Messages extends Component{
                     </div>
                 </div>
             
+        )
+    }
+
+    renderInput(){
+        return (
+            <div className="chatInput">
+                <form onSubmit={e => this.onSubmit(e)}>
+                    <input
+                        onChange={e => this.onChange(e)}
+                        value = {this.state.text}
+                        type = "text"
+                        placeholder = ""
+                        autoFocus = "true"
+                    />
+                </form>
+            </div>
         )
     }
 
