@@ -148,15 +148,18 @@
   width: 100%;
   justify-content: space-between;
   max-width: 900px;
-  margin: 0 auto 40px;
 }
 
 .chatInput{
+  position: fixed;
   padding: 5px;
   font-size: 16px;
   border-radius: 8px;
+  width: 93%;
   border: 1px solid lightgreen;
-  flex-grow: 1;
+  bottom: 10%;
+  background-color: white;
+  overflow:hidden;
 }
 
 .sendButton{

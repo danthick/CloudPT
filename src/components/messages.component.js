@@ -14,26 +14,9 @@ export default class Messages extends Component{
         super(props);
 
         this.state = {
-            messages:[
-                {
-                    text: "This is a test message1",
-                    user:{
-                        firstName: "Dan",
-                        lastName: "Thick",
-                        email: "dan.thick@hotmail.co.uk"
-                    }
-                },
-                {
-                    text: "This is a test message1",
-                    user:{
-                        firstName: "Dan",
-                        lastName: "Thick",
-                        email: "dan.thick@hotmail.co.uk"
-                    }
-                },
-            ]
+            messages: ""
         }
-        this.sendMessage();
+        this.getMessages();
     }
 
     getMessages(){
@@ -47,36 +30,14 @@ export default class Messages extends Component{
               }
         }).then(res => {
             res.json().then(log => {
-                if (log.auth === true) {
-                    
-                } else {
-                    // TO DO - didn't log in
-                    
-                }
+                this.setState({
+                    messages: log.messages
+                })
             });
             }).catch(error => console.log(error))
     }
 
-    sendMessage(){
-        fetch('/api/messages', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true
-              }
-        }).then(res => {
-            res.json().then(log => {
-                if (log.auth === true) {
-                    
-                } else {
-                    // TO DO - didn't log in
-                    
-                }
-            });
-            }).catch(error => console.log(error))
-    }
+    
 
     // GET MESSAGES FOR CURRENT USER REQUIRED
     // - Get all messages for current user
@@ -85,9 +46,6 @@ export default class Messages extends Component{
     render() {
         return (
             <Fragment>
-
-                
-
                 <div style={{marginTop: 10}}>
                     <h3>This is the messages page</h3>
                 </div>

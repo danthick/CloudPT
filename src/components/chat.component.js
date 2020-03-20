@@ -26,10 +26,31 @@ export default class Messages extends Component{
                 email: "currentuser@email.com"
             }
         })
+        this.newData.scrollIntoView(false);
+    }
+
+    sendMessage(){
+        fetch('/api/messages', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              }
+        }).then(res => {
+            res.json().then(log => {
+                if (log.auth === true) {
+                    
+                } else {
+                    // TO DO - didn't log in
+                    
+                }
+            });
+            }).catch(error => console.log(error))
     }
 
     renderMessage(message){
-        const {user, text} = message;
         const {currentUser} = this.props;
         //const messageFromMe = user.email === currentUser.email; // Check is current user sent this message
         const messageFromMe = "currentUser"
@@ -37,14 +58,13 @@ export default class Messages extends Component{
 
         return (
                 <div className={className}>
-                    <span className="avatar" style={{backgroundColor: "blue"}}/>
 
                     <div className="messageContent">
                         <div className="username">
-                            {user.email}
+                            {message.userFrom}
                         </div>
                         <div className="text">
-                            {text}
+                            {message.text}
                         </div>
                     </div>
                 </div>
@@ -60,7 +80,7 @@ export default class Messages extends Component{
                         onChange={e => this.onChange(e)}
                         value = {this.state.text}
                         type = "text"
-                        placeholder = ""
+                        placeholder = "Type your message here"
                     />
                 </form>
             </div>
@@ -70,32 +90,29 @@ export default class Messages extends Component{
     render() {
         messages = this.props.location.message;
         return (
-            <Fragment>
-                <div className="messagesList">
+            <div>
+                <div className="messagesList" ref={(ref) => this.newData = ref}>
                     {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
                     
                 </div>
 
-                <div className="chatInput">
-                <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}>
-                    <input
-                        className = "form-control"
-                        onChange={e => this.onChange(e)}
-                        value = {this.state.text}
-                        type = "text"
-                        placeholder = ""
-                        autoFocus = {true}
-                    />
-                <button className="sendButton" type="submit">Send</button>
-                </form>
+                <div style={{backgroundColor:"white"}}>
+                    <div className="chatInput" >
+                        <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}  >
+                            <input
+                                className = "form-control"
+                                onChange={e => this.onChange(e)}
+                                value = {this.state.text}
+                                type = "text"
+                                placeholder = "Enter your message here"
+                                
+                            />
+                            <button className="sendButton" type="submit" >Send</button>
+                        </form>
+                    </div>
+                    <br/><br/><br/>
                 </div>
-                
-                
-               
-
-
-                <br/><br/>
-            </Fragment>
+            </div>
         )
     }
 }
