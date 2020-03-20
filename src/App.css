@@ -85,15 +85,16 @@
 
 /* MESSAGE CSS */
 
+html, body{height: 100%}
+
 .messageList {
-  padding: 20px 0;
-  max-width: 900px;
-  width: 100%;
-  margin: 0 auto;
-  list-style: none;
-  padding-left: 0;
-  flex-grow: 1;
+  
+  bottom: 0;
+  top: 0;
+  width: 90%;
+  height: 86%;
   overflow: auto;
+
 }
 
 .currentUser {
@@ -106,18 +107,11 @@
 
 .messageContent {
   display: inline-block;
+
 }
 
 .currentUser > .messageContent {
   align-items: flex-end;
-}
-
-.avatar {
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 0 10px -10px;
 }
 
 .username {
@@ -158,6 +152,7 @@
   width: 93%;
   border: 1px solid lightgreen;
   bottom: 10%;
+  z-index: 100;
   background-color: white;
   overflow:hidden;
 }
@@ -170,4 +165,13 @@
   border: none;
   border-radius: 8px;
   margin-left: 10px;
+}
+
+.chatHide{
+  position: fixed;
+  height: 120px;
+  width: 100%;
+  z-index: 0;
+  bottom: 0;
+  background-color: white;
 }

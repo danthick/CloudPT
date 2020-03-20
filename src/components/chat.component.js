@@ -11,6 +11,14 @@ export default class Messages extends Component{
         }
     }
 
+    componentDidMount(){
+        window.scrollTo(1000000, 1000000)
+    }
+
+    componentDidUpdate(){
+        window.scrollTo(1000000, 1000000)
+    }
+
     onChange(e){
         this.setState({text: e.target.value})
     }
@@ -26,7 +34,6 @@ export default class Messages extends Component{
                 email: "currentuser@email.com"
             }
         })
-        this.newData.scrollIntoView(false);
     }
 
     sendMessage(){
@@ -90,13 +97,11 @@ export default class Messages extends Component{
     render() {
         messages = this.props.location.message;
         return (
-            <div>
-                <div className="messagesList" ref={(ref) => this.newData = ref}>
-                    {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
-                    
-                </div>
-
-                <div style={{backgroundColor:"white"}}>
+            <Fragment>
+                    <div className="messageList">
+                        {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
+                    </div>
+                    <br/><br/><br/><br/><br/><br/>
                     <div className="chatInput" >
                         <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}  >
                             <input
@@ -105,14 +110,14 @@ export default class Messages extends Component{
                                 value = {this.state.text}
                                 type = "text"
                                 placeholder = "Enter your message here"
-                                
                             />
                             <button className="sendButton" type="submit" >Send</button>
                         </form>
                     </div>
-                    <br/><br/><br/>
-                </div>
-            </div>
+                    <div className="chatHide">
+
+                    </div>
+                </Fragment>
         )
     }
 }
