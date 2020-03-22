@@ -62,12 +62,13 @@ module.exports = function (app) {
 
     app.post("/api/messages", async function(req, res){        
         // Get user
+        console.log(req.body)
         var user = await getUserByEmail(req._passport.session.user);
         var newMessage = new schemas.Message({
-            userTo: "req.body.userTo",
-            userFrom: "user[0].email",
-            text: "req.body.text",
-            date: "req.body.date",
+            userTo: req.body.lastMessage.userTo,
+            userFrom: req.body.currentUser[0].email,
+            text: req.body.text,
+            date: new Date(),
         })
         newMessage.save();
         

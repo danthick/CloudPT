@@ -7,14 +7,15 @@ export default class Messages extends Component{
         super(props);
 
         this.state = {
-            text: ""
+            text: "",
+            lastMessage: this.props.location.message[0],
+            currentUser: this.props.location.currentUser
         }
     }
 
     componentDidMount(){
         window.scrollTo(1000000, 1000000)
     }
-
     componentDidUpdate(){
         window.scrollTo(1000000, 1000000)
     }
@@ -38,10 +39,11 @@ export default class Messages extends Component{
             })
             this.sendMessage();
         }
-
     }
 
     sendMessage(){
+        // Creating JSON string of page state
+        const messageData = JSON.stringify(this.state)
         fetch('/api/messages', {
             method: 'POST',
             credentials: 'include',
@@ -49,17 +51,9 @@ export default class Messages extends Component{
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Credentials": true
-              }
-        }).then(res => {
-            res.json().then(log => {
-                if (log.auth === true) {
-                    
-                } else {
-                    // TO DO - didn't log in
-                    
-                }
-            });
-            }).catch(error => console.log(error))
+              },
+              body: messageData
+        })
     }
 
     renderMessage(message){
