@@ -51,11 +51,11 @@ module.exports = function (app) {
 
     app.get("/api/messages", async function(req, res){        
         var user = await getUserByEmail(req._passport.session.user);
-
         messages = await schemas.Message.find({userTo: "req.body.userTo"})
         
         return res.json({
-            messages: messages
+            messages: messages,
+            currentUser: user
         })
         
     })

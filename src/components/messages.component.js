@@ -14,7 +14,8 @@ export default class Messages extends Component{
         super(props);
 
         this.state = {
-            messages: ""
+            messages: "",
+            currentUser: ""
         }
         this.getMessages();
     }
@@ -31,7 +32,8 @@ export default class Messages extends Component{
         }).then(res => {
             res.json().then(log => {
                 this.setState({
-                    messages: log.messages
+                    messages: log.messages,
+                    currentUser: log.currentUser
                 })
             });
             }).catch(error => console.log(error))
@@ -52,7 +54,7 @@ export default class Messages extends Component{
 
                 <div className="">
                 <List>
-                <Link to={{pathname: '/chat', message: this.state.messages}}>
+                <Link to={{pathname: '/chat', message: this.state.messages, currentUser: this.state.currentUser}}>
                 <ListItem>
                 {/* <ListItemIcon>
                     

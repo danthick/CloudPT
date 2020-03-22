@@ -25,15 +25,20 @@ export default class Messages extends Component{
 
     onSubmit(e) {
         e.preventDefault();
-        this.setState({text: ""});
-        messages.push({
-            text: this.state.text,
-            user:{
-                firstName: "current",
-                lastName: "user",
-                email: "currentuser@email.com"
-            }
-        })
+        if(this.state.text != "")
+        {
+            this.setState({text: ""});
+            messages.push({
+                text: this.state.text,
+                user:{
+                    firstName: "current",
+                    lastName: "user",
+                    email: "currentuser@email.com"
+                }
+            })
+            this.sendMessage();
+        }
+
     }
 
     sendMessage(){
