@@ -60,7 +60,7 @@ export default class Weight extends Component{
         });
       }
 
-      async componentDidMount(){
+      componentDidMount(){
           this.getWeight();
           this.getHeight();
           this.renderSlideRulerWeight();
