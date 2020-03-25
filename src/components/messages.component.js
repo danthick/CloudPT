@@ -36,6 +36,8 @@ export default class Messages extends Component{
         // Get all messages
         await this.getMessages();
         this.getAllUsers()
+
+        // Create array of lists for all users in allUsers list
     }
 
     getAllUsers(){
@@ -51,8 +53,6 @@ export default class Messages extends Component{
 
     async onSubmit(e){
         e.preventDefault();
-        // IF this func returns null, show error
-        // otherwise create chat window with userTo as email provided
         
         await this.checkUserExists()
         console.log(this.state.newChatUser)
