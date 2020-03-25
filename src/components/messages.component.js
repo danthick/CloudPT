@@ -18,6 +18,8 @@ export default class Messages extends Component{
             currentUser: "",
             email: "",
             newChatUser: "",
+            showError: false,
+            allUsers: "",
         }
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -30,13 +32,31 @@ export default class Messages extends Component{
         });
     }
 
+    async componentDidMount(){
+        // Get all messages
+        await this.getMessages();
+        this.getAllUsers()
+    }
+
+    getAllUsers(){
+        var userList = [];
+        for (var i = 0; i < this.state.messages.length; i++){
+            var index = userList.indexOf(this.state.messages[i].userTo);
+            if (index == -1){
+                // not in list - add user to list
+                userList.push(this.state.messages[i].userTo)
+            }
+        }
+    }
+
     async onSubmit(e){
         e.preventDefault();
-        console.log("submitting...")
         // IF this func returns null, show error
         // otherwise create chat window with userTo as email provided
+        
         await this.checkUserExists()
-        if(this.state.newChatUser != null){
+        console.log(this.state.newChatUser)
+        if(this.state.newChatUser.email != null){
             console.log("user")
             this.props.history.push({
                 pathname: '/chat',
@@ -45,6 +65,9 @@ export default class Messages extends Component{
             })
         } else {
             console.log("no user")
+            this.setState({
+                showError: true
+            })
             // show error that uer does not exist
         }
     }
@@ -52,6 +75,9 @@ export default class Messages extends Component{
     async checkUserExists(){
         // Checking user exists
         const email = JSON.stringify({email: this.state.email})
+        this.setState({
+            newChatUser: null
+        })
         await fetch('/api/user', {
             method: 'POST',
             credentials: 'include',
@@ -72,8 +98,8 @@ export default class Messages extends Component{
             }).catch(error => console.log(error))
     }
 
-    getMessages(){
-        fetch('/api/messages', {
+    async getMessages(){
+        await fetch('/api/messages', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -81,8 +107,8 @@ export default class Messages extends Component{
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Credentials": true
               }
-        }).then(res => {
-            res.json().then(log => {
+        }).then(async res => {
+            await res.json().then(log => {
                 this.setState({
                     messages: log.messages,
                     currentUser: log.currentUser
@@ -102,6 +128,11 @@ export default class Messages extends Component{
         return (
             <Fragment>
                 <AppBar width="100%" pageName="MESSAGES"/>
+
+                { this.state.showError?
+                    <h6 className="alert alert-danger alert-dismissible" role="alert"> There is no user with that email address </h6>
+                :   null  
+                }
 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#newChatModal">Start New Chat</button>
                 <div className="">
