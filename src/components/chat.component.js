@@ -9,15 +9,17 @@ export default class Messages extends Component{
         this.state = {
             text: "",
             lastMessage: this.props.location.message[0],
-            currentUser: this.props.location.currentUser
+            currentUser: this.props.location.currentUser,
+            userTo: ""
         }
     }
 
     componentDidMount(){
-        window.scrollTo(1000000, 1000000)
+        this.getUserTo();
+        window.scrollTo(1000000, 1000000);
     }
     componentDidUpdate(){
-        window.scrollTo(1000000, 1000000)
+        window.scrollTo(1000000, 1000000);
     }
 
     onChange(e){
@@ -32,13 +34,35 @@ export default class Messages extends Component{
             messages.push({
                 text: this.state.text,
                 user:{
-                    firstName: "current",
-                    lastName: "user",
-                    email: "currentuser@email.com"
+                    firstName: this.props.location.currentUser.firstName,
+                    lastName: this.props.location.currentUser.lastName,
+                    email: this.props.location.currentUser.email
                 }
             })
             this.sendMessage();
         }
+    }
+
+    getUserTo(){
+        const lastMessageData = JSON.stringify(this.state.lastMessage)
+        fetch('/api/user', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              },
+              body: {email: lastMessageData.userTo}
+        }).then(res => {
+            res.json().then(log => {
+                this.setState({
+                    userTo: log.user
+                })
+            });
+            }).catch(error => console.log(error))
+
+            console.log(this.state.userTo)
     }
 
     sendMessage(){
@@ -67,7 +91,7 @@ export default class Messages extends Component{
 
                     <div className="messageContent">
                         <div className="username">
-                            {message.userFrom}
+                            {/* {message.user.firstName} {message.user.lastName} */}
                         </div>
                         <div className="text">
                             {message.text}
@@ -75,21 +99,6 @@ export default class Messages extends Component{
                     </div>
                 </div>
             
-        )
-    }
-
-    renderInput(){
-        return (
-            <div className="chatInput">
-                <form onSubmit={e => this.onSubmit(e)}>
-                    <input
-                        onChange={e => this.onChange(e)}
-                        value = {this.state.text}
-                        type = "text"
-                        placeholder = "Type your message here"
-                    />
-                </form>
-            </div>
         )
     }
 
@@ -101,7 +110,7 @@ export default class Messages extends Component{
                         {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
                     </div>
                     <br/><br/><br/><br/><br/><br/>
-                    <div className="chatInput" >
+                    <div className="chatInput">
                         <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}  >
                             <input
                                 className = "form-control"
@@ -113,9 +122,7 @@ export default class Messages extends Component{
                             <button className="sendButton" type="submit" >Send</button>
                         </form>
                     </div>
-                    <div className="chatHide">
-
-                    </div>
+                    <div className="chatHide"></div>
                 </Fragment>
         )
     }

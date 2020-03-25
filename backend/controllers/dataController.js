@@ -61,9 +61,6 @@ module.exports = function (app) {
     })
 
     app.post("/api/messages", async function(req, res){        
-        // Get user
-        console.log(req.body)
-        var user = await getUserByEmail(req._passport.session.user);
         var newMessage = new schemas.Message({
             userTo: req.body.lastMessage.userTo,
             userFrom: req.body.currentUser[0].email,
@@ -71,13 +68,28 @@ module.exports = function (app) {
             date: new Date(),
         })
         newMessage.save();
-        
+    })
+
+    // Route to return user 
+    app.post("/api/user", async function(req, res){
+        var user = await getUserByEmail(req.body.email)
+        if (user.length != 0){
+            return res.json({
+                user: {
+                    firstName: user[0].firstName,
+                    lastName: user[0].lastName,
+                    email: user[0].email
+                }
+            })
+        } else {
+            return res.json({
+                user: { email: null }
+            })
+        }
     })
 
     // Function to get user from email
     async function getUserByEmail(email) {
-        return await schemas.User.find({
-            email: email
-        });
+        return await schemas.User.find({email: email});
     }
 }
