@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import AppBar from './appBar.component'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -73,9 +74,7 @@ export default class Account extends Component{
         const classes = this.props;
         return (
             <Fragment>
-                <div style={{marginTop: 10}}>
-                    <h3>This is the account page</h3>
-                </div>
+                <AppBar width="100%" pageName="ACCOUNT"/>
 
                 <div className={classes.root}>
                 <List component="nav" aria-label="main mailbox folders">
