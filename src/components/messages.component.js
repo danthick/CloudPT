@@ -17,13 +17,34 @@ export default class Messages extends Component{
             messages: "",
             currentUser: "",
             email: "",
-            newChatUser: "",
+            getUser: "",
             showError: false,
-            allUsers: "",
+            userList: [],
+            userListLoaded: false,
         }
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.getMessages();
+    }
+
+    async componentDidMount(){
+        this.setState({
+            messages: "",
+            currentUser: "",
+            email: "",
+            getUser: "",
+            showError: false,
+            userList: [],
+            userListLoaded: false,
+        })
+        // Get all messages
+        await this.getMessages();
+        // Get all users
+        this.getAllUsers()
+        // Create array of lists for all users in allUsers list
+        this.createMessageLists()
+        // this.setState({
+        //     userListLoaded: true
+        // })
     }
 
     onChangeEmail(e) {
@@ -32,21 +53,44 @@ export default class Messages extends Component{
         });
     }
 
-    async componentDidMount(){
-        // Get all messages
-        await this.getMessages();
-        this.getAllUsers()
+    async getAllUsers(){
+        console.log(this.state.userList)
+        for (var i = 0; i < this.state.messages.length; i++){
+            //var index = Object.(this.state.userList).indexOf(this.state.messages[i].userTo);
+            //console.log(index)
+            //if (index == -1){
+            //    // not in list - add user to list
+            //    await this.getUser(this.state.messages[i].userTo)
+            //    this.state.userList.push(this.state.getUser)
+            //}
+            if(this.state.userList.length == 0){
+                await this.getUser(this.state.messages[i].userTo)
+                    this.state.userList.push(this.state.getUser)
+            }
+            console.log(this.state.userList)
+            for(var j = 0; j < this.state.userList.length; j++){
+                try{
+                    if(this.state.userList[j].email == this.state.messages[i].userTo){
+                        await this.getUser(this.state.messages[i].userTo)
+                        this.state.userList.push(this.state.getUser)
+                    }
+                } catch (e){
 
-        // Create array of lists for all users in allUsers list
+                }
+                
+            }
+        }
+        console.log(this.state.userList)
     }
 
-    getAllUsers(){
-        var userList = [];
-        for (var i = 0; i < this.state.messages.length; i++){
-            var index = userList.indexOf(this.state.messages[i].userTo);
-            if (index == -1){
-                // not in list - add user to list
-                userList.push(this.state.messages[i].userTo)
+    createMessageLists(){
+        for (var i = 0; i < this.state.userList.length; i++){
+            this.state.userList[i] = [this.state.userList[i], []]
+            for(var j = 0; j < this.state.messages.length; j++){
+                if (this.state.messages[j].userTo == this.state.userList[i][0]){
+                    
+                    this.state.userList[i][1].push(this.state.messages[j])
+                }
             }
         }
     }
@@ -54,29 +98,26 @@ export default class Messages extends Component{
     async onSubmit(e){
         e.preventDefault();
         
-        await this.checkUserExists()
-        console.log(this.state.newChatUser)
-        if(this.state.newChatUser.email != null){
-            console.log("user")
+        await this.getUser(this.state.email)
+        console.log(this.state.getUser)
+        if(this.state.getUser.email != null){
             this.props.history.push({
                 pathname: '/chat',
                 message: this.state.messages, 
                 currentUser: this.state.currentUser
             })
         } else {
-            console.log("no user")
             this.setState({
                 showError: true
             })
-            // show error that uer does not exist
         }
     }
 
-    async checkUserExists(){
+    async getUser(userEmail){
         // Checking user exists
-        const email = JSON.stringify({email: this.state.email})
+        const email = JSON.stringify({email: userEmail})
         this.setState({
-            newChatUser: null
+            getUser: null
         })
         await fetch('/api/user', {
             method: 'POST',
@@ -91,7 +132,7 @@ export default class Messages extends Component{
             await res.json().then(async log => {
                 if(log.user != null){
                     this.setState({
-                        newChatUser: log.user
+                        getUser: log.user
                     })
                 }
             });
@@ -135,18 +176,24 @@ export default class Messages extends Component{
                 }
 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#newChatModal">Start New Chat</button>
-                <div className="">
-                <List>
-                <Link to={{pathname: '/chat', message: this.state.messages, currentUser: this.state.currentUser}}>
-                <ListItem>
-                {/* <ListItemIcon>
-                    
-                </ListItemIcon> */}
-                <ListItemText primary="My Person Trainer" secondary="Good work yesterday!" />
-                </ListItem>
-                </Link>
+
+
+
+                <List  className="userList">
+                    {this.state.userListLoaded?  this.state.userList.map((users, index) => {
+                        return (
+                            <ListItem key={index}>
+                                <Link to={{pathname: '/chat', message: this.state.messages, currentUser: this.state.currentUser}}>
+                                {/* <ListItemIcon>
+                
+                                </ListItemIcon> */}
+                                <ListItemText primary={users[0]} secondary={(users[1])[users[1].length - 1].text}/>
+                                </Link>
+                            </ListItem>   
+                        )
+                        }): null}
+                        
                 </List>
-                </div>
 
 
                 <div className="container">
