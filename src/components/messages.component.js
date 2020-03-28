@@ -7,6 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import AppBar from './appBar.component'
+import FaceIcon from '@material-ui/icons/Face';
 
 
 export default class Messages extends Component{
@@ -27,24 +28,16 @@ export default class Messages extends Component{
     }
 
     async componentDidMount(){
-        this.setState({
-            messages: "",
-            currentUser: "",
-            email: "",
-            getUser: "",
-            showError: false,
-            userList: [],
-            userListLoaded: false,
-        })
         // Get all messages
         await this.getMessages();
         // Get all users
-        this.getAllUsers()
+        await this.getAllUsers()
         // Create array of lists for all users in allUsers list
         this.createMessageLists()
-        // this.setState({
-        //     userListLoaded: true
-        // })
+        // Show list when messages have been fetched
+        this.setState({
+            userListLoaded: true
+        })
     }
 
     onChangeEmail(e) {
@@ -54,30 +47,18 @@ export default class Messages extends Component{
     }
 
     async getAllUsers(){
-        console.log(this.state.userList)
         for (var i = 0; i < this.state.messages.length; i++){
-            //var index = Object.(this.state.userList).indexOf(this.state.messages[i].userTo);
-            //console.log(index)
-            //if (index == -1){
-            //    // not in list - add user to list
-            //    await this.getUser(this.state.messages[i].userTo)
-            //    this.state.userList.push(this.state.getUser)
-            //}
-            if(this.state.userList.length == 0){
-                await this.getUser(this.state.messages[i].userTo)
-                    this.state.userList.push(this.state.getUser)
-            }
-            console.log(this.state.userList)
+            var inList = false;
+            
             for(var j = 0; j < this.state.userList.length; j++){
-                try{
-                    if(this.state.userList[j].email == this.state.messages[i].userTo){
-                        await this.getUser(this.state.messages[i].userTo)
-                        this.state.userList.push(this.state.getUser)
-                    }
-                } catch (e){
-
-                }
-                
+                if(this.state.userList[j].email == this.state.messages[i].userTo || this.state.userList[j].email == this.state.messages[i].userFrom){
+                    inList = true;
+                } 
+            }
+            
+            if (!inList){
+                await this.getUser(this.state.messages[i].userTo)
+                this.state.userList.push(this.state.getUser)
             }
         }
         console.log(this.state.userList)
@@ -87,8 +68,7 @@ export default class Messages extends Component{
         for (var i = 0; i < this.state.userList.length; i++){
             this.state.userList[i] = [this.state.userList[i], []]
             for(var j = 0; j < this.state.messages.length; j++){
-                if (this.state.messages[j].userTo == this.state.userList[i][0]){
-                    
+                if (this.state.messages[j].userTo == this.state.userList[i][0].email || this.state.messages[j].userFrom == this.state.userList[i][0].email){  
                     this.state.userList[i][1].push(this.state.messages[j])
                 }
             }
@@ -158,13 +138,6 @@ export default class Messages extends Component{
             }).catch(error => console.log(error))
     }
 
-    
-
-    // GET MESSAGES FOR CURRENT USER REQUIRED
-    // - Get all messages for current user
-    // - Split array up into new arrays for each user communicated with
-    // - Start new chat button
-
     render() {
         return (
             <Fragment>
@@ -182,14 +155,20 @@ export default class Messages extends Component{
                 <List  className="userList">
                     {this.state.userListLoaded?  this.state.userList.map((users, index) => {
                         return (
-                            <ListItem key={index}>
-                                <Link to={{pathname: '/chat', message: this.state.messages, currentUser: this.state.currentUser}}>
-                                {/* <ListItemIcon>
-                
-                                </ListItemIcon> */}
-                                <ListItemText primary={users[0]} secondary={(users[1])[users[1].length - 1].text}/>
+                            
+
+                            
+                            <ListItem key={index} style={(index + 1) % 2? {background: "#e3e3e3"}:{background: "white"}}>
+                                
+                                <ListItemIcon>
+                                    <FaceIcon/>
+                                </ListItemIcon>
+                                <Link to={{pathname: '/chat', messages: users[1], userTo: users[0], currentUser: this.state.currentUser}}>
+                                <ListItemText primary={users[0].firstName + " " + users[0].lastName} secondary={(users[1])[users[1].length - 1].text}/>
                                 </Link>
-                            </ListItem>   
+                                
+                            </ListItem>
+                            
                         )
                         }): null}
                         
@@ -216,7 +195,6 @@ export default class Messages extends Component{
                                         onChange={this.onChangeEmail}
                                         required
                                     />
-                                
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.onSubmit}>Start Chat</button>

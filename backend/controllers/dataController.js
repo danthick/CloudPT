@@ -51,7 +51,7 @@ module.exports = function (app) {
 
     app.get("/api/messages", async function(req, res){        
         var user = await getUserByEmail(req._passport.session.user);
-        messages = await schemas.Message.find() // NEEDS TO DEFINE CURRENT USER
+        messages = await schemas.Message.find({$or: [{userTo: user[0].email}, {userFrom: user[0].email}]})
         
         return res.json({
             messages: messages,
@@ -62,10 +62,11 @@ module.exports = function (app) {
 
     app.post("/api/messages", async function(req, res){        
         var newMessage = new schemas.Message({
-            userTo: req.body.lastMessage.userTo,
-            userFrom: req.body.currentUser[0].email,
-            text: req.body.text,
-            date: new Date(),
+            // userTo: req.body.lastMessage.userTo,
+            // userFrom: req.body.currentUser[0].email,
+            // text: req.body.text,
+            // date: new Date(),
+
         })
         newMessage.save();
     })

@@ -87,6 +87,11 @@
 
 html, body{height: 100%}
 
+/* .userList:nth-child(odd){
+  background: #61dafb;
+
+} */
+
 .messageList {
   
   bottom: 0;
@@ -103,6 +108,19 @@ html, body{height: 100%}
   margin-top: 10px;
   flex-direction: row-reverse;
   text-align: right;
+}
+
+.notCurrentUser{
+  /*justify-content: flex-end;*/
+  display: flex;
+  margin-top: 100px;
+  text-align: left;
+}
+
+.notCurrentUser .text{
+  color: black;
+  background-color: lightgrey
+
 }
 
 .messageContent {

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
+import AppBar from './appBar.component'
 
 var messages = []
+var userTo;
 export default class Messages extends Component{
 
     constructor(props) {
@@ -8,14 +10,12 @@ export default class Messages extends Component{
 
         this.state = {
             text: "",
-            lastMessage: this.props.location.message[0],
             currentUser: this.props.location.currentUser,
-            userTo: ""
+            userTo: this.props.location.userTo
         }
     }
 
     componentDidMount(){
-        this.getUserTo();
         window.scrollTo(1000000, 1000000);
     }
     componentDidUpdate(){
@@ -43,28 +43,6 @@ export default class Messages extends Component{
         }
     }
 
-    getUserTo(){
-        const lastMessageData = JSON.stringify(this.state.lastMessage)
-        fetch('/api/user', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true
-              },
-              body: {email: lastMessageData.userTo}
-        }).then(res => {
-            res.json().then(log => {
-                this.setState({
-                    userTo: log.user
-                })
-            });
-            }).catch(error => console.log(error))
-
-            console.log(this.state.userTo)
-    }
-
     sendMessage(){
         // Creating JSON string of page state
         const messageData = JSON.stringify(this.state)
@@ -81,17 +59,30 @@ export default class Messages extends Component{
     }
 
     renderMessage(message){
-        const {currentUser} = this.props;
+        var classname;
+        var messageFrom;
+        console.log(this.props.location.currentUser)
+        const {currentUser} = this.props.location.currentUser;
+        if(message.userTo == this.props.location.currentUser[0].email){
+            console.log("here")
+            // message is being sent to me
+            classname = "notCurrentUser";
+            messageFrom = this.state.userTo;
+        } else {
+            // message is being sent from me
+            classname = "currentUser";
+            messageFrom = this.props.location.currentUser[0];
+
+        }
         //const messageFromMe = user.email === currentUser.email; // Check is current user sent this message
-        const messageFromMe = "currentUser"
-        const className = messageFromMe? "currentUser" : "notCurrentUser" // Change class to true if message was from me
+       
 
         return (
-                <div className={className}>
+                <div className={classname}>
 
                     <div className="messageContent">
                         <div className="username">
-                            {/* {message.user.firstName} {message.user.lastName} */}
+                            {messageFrom.firstName} {messageFrom.lastName}
                         </div>
                         <div className="text">
                             {message.text}
@@ -103,9 +94,12 @@ export default class Messages extends Component{
     }
 
     render() {
-        messages = this.props.location.message;
+        messages = this.props.location.messages;
+        userTo = this.props.location.userTo;
         return (
             <Fragment>
+                <AppBar width="100%" pageName={userTo.firstName + " " + userTo.lastName} back="/messages"/>
+
                     <div className="messageList">
                         {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
                     </div>
@@ -119,7 +113,7 @@ export default class Messages extends Component{
                                 type = "text"
                                 placeholder = "Enter your message here"
                             />
-                            <button className="sendButton" type="submit" >Send</button>
+                            <button className="sendButton" type="submit">Send</button>
                         </form>
                     </div>
                     <div className="chatHide"></div>
