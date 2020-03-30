@@ -1,6 +1,6 @@
 var WebSocketServer = require("websocket").server;
 
-module.exports = function (app) {
+module.exports = function (app, server) {
 
     // Creating a web socket server
     var wss = new WebSocketServer({
