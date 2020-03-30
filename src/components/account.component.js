@@ -1,22 +1,12 @@
 import React, { Component, Fragment } from 'react';
 // eslint-disable-next-line
 import {BrowseRouter as Router, Route, Link} from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import AppBar from './appBar.component'
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      width: '100%',
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-    },
-  }));
-  
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
 }

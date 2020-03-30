@@ -28,7 +28,7 @@ export default class Messages extends Component{
 
     onSubmit(e) {
         e.preventDefault();
-        if(this.state.text != "")
+        if(this.state.text !== "")
         {
             this.setState({text: ""});
             messages.push({
@@ -61,10 +61,7 @@ export default class Messages extends Component{
     renderMessage(message){
         var classname;
         var messageFrom;
-        console.log(this.props.location.currentUser)
-        const {currentUser} = this.props.location.currentUser;
-        if(message.userTo == this.props.location.currentUser[0].email){
-            console.log("here")
+        if(message.userTo === this.props.location.currentUser[0].email){
             // message is being sent to me
             classname = "notCurrentUser";
             messageFrom = this.state.userTo;
@@ -74,15 +71,15 @@ export default class Messages extends Component{
             messageFrom = this.props.location.currentUser[0];
 
         }
-        //const messageFromMe = user.email === currentUser.email; // Check is current user sent this message
-       
+
+        
 
         return (
                 <div className={classname}>
 
                     <div className="messageContent">
                         <div className="username">
-                            {messageFrom.firstName} {messageFrom.lastName}
+                            {this.captitaliseFirstLetter(messageFrom.firstName)} {this.captitaliseFirstLetter(messageFrom.lastName)}
                         </div>
                         <div className="text">
                             {message.text}
@@ -93,12 +90,16 @@ export default class Messages extends Component{
         )
     }
 
+    captitaliseFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     render() {
         messages = this.props.location.messages;
         userTo = this.props.location.userTo;
         return (
             <Fragment>
-                <AppBar width="100%" pageName={userTo.firstName + " " + userTo.lastName} back="/messages"/>
+                <AppBar width="100%" pageName={this.captitaliseFirstLetter(userTo.firstName) + " " + this.captitaliseFirstLetter(userTo.lastName)} back="/messages"/>
 
                     <div className="messageList">
                         {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}

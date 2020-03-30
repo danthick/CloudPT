@@ -5,8 +5,6 @@ import SlideRuler from 'slide-ruler';
 import { List, ListItem, ListItemText, IconButton, ListItemSecondaryAction } from '@material-ui/core';
 import AppBar from './appBar.component'
 import DeleteIcon from '@material-ui/icons/Delete';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { ResponsiveLine } from '@nivo/line';
 
 export default class Weight extends Component{
     

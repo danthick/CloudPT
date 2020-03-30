@@ -36,7 +36,8 @@
     "react-scroll": "^1.7.16",
     "react-vis": "^1.11.7",
     "recharts": "^2.0.0-beta.2",
-    "slide-ruler": "^1.2.1"
+    "slide-ruler": "^1.2.1",
+    "websocket": "^1.0.31"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd backend && nodemon server\"",

@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -8,10 +7,13 @@ const passportFunc = require("./passport");
 const flash = require("express-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const PORT = 4000 || process.env.PORT;
-var path = require('path');
+
 const authController = require("./controllers/authController");
 const dataController = require("./controllers/dataController");
+const webSocketController = require("./controllers/webSocketController");
+
+const app = express();
+const PORT = 4000 || process.env.PORT;
 
 // Connect to database
 const uri = "mongodb+srv://dthick:VI55F0PYGAu4BFv3@cluster-vjwy9.mongodb.net/cloudpt?retryWrites=true&w=majority";
@@ -49,11 +51,14 @@ app.get('/serviceWorker.js', (req, res)=> {
   res.sendFile('./serviceWorker.js')
 });
 
+var server = app.listen(PORT, function() {
+  console.log("Server is running on Port: " + PORT);
+});
+
 authController(app);
 dataController(app);
+webSocketController(app, server);
 
-app.listen(PORT, function() {
-    console.log("Server is running on Port: " + PORT);
-});
+
 
 module.exports = app;

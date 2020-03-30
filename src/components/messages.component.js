@@ -5,7 +5,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import AppBar from './appBar.component'
 import FaceIcon from '@material-ui/icons/Face';
 
@@ -24,7 +23,7 @@ export default class Messages extends Component{
             userListLoaded: false,
         }
         this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.startChat = this.startChat.bind(this);
     }
 
     async componentDidMount(){
@@ -51,7 +50,7 @@ export default class Messages extends Component{
             var inList = false;
             
             for(var j = 0; j < this.state.userList.length; j++){
-                if(this.state.userList[j].email == this.state.messages[i].userTo || this.state.userList[j].email == this.state.messages[i].userFrom){
+                if(this.state.userList[j].email === this.state.messages[i].userTo || this.state.userList[j].email === this.state.messages[i].userFrom){
                     inList = true;
                 } 
             }
@@ -61,31 +60,52 @@ export default class Messages extends Component{
                 this.state.userList.push(this.state.getUser)
             }
         }
-        console.log(this.state.userList)
     }
 
     createMessageLists(){
         for (var i = 0; i < this.state.userList.length; i++){
-            this.state.userList[i] = [this.state.userList[i], []]
+            var newUserList = this.state.userList;
+            newUserList[i] = [newUserList[i], []]
+            this.setState({
+                userList: newUserList
+            })
             for(var j = 0; j < this.state.messages.length; j++){
-                if (this.state.messages[j].userTo == this.state.userList[i][0].email || this.state.messages[j].userFrom == this.state.userList[i][0].email){  
-                    this.state.userList[i][1].push(this.state.messages[j])
+                if (this.state.messages[j].userTo === this.state.userList[i][0].email || this.state.messages[j].userFrom === this.state.userList[i][0].email){
+                    var newUserList2 = this.state.userList;
+                    newUserList2[i][1].push(this.state.messages[j])
+                    this.setState({
+                        userList: newUserList2
+                    })
                 }
             }
         }
     }
 
-    async onSubmit(e){
+    async startChat(e){
         e.preventDefault();
         
         await this.getUser(this.state.email)
-        console.log(this.state.getUser)
         if(this.state.getUser.email != null){
-            this.props.history.push({
-                pathname: '/chat',
-                message: this.state.messages, 
-                currentUser: this.state.currentUser
-            })
+            for (var i = 0; i < this.state.userList.length; i++){
+                if (this.state.userList[i][0].email === this.state.email){
+                    // chat alredy exists with user
+                    this.props.history.push({
+                        pathname: '/chat',
+                        messages: this.state.userList[i][1], 
+                        userTo: this.state.userList[i][0],
+                        currentUser: this.state.currentUser,
+                    });
+                } else {
+                    // new chat should be started
+                    this.props.history.push({
+                        pathname: '/chat',
+                        messages: [], 
+                        userTo: this.state.getUser,
+                        currentUser: this.state.currentUser,
+                    });
+                }
+            }
+            
         } else {
             this.setState({
                 showError: true
@@ -138,6 +158,11 @@ export default class Messages extends Component{
             }).catch(error => console.log(error))
     }
 
+    
+    captitaliseFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     render() {
         return (
             <Fragment>
@@ -150,21 +175,16 @@ export default class Messages extends Component{
 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#newChatModal">Start New Chat</button>
 
-
-
                 <List  className="userList">
                     {this.state.userListLoaded?  this.state.userList.map((users, index) => {
                         return (
-                            
-
-                            
                             <ListItem key={index} style={(index + 1) % 2? {background: "#e3e3e3"}:{background: "white"}}>
                                 
                                 <ListItemIcon>
                                     <FaceIcon/>
                                 </ListItemIcon>
                                 <Link to={{pathname: '/chat', messages: users[1], userTo: users[0], currentUser: this.state.currentUser}}>
-                                <ListItemText primary={users[0].firstName + " " + users[0].lastName} secondary={(users[1])[users[1].length - 1].text}/>
+                                <ListItemText primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>
                                 </Link>
                                 
                             </ListItem>
@@ -197,7 +217,7 @@ export default class Messages extends Component{
                                     />
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.onSubmit}>Start Chat</button>
+                                    <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.startChat}>Start Chat</button>
                                     <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
