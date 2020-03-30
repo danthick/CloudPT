@@ -14,6 +14,7 @@ module.exports = function (app, server) {
         // Accept connection and push to array
         var connection = request.accept(null, request.origin);
         clients.push(connection);
+        console.log(clients)
         connection.on('message', function (message) {
             // Sends message to all clients when a change has been made. Includes user email to ensure the right client gets the message.
             var email = message.utf8Data;

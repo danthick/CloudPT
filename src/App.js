@@ -49,6 +49,8 @@ class App extends Component {
             res.json().then(log => {
                 if (log.redirect === '/home') {
                   this.setState({auth: true, wasInitialised: true});
+                  var socket = new WebSocket("ws://localhost:4000/");
+                  console.log(socket)
                } else {
                   this.setState({auth: false, wasInitialised: true});
                }
