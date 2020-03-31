@@ -32,11 +32,15 @@ class App extends Component {
       auth: false,
       wasInitialised: false
     }
-    this.checkAuth();
+    this.checkAuth()
   }
 
-  checkAuth() {
-    fetch('/api/auth/', {
+  async componentDidMount(){
+    //await this.checkAuth();
+  }
+
+  async checkAuth() {
+   await fetch('/api/auth/', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -45,14 +49,17 @@ class App extends Component {
                 "Access-Control-Allow-Credentials": true
               }
             }
-        ).then(res => {
-            res.json().then(log => {
-                if (log.redirect === '/home') {
+        ).then(async res => {
+            await res.json().then(log => {
+                if (log.redirect === "/home") {
                   this.setState({auth: true, wasInitialised: true});
+                  
                   var socket = new WebSocket("ws://localhost:4000/");
-                  console.log(socket)
+                  //socket.send()
+                  console.log("authed")
                } else {
                   this.setState({auth: false, wasInitialised: true});
+                  console.log("not authed")
                }
             });
             }).catch(error => console.log(error))

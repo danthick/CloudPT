@@ -56,7 +56,7 @@ module.exports = function (app) {
     })
 
     // Checking if user has active session
-    app.get("/api/auth", function (req, res) {
+    app.get("/api/auth", async function (req, res) {
         if (!req.user) {
             return res.json({
                 redirect: '/'

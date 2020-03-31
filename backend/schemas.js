@@ -20,6 +20,7 @@ var Weight = mongoose.model("weight",{
 var Message = mongoose.model("message", {
     userTo: String,
     userFrom: String,
+    read: Boolean,
     text: String,
     date: String,
 });

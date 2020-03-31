@@ -19,8 +19,10 @@ export default class Messages extends Component{
             email: "",
             getUser: "",
             showError: false,
+            errorMsg: "",
             userList: [],
             userListLoaded: false,
+
         }
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.startChat = this.startChat.bind(this);
@@ -37,6 +39,7 @@ export default class Messages extends Component{
         this.setState({
             userListLoaded: true
         })
+        
     }
 
     onChangeEmail(e) {
@@ -52,14 +55,21 @@ export default class Messages extends Component{
             for(var j = 0; j < this.state.userList.length; j++){
                 if(this.state.userList[j].email === this.state.messages[i].userTo || this.state.userList[j].email === this.state.messages[i].userFrom){
                     inList = true;
-                } 
+                }
             }
             
             if (!inList){
-                await this.getUser(this.state.messages[i].userTo)
-                this.state.userList.push(this.state.getUser)
+                if(this.state.messages[i].userTo !== this.state.currentUser[0].email){
+                    await this.getUser(this.state.messages[i].userTo)
+                    this.state.userList.push(this.state.getUser)
+                } else {
+                    await this.getUser(this.state.messages[i].userFrom)
+                    this.state.userList.push(this.state.getUser)
+                }
+                
             }
         }
+        
     }
 
     createMessageLists(){
@@ -86,17 +96,8 @@ export default class Messages extends Component{
         
         await this.getUser(this.state.email)
         if(this.state.getUser.email != null){
-            for (var i = 0; i < this.state.userList.length; i++){
-                if (this.state.userList[i][0].email === this.state.email){
-                    // chat alredy exists with user
-                    this.props.history.push({
-                        pathname: '/chat',
-                        messages: this.state.userList[i][1], 
-                        userTo: this.state.userList[i][0],
-                        currentUser: this.state.currentUser,
-                    });
-                } else {
-                    // new chat should be started
+            if(this.state.getUser.email !== this.state.currentUser[0].email){
+                if (this.state.userList.length == 0){
                     this.props.history.push({
                         pathname: '/chat',
                         messages: [], 
@@ -104,11 +105,38 @@ export default class Messages extends Component{
                         currentUser: this.state.currentUser,
                     });
                 }
+                for (var i = 0; i < this.state.userList.length; i++){
+                    if (this.state.userList[i][0].email === this.state.email){
+                        // chat alredy exists with user
+                        this.props.history.push({
+                            pathname: '/chat',
+                            messages: this.state.userList[i][1], 
+                            userTo: this.state.userList[i][0],
+                            currentUser: this.state.currentUser,
+                        });
+                    } else {
+                        // new chat should be started
+                        console.log("here")
+                        this.props.history.push({
+                            pathname: '/chat',
+                            messages: [], 
+                            userTo: this.state.getUser,
+                            currentUser: this.state.currentUser,
+                        });
+                    }
+                }
+            } else {
+                this.setState({
+                    showError: true,
+                    errorMsg: "You can't start a chat with yourself!",
+                    email: ""
+                })
             }
-            
         } else {
             this.setState({
-                showError: true
+                showError: true,
+                errorMsg: "There is no user with that email address!",
+                email: ""
             })
         }
     }
@@ -158,7 +186,6 @@ export default class Messages extends Component{
             }).catch(error => console.log(error))
     }
 
-    
     captitaliseFirstLetter(string){
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -169,13 +196,13 @@ export default class Messages extends Component{
                 <AppBar width="100%" pageName="MESSAGES"/>
 
                 { this.state.showError?
-                    <h6 className="alert alert-danger alert-dismissible" role="alert"> There is no user with that email address </h6>
+                    <h6 className="alert alert-danger alert-dismissible" role="alert"> {this.state.errorMsg} </h6>
                 :   null  
                 }
 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#newChatModal">Start New Chat</button>
 
-                <List  className="userList">
+                <List  className="userList" >
                     {this.state.userListLoaded?  this.state.userList.map((users, index) => {
                         return (
                             <ListItem key={index} style={(index + 1) % 2? {background: "#e3e3e3"}:{background: "white"}}>
@@ -184,7 +211,10 @@ export default class Messages extends Component{
                                     <FaceIcon/>
                                 </ListItemIcon>
                                 <Link to={{pathname: '/chat', messages: users[1], userTo: users[0], currentUser: this.state.currentUser}}>
-                                <ListItemText primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>
+                                {/* <div {(users[1])[users[1].length - 1].read ? style={{fontWeight: "bold"}} : null}> */}
+                                    <ListItemText  style={{textShadow: "0px 0px 1px #333"}} primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>
+
+                                
                                 </Link>
                                 
                             </ListItem>

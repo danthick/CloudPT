@@ -64,6 +64,7 @@ module.exports = function (app) {
         var newMessage = new schemas.Message({
             userTo: req.body.userTo.email,
             userFrom: req.body.currentUser[0].email,
+            read: false,
             text: req.body.text,
             date: new Date(),
 
