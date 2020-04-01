@@ -13,6 +13,9 @@ export default class Messages extends Component{
             currentUser: this.props.location.currentUser,
             userTo: this.props.location.userTo
         }
+        this.onChangeText = this.onChangeText.bind(this);
+       
+        this.props.location.messages.map((message, index) => { this.markMessageAsRead(message)})
     }
 
     componentDidMount(){
@@ -22,8 +25,11 @@ export default class Messages extends Component{
         window.scrollTo(1000000, 1000000);
     }
 
-    onChange(e){
-        this.setState({text: e.target.value})
+    onChangeText(e) {
+        e.preventDefault();
+        this.setState({
+            text: e.target.value
+        });
     }
 
     onSubmit(e) {
@@ -46,6 +52,7 @@ export default class Messages extends Component{
     sendMessage(){
         // Creating JSON string of page state
         const messageData = JSON.stringify(this.state)
+        console.log(messageData)
         fetch('/api/messages', {
             method: 'POST',
             credentials: 'include',
@@ -58,22 +65,36 @@ export default class Messages extends Component{
         })
     }
 
+    markMessageAsRead(message){
+        const messageData = JSON.stringify(message)
+        if(message.userTo === this.state.currentUser[0].email){
+            fetch('/api/message/read', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                  },
+                body: messageData
+            })
+        }
+
+    }
+
     renderMessage(message){
-        var classname;
-        var messageFrom;
+        var classname, messageFrom;
         if(message.userTo === this.props.location.currentUser[0].email){
             // message is being sent to me
             classname = "notCurrentUser";
             messageFrom = this.state.userTo;
+            
         } else {
             // message is being sent from me
             classname = "currentUser";
             messageFrom = this.props.location.currentUser[0];
 
         }
-
-        
-
         return (
                 <div className={classname}>
 
@@ -86,7 +107,6 @@ export default class Messages extends Component{
                         </div>
                     </div>
                 </div>
-            
         )
     }
 
@@ -109,7 +129,7 @@ export default class Messages extends Component{
                         <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}  >
                             <input
                                 className = "form-control"
-                                onChange={e => this.onChange(e)}
+                                onChange={this.onChangeText}
                                 value = {this.state.text}
                                 type = "text"
                                 placeholder = "Enter your message here"

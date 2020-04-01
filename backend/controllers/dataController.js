@@ -47,6 +47,7 @@ module.exports = function (app) {
     app.post("/api/height", async function(req, res){
         // Add or update height to user
         await schemas.User.findOneAndUpdate({email: req._passport.session.user}, {height: req.body.height}, {new: true, useFindAndModify: false});
+        res.sendStatus(200);
     });
 
     app.get("/api/messages", async function(req, res){        
@@ -60,7 +61,8 @@ module.exports = function (app) {
         
     })
 
-    app.post("/api/messages", async function(req, res){        
+    app.post("/api/messages", async function(req, res){ 
+        console.log(req.body)       
         var newMessage = new schemas.Message({
             userTo: req.body.userTo.email,
             userFrom: req.body.currentUser[0].email,
@@ -69,7 +71,13 @@ module.exports = function (app) {
             date: new Date(),
 
         })
+        console.log(newMessage)
         newMessage.save();
+    })
+
+    app.post("/api/message/read", async function(req, res){
+        await schemas.Message.findOneAndUpdate({_id: req.body._id}, {read: true}, {new: true, useFindAndModify: false});
+        res.sendStatus(200);
     })
 
     // Route to return user 

@@ -97,7 +97,7 @@ export default class Messages extends Component{
         await this.getUser(this.state.email)
         if(this.state.getUser.email != null){
             if(this.state.getUser.email !== this.state.currentUser[0].email){
-                if (this.state.userList.length == 0){
+                if (this.state.userList.length === 0){
                     this.props.history.push({
                         pathname: '/chat',
                         messages: [], 
@@ -211,17 +211,13 @@ export default class Messages extends Component{
                                     <FaceIcon/>
                                 </ListItemIcon>
                                 <Link to={{pathname: '/chat', messages: users[1], userTo: users[0], currentUser: this.state.currentUser}}>
-                                {/* <div {(users[1])[users[1].length - 1].read ? style={{fontWeight: "bold"}} : null}> */}
-                                    <ListItemText  style={{textShadow: "0px 0px 1px #333"}} primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>
-
-                                
-                                </Link>
-                                
+                                {!(users[1])[users[1].length - 1].read && (users[1])[users[1].length - 1].userTo === this.state.currentUser[0].email ? 
+                                <ListItemText style={{textShadow: "0px 0px 1px #333"}} primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>
+                                : <ListItemText primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>}
+                                </Link>         
                             </ListItem>
-                            
                         )
                         }): null}
-                        
                 </List>
 
 
