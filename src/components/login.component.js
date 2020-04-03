@@ -65,8 +65,6 @@ export default class Login extends Component {
                 if (log.auth === true) {
                     window.location = '/home'
                 } else {
-                    // TO DO - didn't log in
-                    
                     this.setState({errorMessage: "Incorrect email or password"});
                     this.setState({showError: true})
                 }

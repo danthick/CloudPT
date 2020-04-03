@@ -30,7 +30,7 @@ class App extends Component {
 
     this.state = {
       auth: false,
-      wasInitialised: false
+      wasInitialised: false,
     }
     this.checkAuth()
   }
@@ -53,13 +53,8 @@ class App extends Component {
             await res.json().then(log => {
                 if (log.redirect === "/home") {
                   this.setState({auth: true, wasInitialised: true});
-                  
-                  var socket = new WebSocket("ws://localhost:4000/");
-                  //socket.send()
-                  console.log("authed")
                } else {
                   this.setState({auth: false, wasInitialised: true});
-                  console.log("not authed")
                }
             });
             }).catch(error => console.log(error))

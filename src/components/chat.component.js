@@ -15,11 +15,17 @@ export default class Messages extends Component{
         }
         this.onChangeText = this.onChangeText.bind(this);
        
-        this.props.location.messages.map((message, index) => { this.markMessageAsRead(message)})
+        this.props.location.messages.map((message) => { this.markMessageAsRead(message)})
     }
 
     componentDidMount(){
         window.scrollTo(1000000, 1000000);
+
+        this.props.location.socket.onmessage = function(e) {
+            if(e.data == "messageReceived"){
+                // do something
+            }
+        }
     }
     componentDidUpdate(){
         window.scrollTo(1000000, 1000000);
@@ -52,7 +58,6 @@ export default class Messages extends Component{
     sendMessage(){
         // Creating JSON string of page state
         const messageData = JSON.stringify(this.state)
-        console.log(messageData)
         fetch('/api/messages', {
             method: 'POST',
             credentials: 'include',
@@ -63,6 +68,7 @@ export default class Messages extends Component{
               },
               body: messageData
         })
+        this.props.location.socket.send(["messageSent", this.props.location.userTo.email])
     }
 
     markMessageAsRead(message){

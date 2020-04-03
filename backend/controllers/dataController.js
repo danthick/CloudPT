@@ -62,7 +62,6 @@ module.exports = function (app) {
     })
 
     app.post("/api/messages", async function(req, res){ 
-        console.log(req.body)       
         var newMessage = new schemas.Message({
             userTo: req.body.userTo.email,
             userFrom: req.body.currentUser[0].email,
@@ -71,7 +70,6 @@ module.exports = function (app) {
             date: new Date(),
 
         })
-        console.log(newMessage)
         newMessage.save();
     })
 

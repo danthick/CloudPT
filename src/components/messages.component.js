@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from './appBar.component'
 import FaceIcon from '@material-ui/icons/Face';
 
-
+var socket = "";
 export default class Messages extends Component{
     constructor(props) {
         super(props);
@@ -22,24 +22,57 @@ export default class Messages extends Component{
             errorMsg: "",
             userList: [],
             userListLoaded: false,
-
+            socket: ""
         }
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.startChat = this.startChat.bind(this);
+        this.loadMessages = this.loadMessages.bind(this);
+        
+        if (socket === ""){ socket = new WebSocket("ws://localhost:4000/") }
     }
 
     async componentDidMount(){
+        await this.loadMessages();
+
+                // Assign websocket to current user
+                socket.send(["email", this.state.currentUser[0].email]);
+
+        socket.onmessage = async e => {
+            console.log(e.data)
+            if(e.data == "messageReceived"){
+                this.resetStates();
+                this.loadMessages();
+            }
+        }
+    }
+
+    async loadMessages(){
+        this.resetStates();
         // Get all messages
         await this.getMessages();
         // Get all users
-        await this.getAllUsers()
+        await this.getAllUsers();
         // Create array of lists for all users in allUsers list
-        this.createMessageLists()
+        this.createMessageLists();
         // Show list when messages have been fetched
         this.setState({
             userListLoaded: true
-        })
-        
+        });
+
+
+    }
+
+    resetStates(){
+        this.setState({
+            messages: "",
+            currentUser: "",
+            email: "",
+            getUser: "",
+            showError: false,
+            errorMsg: "",
+            userList: [],
+            userListLoaded: false,
+        });
     }
 
     onChangeEmail(e) {
@@ -89,6 +122,7 @@ export default class Messages extends Component{
                 }
             }
         }
+        this.state.userList.sort((a, b) => new Date((b[1])[b[1].length - 1].date) - new Date((a[1])[a[1].length - 1].date))
     }
 
     async startChat(e){
@@ -210,10 +244,12 @@ export default class Messages extends Component{
                                 <ListItemIcon>
                                     <FaceIcon/>
                                 </ListItemIcon>
-                                <Link to={{pathname: '/chat', messages: users[1], userTo: users[0], currentUser: this.state.currentUser}}>
+                                <Link to={{pathname: '/chat', messages: users[1], userTo: users[0], currentUser: this.state.currentUser, socket: socket}}>
+
                                 {!(users[1])[users[1].length - 1].read && (users[1])[users[1].length - 1].userTo === this.state.currentUser[0].email ? 
                                 <ListItemText style={{textShadow: "0px 0px 1px #333"}} primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>
                                 : <ListItemText primary={this.captitaliseFirstLetter(users[0].firstName) + " " + this.captitaliseFirstLetter(users[0].lastName)} secondary={(users[1])[users[1].length - 1].text}/>}
+                                
                                 </Link>         
                             </ListItem>
                         )
