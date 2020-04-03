@@ -21,9 +21,19 @@ export default class Messages extends Component{
     componentDidMount(){
         window.scrollTo(1000000, 1000000);
 
-        this.props.location.socket.onmessage = function(e) {
-            if(e.data == "messageReceived"){
+        this.props.location.socket.onmessage = e => {
+            console.log(e)
+            var messageData = e.data.split(",")
+            if(messageData[0] == "messageSent"){
                 // do something
+                messages.push({
+                    text: messageData[1],
+                    user:{
+                        firstName: messageData[3],
+                        lastName: messageData[3],
+                        email: messageData[3]
+                    }
+                })
             }
         }
     }
@@ -68,7 +78,8 @@ export default class Messages extends Component{
               },
               body: messageData
         })
-        this.props.location.socket.send(["messageSent", this.props.location.userTo.email])
+        console.log(this.state.text)
+        this.props.location.socket.send(["messageSent", this.state.text, this.state.userTo.email, this.state.currentUser[0].email])
     }
 
     markMessageAsRead(message){

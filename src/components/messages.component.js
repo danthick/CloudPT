@@ -38,8 +38,9 @@ export default class Messages extends Component{
                 socket.send(["email", this.state.currentUser[0].email]);
 
         socket.onmessage = async e => {
-            console.log(e.data)
-            if(e.data == "messageReceived"){
+            var messageData = e.data.split(",")
+
+            if(messageData[0] === "messageSent"){
                 this.resetStates();
                 this.loadMessages();
             }
@@ -58,8 +59,6 @@ export default class Messages extends Component{
         this.setState({
             userListLoaded: true
         });
-
-
     }
 
     resetStates(){

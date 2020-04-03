@@ -71,6 +71,7 @@ module.exports = function (app) {
 
         })
         newMessage.save();
+        res.sendStatus(200);
     })
 
     app.post("/api/message/read", async function(req, res){
