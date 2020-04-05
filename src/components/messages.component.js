@@ -34,13 +34,16 @@ export default class Messages extends Component{
     async componentDidMount(){
         await this.loadMessages();
 
-                // Assign websocket to current user
-                socket.send(["email", this.state.currentUser[0].email]);
+        // Assign websocket to current user
+        socket.send(JSON.stringify({
+                        messageType: "email",
+                        email: this.state.currentUser[0].email 
+                        }));
 
         socket.onmessage = async e => {
-            var messageData = e.data.split(",")
+            var messageData = JSON.parse(e.data);
 
-            if(messageData[0] === "messageSent"){
+            if(messageData.messageType === "messageSent"){
                 this.resetStates();
                 this.loadMessages();
             }

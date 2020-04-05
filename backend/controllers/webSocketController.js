@@ -15,25 +15,24 @@ module.exports = function (app, server) {
         var connection = request.accept(null, request.origin);
         clients.push(connection);
         connection.on('message', function (message) {
+            message = JSON.parse(message.utf8Data)
+            console.log(message)
             // Assigning email address to client
-            if(message.utf8Data.substring(0,5) === "email"){
-                clients[clients.length-1] = [clients[clients.length-1], message.utf8Data.substring(6)]
+            if(message.messageType === "email"){
+                clients[clients.length-1] = [clients[clients.length-1], message.email]
             }
-            if(message.utf8Data.substring(0,11) === "messageSent"){
+            console.log((clients[clients.length-1])[1])
+            console.log(message.userTo)
+            if(message.messageType === "messageSent"){
                 // new message has been sent
                 // send out message to client with email address of userTo!
-                console.log(message.utf8Data)
-                console.log(message.utf8Data.split(","))
-
-                // [messageSent, text, userTo, userFrom]
-                var messageData = message.utf8Data.split(",")
 
                 // Check which client message was sent to
                 clients.forEach(function(client){
-                    if (client[1] == messageData[2]){
+                    if (client[1] == message.userTo.email){
                         // message has been sent to this user
                         console.log("sending message...")
-                        client[0].send(messageData)
+                        client[0].send(JSON.stringify(message))
                     }
                 })
             }

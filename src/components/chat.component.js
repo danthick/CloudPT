@@ -22,19 +22,22 @@ export default class Messages extends Component{
         window.scrollTo(1000000, 1000000);
 
         this.props.location.socket.onmessage = e => {
-            console.log(e)
-            var messageData = e.data.split(",")
-            if(messageData[0] == "messageSent"){
-                // do something
+            var messageData = JSON.parse(e.data)
+            console.log(messageData.messageType)
+            if(messageData.messageType == "messageSent"){
+                console.log("pusing to array")
+                // Push incoming message to array
+                e.preventDefault();
                 messages.push({
-                    text: messageData[1],
+                    text: messageData.text,
                     user:{
-                        firstName: messageData[3],
-                        lastName: messageData[3],
-                        email: messageData[3]
+                        firstName: messageData.userFrom[0].firstName,
+                        lastName: messageData.userFrom[0].lastName,
+                        email: messageData.userFrom[0].email
                     }
                 })
             }
+            console.log(messages)
         }
     }
     componentDidUpdate(){
@@ -48,27 +51,28 @@ export default class Messages extends Component{
         });
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         e.preventDefault();
         if(this.state.text !== "")
         {
-            this.setState({text: ""});
+            
             messages.push({
                 text: this.state.text,
-                user:{
+                userTo:{
                     firstName: this.props.location.currentUser.firstName,
                     lastName: this.props.location.currentUser.lastName,
                     email: this.props.location.currentUser.email
                 }
             })
-            this.sendMessage();
+            await this.sendMessage();
         }
+        this.setState({text: ""});
     }
 
-    sendMessage(){
+    async sendMessage(){
         // Creating JSON string of page state
         const messageData = JSON.stringify(this.state)
-        fetch('/api/messages', {
+        await fetch('/api/messages', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -78,8 +82,12 @@ export default class Messages extends Component{
               },
               body: messageData
         })
-        console.log(this.state.text)
-        this.props.location.socket.send(["messageSent", this.state.text, this.state.userTo.email, this.state.currentUser[0].email])
+        this.props.location.socket.send(JSON.stringify({
+            messageType: "messageSent",
+            text: this.state.text,
+            userTo: this.state.userTo,
+            userFrom: this.state.currentUser
+        }))
     }
 
     markMessageAsRead(message){
@@ -101,6 +109,7 @@ export default class Messages extends Component{
 
     renderMessage(message){
         var classname, messageFrom;
+        console.log(message)
         if(message.userTo === this.props.location.currentUser[0].email){
             // message is being sent to me
             classname = "notCurrentUser";
