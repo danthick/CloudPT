@@ -46,7 +46,6 @@ export default class Account extends Component{
                 }
             ).then(function(res) {
                 res.json().then(log => {
-                    console.log(log)
                     if (log.logout === true) {
                         //user = res.data.email;
                         window.location = '/'

@@ -34,11 +34,12 @@ export default class Messages extends Component{
     async componentDidMount(){
         await this.loadMessages();
 
-        // Assign websocket to current user
-        socket.send(JSON.stringify({
-                        messageType: "email",
-                        email: this.state.currentUser[0].email 
-                        }));
+        // Assign websocket to current user if not already
+            socket.send(JSON.stringify({
+                messageType: "email",
+                email: this.state.currentUser[0].email 
+                }));
+
 
         socket.onmessage = async e => {
             var messageData = JSON.parse(e.data);
@@ -152,7 +153,6 @@ export default class Messages extends Component{
                         });
                     } else {
                         // new chat should be started
-                        console.log("here")
                         this.props.history.push({
                             pathname: '/chat',
                             messages: [], 

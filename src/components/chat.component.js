@@ -23,9 +23,7 @@ export default class Messages extends Component{
 
         this.props.location.socket.onmessage = e => {
             var messageData = JSON.parse(e.data)
-            console.log(messageData.messageType)
             if(messageData.messageType == "messageSent"){
-                console.log("pusing to array")
                 // Push incoming message to array
                 e.preventDefault();
                 messages.push({
@@ -34,10 +32,12 @@ export default class Messages extends Component{
                         firstName: messageData.userFrom[0].firstName,
                         lastName: messageData.userFrom[0].lastName,
                         email: messageData.userFrom[0].email
-                    }
+                    },
+                    userTo: messageData.userTo.email
+                    
                 })
+                this.setState({});
             }
-            console.log(messages)
         }
     }
     componentDidUpdate(){
@@ -109,7 +109,6 @@ export default class Messages extends Component{
 
     renderMessage(message){
         var classname, messageFrom;
-        console.log(message)
         if(message.userTo === this.props.location.currentUser[0].email){
             // message is being sent to me
             classname = "notCurrentUser";

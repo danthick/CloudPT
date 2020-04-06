@@ -34,7 +34,6 @@ module.exports = function (app) {
 
         // Checking if email already exists
         var user = await getUserByEmail(req.body.email);
-        console.log(user[0])
         if (user[0] == null) {
             var newUser = new schemas.User({
                 email: req.body.email,
