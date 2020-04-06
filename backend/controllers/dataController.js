@@ -69,8 +69,11 @@ module.exports = function (app) {
             date: new Date(),
 
         })
-        newMessage.save();
-        res.sendStatus(200);
+        newMessage.save(function(err, message){
+            return res.json({
+            _id: message._id
+            })
+        });
     })
 
     app.post("/api/message/read", async function(req, res){

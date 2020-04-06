@@ -18,16 +18,16 @@ module.exports = function (app, server) {
             message = JSON.parse(message.utf8Data)
             // Assigning email address to client
             if(message.messageType === "email"){
-                var alreadyAClient = false;
-                clients.forEach(function(client){
+                var inClientList = false;
+                console.log(message.email)
+                clients.forEach(function(client, index){
                     if (client[1] === message.email){
-                        alreadyAClient = true;
+                        inClientList = true;
                     }
                 })
-                if (!alreadyAClient){
+                if(!inClientList){
                     clients[clients.length-1] = [clients[clients.length-1], message.email]
                 }
-                
             }
             if(message.messageType === "messageSent"){
                 // new message has been sent
@@ -35,8 +35,6 @@ module.exports = function (app, server) {
 
                 // Check which client message was sent to
                 clients.forEach(function(client){
-                    console.log(message.userTo.email)
-                    console.log(client[1])
                     if (client[1] == message.userTo.email){
                         // message has been sent to this user
                         client[0].send(JSON.stringify(message))

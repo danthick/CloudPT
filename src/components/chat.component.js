@@ -23,26 +23,31 @@ export default class Messages extends Component{
 
         this.props.location.socket.onmessage = e => {
             var messageData = JSON.parse(e.data)
-            if(messageData.messageType == "messageSent"){
+            if(messageData.messageType === "messageSent"){
                 // Push incoming message to array
                 e.preventDefault();
-                messages.push({
+                var newMessage = ({
                     text: messageData.text,
                     user:{
                         firstName: messageData.userFrom[0].firstName,
                         lastName: messageData.userFrom[0].lastName,
                         email: messageData.userFrom[0].email
                     },
-                    userTo: messageData.userTo.email
-                    
+                    userTo: messageData.userTo.email,
+                    newMessage: true,
+                    _id: messageData._id
                 })
+                messages.push(newMessage)
                 this.setState({});
+                this.markMessageAsRead(newMessage);
             }
         }
     }
     componentDidUpdate(){
         window.scrollTo(1000000, 1000000);
     }
+
+
 
     onChangeText(e) {
         e.preventDefault();
@@ -72,6 +77,7 @@ export default class Messages extends Component{
     async sendMessage(){
         // Creating JSON string of page state
         const messageData = JSON.stringify(this.state)
+        var messageID;
         await fetch('/api/messages', {
             method: 'POST',
             credentials: 'include',
@@ -81,9 +87,15 @@ export default class Messages extends Component{
                 "Access-Control-Allow-Credentials": true
               },
               body: messageData
-        })
+        }).then(async res => {
+            await res.json().then(async log => {
+                messageID = log._id
+            });
+            }).catch(error => console.log(error))
+
         this.props.location.socket.send(JSON.stringify({
             messageType: "messageSent",
+            _id: messageID,
             text: this.state.text,
             userTo: this.state.userTo,
             userFrom: this.state.currentUser
@@ -92,7 +104,8 @@ export default class Messages extends Component{
 
     markMessageAsRead(message){
         const messageData = JSON.stringify(message)
-        if(message.userTo === this.state.currentUser[0].email){
+        console.log(message)
+        if(message.userTo === this.state.currentUser[0].email || message.newMessage){
             fetch('/api/message/read', {
                 method: 'POST',
                 credentials: 'include',

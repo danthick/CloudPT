@@ -22,23 +22,29 @@ export default class Messages extends Component{
             errorMsg: "",
             userList: [],
             userListLoaded: false,
-            socket: ""
         }
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.startChat = this.startChat.bind(this);
         this.loadMessages = this.loadMessages.bind(this);
-        
-        if (socket === ""){ socket = new WebSocket("ws://localhost:4000/") }
+        if(socket === ""){ socket = new WebSocket("ws://localhost:4000/") }
     }
 
     async componentDidMount(){
         await this.loadMessages();
 
-        // Assign websocket to current user if not already
+        //Assign websocket to current user
+        socket.send(JSON.stringify({
+            messageType: "email",
+            email: this.state.currentUser[0].email 
+            }));
+
+        socket.onopen = (e) => {
+            console.log(this.state.currentUser)
             socket.send(JSON.stringify({
                 messageType: "email",
                 email: this.state.currentUser[0].email 
-                }));
+            })); 
+        }
 
 
         socket.onmessage = async e => {
@@ -49,6 +55,8 @@ export default class Messages extends Component{
                 this.loadMessages();
             }
         }
+
+        console.log(socket)
     }
 
     async loadMessages(){
