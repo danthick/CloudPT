@@ -14,8 +14,11 @@ export default class Messages extends Component{
             userTo: this.props.location.userTo
         }
         this.onChangeText = this.onChangeText.bind(this);
-       
-        this.props.location.messages.map((message) => { this.markMessageAsRead(message)})
+        try{
+            this.props.location.messages.map((message) => { this.markMessageAsRead(message)})
+        } catch (e){
+            window.location = '/messages'
+        }
     }
 
     componentDidMount(){

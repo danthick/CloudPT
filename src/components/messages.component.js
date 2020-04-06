@@ -139,6 +139,7 @@ export default class Messages extends Component{
     async startChat(e){
         e.preventDefault();
         
+        // Get user for new chat and make sure user exists
         await this.getUser(this.state.email)
         if(this.state.getUser.email != null){
             if(this.state.getUser.email !== this.state.currentUser[0].email){
@@ -148,6 +149,7 @@ export default class Messages extends Component{
                         messages: [], 
                         userTo: this.state.getUser,
                         currentUser: this.state.currentUser,
+                        socket: socket
                     });
                 }
                 for (var i = 0; i < this.state.userList.length; i++){
@@ -158,6 +160,7 @@ export default class Messages extends Component{
                             messages: this.state.userList[i][1], 
                             userTo: this.state.userList[i][0],
                             currentUser: this.state.currentUser,
+                            socket: socket
                         });
                     } else {
                         // new chat should be started
@@ -166,9 +169,11 @@ export default class Messages extends Component{
                             messages: [], 
                             userTo: this.state.getUser,
                             currentUser: this.state.currentUser,
+                            socket: socket
                         });
                     }
                 }
+            // Show error if attempting to start conversation with yourself
             } else {
                 this.setState({
                     showError: true,
@@ -176,6 +181,7 @@ export default class Messages extends Component{
                     email: ""
                 })
             }
+        // If user does not exist show error
         } else {
             this.setState({
                 showError: true,
