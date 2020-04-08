@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import '../App.css';
+import $ from 'jquery';
 
 export default class Login extends Component {
     constructor(props) {
@@ -48,7 +49,14 @@ export default class Login extends Component {
                      }
                 });
                 }).catch(error => console.log(error))
-            
+
+
+                $(function() {
+                    $('.scroll-down').click (function() {
+                      $('html, body').animate({scrollTop: $('section.ok').offset().top }, 'slow');
+                      return false;
+                    });
+                  });
       }
 
     onSubmit(e) {
@@ -65,15 +73,14 @@ export default class Login extends Component {
                 if (log.auth === true) {
                     window.location = '/home'
                 } else {
-                    this.setState({errorMessage: "Incorrect email or password"});
-                    this.setState({showError: true})
+                    this.setState({
+                        errorMessage: "Incorrect email or password",
+                        showError: true,
+                        password: ""                    
+                    });
                 }
             });
             }).catch(error => console.log(error))
-
-        this.setState({
-            password: '',
-        })
     }
 
     render() {
@@ -85,7 +92,13 @@ export default class Login extends Component {
                 </video>
             </div>
                 <div style={{marginTop: 10}}>
-                <h3>Please enter your login details:</h3>
+
+                <p className="appTitle">
+                    <img src="logo512.png" alt="logo" height="60" width="60"/>
+                    CloudPT
+                </p><br/>
+                
+                <div className="homeBackground">
                 { this.state.showError?
                     <div>
                     <h4 className="alert alert-danger alert-dismissible" role="alert"> { this.state.errorMessage } </h4>
@@ -117,12 +130,36 @@ export default class Login extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Login" className="btn btn-primary" />
-                    </div>
-                    <div>
-                        <a href="/register" >Don't have an account? Click here to register!</a>
+                        <input type="submit" value="LOGIN" className="btn btn-success container" />
                     </div>
                 </form>
+            </div>
+            
+            <br/>
+            <div>
+                <a href="/register" className="btn btn-primary container">SIGN UP</a>
+            </div>
+
+            <h6></h6>
+
+
+
+
+            
+            
+            <section>
+                <a href="#" className="scroll-down" ></a>
+            </section>
+
+            <section className="ok">
+            <p>OK SCROLL !</p>
+            </section>
+
+            <div className="container-fluid homepageInfo">
+                <h1>Section 1</h1>
+                <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+            </div> 
+
             </div>
             </Fragment>
         )

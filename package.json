@@ -23,6 +23,7 @@
     "express-session": "^1.17.0",
     "http-proxy-middleware": "^1.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.4.1",
     "mongoose": "^5.9.3",
     "nivo": "^0.31.0",
     "nodemon": "^2.0.2",

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 export default class Login extends Component {
-
     constructor(props) {
         super(props);
 
@@ -90,11 +89,18 @@ export default class Login extends Component {
         return (
             
             <div style={{marginTop: 10}}>
-                        <div className="fullscreen-bg">
-            <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
-                <source src="/login-video.mp4" type="video/mp4"/>
-            </video>
-        </div>
+                <div className="fullscreen-bg">
+                    <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
+                        <source src="/login-video.mp4" type="video/mp4"/>
+                    </video>
+                </div>
+
+                <p className="appTitle">
+                    <img src="logo512.png" alt="logo" height="60" width="60"/>
+                    CloudPT
+                </p><br/>
+
+                <div className="homeBackground">
                 <h3>CREATE YOUR ACCOUNT</h3>
                 <form onSubmit={this.onSubmit}>
                     
@@ -145,9 +151,9 @@ export default class Login extends Component {
                                 required
                         />
                     </div>
-                    <h5>Do you want to register as a personal trainer?</h5>
+                    <h5>Do you want to register as a personal trainer?<p/>
                     <div className="btn-group btn-group-toggle container" data-toggle="buttons">
-                        
+                    
                         <label className="btn btn-light active" >
                             <input type="radio" onClick={this.changePtTrue}/>Yes
                         </label>
@@ -155,16 +161,18 @@ export default class Login extends Component {
                             <input type="radio" onClick={this.changePtFalse} defaultChecked/>No
                         </label>
                     </div>
+                    </h5>
                     
                     <div className="form-group">
                     <br/>
-                        <input type="submit" value="Register" className="btn btn-success container" />
-                    </div>
-                    
-                    <div>
-                        <a href="/" className="btn btn-primary container" >Already have account? Click here to login!</a>
+                        <input type="submit" value="REGISTER" className="btn btn-success container" />
                     </div>
                 </form>
+                </div>
+                <br/>
+                <div>
+                        <a href="/" className="btn btn-primary container">LOGIN</a>
+                    </div>
             </div>
         )
     }
