@@ -7,6 +7,7 @@ var User = mongoose.model("user", {
     firstName: String,
     lastName: String,
     height: Number,
+    ptBool: Boolean
 });
 
 // Weight data structure

@@ -9,6 +9,8 @@ export default class Login extends Component {
         this.onChangeLastName = this.onChangeLastName.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.changePtTrue = this.changePtTrue.bind(this);
+        this.changePtFalse = this.changePtFalse.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -17,7 +19,8 @@ export default class Login extends Component {
             email: '',
             password: '',
             errorMessage: '',
-            showError: false
+            showError: false,
+            ptBool: false
         }
     }
 
@@ -44,6 +47,19 @@ export default class Login extends Component {
             password: e.target.value
         });
     }
+
+    changePtTrue() {
+        this.setState({
+            ptBool: true
+        });
+    }
+
+    changePtFalse(){
+        this.setState({
+            ptBool: false
+        });
+    }
+
     onSubmit(e) {
         e.preventDefault();
         const registerData = JSON.stringify(this.state);
@@ -72,8 +88,14 @@ export default class Login extends Component {
 
     render() {
         return (
+            
             <div style={{marginTop: 10}}>
-                <h3>Please enter your details:</h3>
+                        <div className="fullscreen-bg">
+            <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
+                <source src="/login-video.mp4" type="video/mp4"/>
+            </video>
+        </div>
+                <h3>CREATE YOUR ACCOUNT</h3>
                 <form onSubmit={this.onSubmit}>
                     
                     { this.state.showError?
@@ -123,11 +145,24 @@ export default class Login extends Component {
                                 required
                         />
                     </div>
-                    <div className="form-group">
-                        <input type="submit" value="Register" className="btn btn-primary" />
+                    <h5>Do you want to register as a personal trainer?</h5>
+                    <div className="btn-group btn-group-toggle container" data-toggle="buttons">
+                        
+                        <label className="btn btn-light active" >
+                            <input type="radio" onClick={this.changePtTrue}/>Yes
+                        </label>
+                        <label className="btn btn-light active" >
+                            <input type="radio" onClick={this.changePtFalse} defaultChecked/>No
+                        </label>
                     </div>
+                    
+                    <div className="form-group">
+                    <br/>
+                        <input type="submit" value="Register" className="btn btn-success container" />
+                    </div>
+                    
                     <div>
-                        <a href="/" >Already have account? Click here to login!</a>
+                        <a href="/" className="btn btn-primary container" >Already have account? Click here to login!</a>
                     </div>
                 </form>
             </div>

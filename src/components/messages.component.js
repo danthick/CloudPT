@@ -46,7 +46,6 @@ export default class Messages extends Component{
             })); 
         }
 
-
         socket.onmessage = async e => {
             var messageData = JSON.parse(e.data);
 
@@ -110,10 +109,8 @@ export default class Messages extends Component{
                     await this.getUser(this.state.messages[i].userFrom)
                     this.state.userList.push(this.state.getUser)
                 }
-                
             }
         }
-        
     }
 
     createMessageLists(){
@@ -144,6 +141,7 @@ export default class Messages extends Component{
         if(this.state.getUser.email != null){
             if(this.state.getUser.email !== this.state.currentUser[0].email){
                 if (this.state.userList.length === 0){
+                    // Start new chat
                     this.props.history.push({
                         pathname: '/chat',
                         messages: [], 
@@ -154,7 +152,7 @@ export default class Messages extends Component{
                 }
                 for (var i = 0; i < this.state.userList.length; i++){
                     if (this.state.userList[i][0].email === this.state.email){
-                        // chat alredy exists with user
+                        // Open already existing chat window
                         this.props.history.push({
                             pathname: '/chat',
                             messages: this.state.userList[i][1], 
@@ -163,7 +161,7 @@ export default class Messages extends Component{
                             socket: socket
                         });
                     } else {
-                        // new chat should be started
+                        // Start new chat
                         this.props.history.push({
                             pathname: '/chat',
                             messages: [], 

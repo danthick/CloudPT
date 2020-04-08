@@ -39,7 +39,8 @@ module.exports = function (app) {
                 email: req.body.email,
                 password: hash,
                 firstName: req.body.firstName,
-                lastName: req.body.lastName
+                lastName: req.body.lastName,
+                ptBool: req.body.ptBool
             });
             // Save user and return successful redirect
             newUser.save();
