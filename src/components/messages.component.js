@@ -30,21 +30,28 @@ export default class Messages extends Component{
     }
 
     async componentDidMount(){
-        await this.loadMessages();
+        if(!this.state.userListLoaded){
+            await this.loadMessages();
+        }
+        
 
         //Assign websocket to current user
-        socket.send(JSON.stringify({
-            messageType: "email",
-            email: this.state.currentUser[0].email 
-            }));
-
-        socket.onopen = (e) => {
-            console.log(this.state.currentUser)
+        if(this.state.currentUser !== ""){
             socket.send(JSON.stringify({
                 messageType: "email",
                 email: this.state.currentUser[0].email 
-            })); 
+            }));
+            
+            socket.onopen = (e) => {
+                socket.send(JSON.stringify({
+                    messageType: "email",
+                    email: this.state.currentUser[0].email 
+                })); 
+            }
         }
+
+
+
 
         socket.onmessage = async e => {
             var messageData = JSON.parse(e.data);
@@ -54,8 +61,12 @@ export default class Messages extends Component{
                 this.loadMessages();
             }
         }
+    }
 
-        console.log(socket)
+    componentWillUnmount() {
+        this.setState({
+            userListLoaded: false
+        })
     }
 
     async loadMessages(){
@@ -80,7 +91,7 @@ export default class Messages extends Component{
             getUser: "",
             showError: false,
             errorMsg: "",
-            userList: [],
+            userList:[],
             userListLoaded: false,
         });
     }
@@ -92,22 +103,29 @@ export default class Messages extends Component{
     }
 
     async getAllUsers(){
-        for (var i = 0; i < this.state.messages.length; i++){
-            var inList = false;
-            
-            for(var j = 0; j < this.state.userList.length; j++){
-                if(this.state.userList[j].email === this.state.messages[i].userTo || this.state.userList[j].email === this.state.messages[i].userFrom){
-                    inList = true;
+        if(this.state.currentUser !== "" && this.state.messages !== ""){
+            for (var i = 0; i < this.state.messages.length; i++){
+                var inList = false;
+                
+                for(var j = 0; j < this.state.userList.length; j++){
+                    if(this.state.userList[j].email === this.state.messages[i].userTo || this.state.userList[j].email === this.state.messages[i].userFrom){
+                        inList = true;
+                    }
                 }
-            }
-            
-            if (!inList){
-                if(this.state.messages[i].userTo !== this.state.currentUser[0].email){
-                    await this.getUser(this.state.messages[i].userTo)
-                    this.state.userList.push(this.state.getUser)
-                } else {
-                    await this.getUser(this.state.messages[i].userFrom)
-                    this.state.userList.push(this.state.getUser)
+                
+                if (!inList){
+                    if(this.state.messages[i].userTo !== this.state.currentUser[0].email){
+                        await this.getUser(this.state.messages[i].userTo)
+                        if(this.state.getUser !== null){
+                            this.state.userList.push(this.state.getUser)
+                        }
+                        
+                    } else {
+                        await this.getUser(this.state.messages[i].userFrom)
+                        if(this.state.getUser !== null){
+                            this.state.userList.push(this.state.getUser)
+                        }
+                    }
                 }
             }
         }

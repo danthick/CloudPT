@@ -107,7 +107,6 @@ export default class Messages extends Component{
 
     markMessageAsRead(message){
         const messageData = JSON.stringify(message)
-        console.log(message)
         if(message.userTo === this.state.currentUser[0].email || message.newMessage){
             fetch('/api/message/read', {
                 method: 'POST',

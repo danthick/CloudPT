@@ -19,7 +19,6 @@ module.exports = function (app, server) {
             // Assigning email address to client
             if(message.messageType === "email"){
                 var inClientList = false;
-                console.log(message.email)
                 clients.forEach(function(client, index){
                     if (client[1] === message.email){
                         inClientList = true;
