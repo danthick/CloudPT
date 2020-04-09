@@ -1,6 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import '../App.css';
 import $ from 'jquery';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import ChatIcon from '@material-ui/icons/Chat';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import DevicesIcon from '@material-ui/icons/Devices';
+import HttpsIcon from '@material-ui/icons/Https';
+import WebIcon from '@material-ui/icons/Web';
 
 export default class Login extends Component {
     constructor(props) {
@@ -51,12 +57,12 @@ export default class Login extends Component {
                 }).catch(error => console.log(error))
 
 
-                $(function() {
-                    $('.scroll-down').click (function() {
-                      $('html, body').animate({scrollTop: $('section.ok').offset().top }, 'slow');
-                      return false;
-                    });
-                  });
+        $(function() {
+            $('.scroll-down').click (function() {
+                $('html, body').animate({scrollTop: $('section.scrollTo').offset().top }, 'slow');
+                return false;
+            });
+        });
       }
 
     onSubmit(e) {
@@ -137,31 +143,64 @@ export default class Login extends Component {
             
             <br/>
             <div>
-                <a href="/register" className="btn btn-primary container">SIGN UP</a>
+                <a href="/register" className="btn btn-primary container">SIGN UP HERE</a>
             </div>
-
-            <h6></h6>
-
-
 
 
             
-            
-            <section>
-                <a href="#" className="scroll-down" ></a>
-            </section>
+            <div className="scroll-down-info"> Check out the app features!</div>
+                <section>
+                    <a href="#" className="scroll-down" ></a>
+                </section>
+                
+                <section className="scrollTo"><br/>
+                    <div className="homeBackground">
+                        <FitnessCenterIcon style={{fontSize: "65px", float: "left"}}/>
+                        <h3 style={{fontSize: "30px", lineHeight: "60px"}}>Workout Creation</h3>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Create custom workouts for clients</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Assign workouts to your clients</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>View clients workout history</li>
+                        
+                        <br/>
+                        <ChatIcon style={{fontSize: "65px", float: "left"}}/>
+                        <h3 style={{fontSize: "30px", lineHeight: "55px"}}>Instant Messaging</h3>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Contact your clients instantly</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Easy to use inbuilt chat feature</li>
+                        
 
-            <section className="ok">
-            <p>OK SCROLL !</p>
-            </section>
+                        <br/>
+                        <TimelineIcon style={{fontSize: "65px", float: "left"}}/>
+                        <h3 style={{fontSize: "30px", lineHeight: "55px"}}>Track Progress</h3>
+                        <li className="list-group-item" style={{textAlign: "center"}}>See progress your clients are making during programs</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}></li>
+                        
 
-            <div className="container-fluid homepageInfo">
-                <h1>Section 1</h1>
-                <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-            </div> 
+                    </div>
 
+                    <br/>
+
+                    <div className="homeBackground">
+                        <DevicesIcon style={{fontSize: "65px", float: "left"}}/>
+                        <h3 style={{fontSize: "30px", lineHeight: "60px"}}>Cross-Platform</h3>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Use the application anywhere</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Works on any device</li>
+
+                        <br/>
+                        <WebIcon style={{fontSize: "65px", float: "left"}}/> 
+                        <h3 style={{fontSize: "25px", lineHeight: "60px"}}>Web Application</h3>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Offline operation</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Fast and lightweight</li>
+
+                        <br/>
+                        <HttpsIcon style={{fontSize: "65px", float: "left"}}/> 
+                        <h3 style={{fontSize: "25px", lineHeight: "60px"}}>Secure and Protected</h3>
+                        <li className="list-group-item" style={{textAlign: "center"}}>Up-to-date with the latest security</li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>HTTPS ensures your information is protected</li>
+                    </div>
+                    <br/>
+                </section>
             </div>
-            </Fragment>
+        </Fragment>
         )
     }
 }

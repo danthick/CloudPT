@@ -32,11 +32,22 @@ h3 {
 }
 
 section {
-  height: 100vh;
+  height: 60vh;
   width: 100%;
 }
-section.ok{
-  background-color: #555;
+
+.scroll-down-info{
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  margin-left: -170px;
+  display: block;
+  width: 350px;
+  height: 32px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 1px 1px 5px rgb(0, 0, 0);
 }
 
 .scroll-down {

@@ -171,7 +171,7 @@ export default class Login extends Component {
                 </div>
                 <br/>
                 <div>
-                        <a href="/" className="btn btn-primary container">LOGIN</a>
+                        <a href="/" className="btn btn-primary container">LOGIN HERE</a>
                     </div>
             </div>
         )
