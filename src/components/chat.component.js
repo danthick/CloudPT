@@ -26,8 +26,6 @@ export default class Messages extends Component{
 
         this.props.location.socket.onmessage = e => {
             var messageData = JSON.parse(e.data)
-            console.log(messageData.userFrom[0].email)
-            console.log(this.state.userTo.email)
             if(messageData.messageType === "messageSent" && messageData.userFrom[0].email === this.state.userTo.email){
                 // Push incoming message to array
                 e.preventDefault();
