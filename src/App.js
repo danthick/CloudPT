@@ -30,6 +30,7 @@ class App extends Component {
 
     this.state = {
       auth: false,
+      ptBool: false,
       wasInitialised: false,
     }
     this.checkAuth()
@@ -52,9 +53,16 @@ class App extends Component {
         ).then(async res => {
             await res.json().then(log => {
                 if (log.redirect === "/home") {
-                  this.setState({auth: true, wasInitialised: true});
+                  this.setState({
+                    auth: true,
+                    ptBool: log.ptBool, 
+                    wasInitialised: true
+                  });
                } else {
-                  this.setState({auth: false, wasInitialised: true});
+                  this.setState({
+                    auth: false, 
+                    wasInitialised: true
+                  });
                }
             });
             }).catch(error => console.log(error))
@@ -70,8 +78,14 @@ class App extends Component {
           <br/>
           <Route path="/" exact component={Login}/>
           <Route path="/register" exact component={Register}/>
-          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
+          {this.state.ptBool?
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
+          :
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Home} />
+          
+          }
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
+          
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/messages' component={Messages} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/chat' component={Chat} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account' component={Account} />

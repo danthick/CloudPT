@@ -62,8 +62,11 @@ module.exports = function (app) {
                 redirect: '/'
             })
         } else {
+            // Get user to check if they are a PT or not
+            var user = await getUserByEmail(req.session.passport.user);
             return res.json({
-                redirect: '/home'
+                redirect: '/home',
+                ptBool: user[0].ptBool
             })
         }
     })
