@@ -6,6 +6,7 @@ import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Register from "./components/register.component";
 import Workout from "./components/workout.component";
+import WorkoutPT from "./components/workoutPT.component";
 import Messages from "./components/messages.component";
 import Chat from "./components/chat.component";
 import Account from "./components/account.component";
@@ -79,9 +80,9 @@ class App extends Component {
           <Route path="/" exact component={Login}/>
           <Route path="/register" exact component={Register}/>
           {this.state.ptBool?
-          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
           :
-          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Home} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
           
           }
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
