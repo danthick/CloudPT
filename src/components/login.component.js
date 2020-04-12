@@ -150,7 +150,8 @@ export default class Login extends Component {
             
             <div className="scroll-down-info"> Check out the app features!</div>
                 <section>
-                    <a href="#" className="scroll-down" ></a>
+                    {/* <button className="scroll-down"></button> */}
+                    <a href="#scroll" className="scroll-down"> </a>
                 </section>
                 
                 <section className="scrollTo"><br/>

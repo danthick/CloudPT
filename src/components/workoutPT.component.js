@@ -15,9 +15,7 @@ export default class Workout extends Component{
     }
 
     createNewWorkout(){
-        this.props.history.push({
-            pathname: '/workout/new'
-        });
+        this.props.history.push({ pathname: '/workout/new'});
     }
 
 

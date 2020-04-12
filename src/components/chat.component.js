@@ -15,7 +15,7 @@ export default class Messages extends Component{
         }
         this.onChangeText = this.onChangeText.bind(this);
         try{
-            this.props.location.messages.map((message) =>  { this.markMessageAsRead(message)}) // change to foreach...
+            this.props.location.messages.forEach(message => this.markMessageAsRead(message))
         } catch (e){
             window.location = '/messages'
         }
