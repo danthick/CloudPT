@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login.component";
@@ -12,6 +12,7 @@ import Chat from "./components/chat.component";
 import Account from "./components/account.component";
 import BottomNav from  './components/bottomNavigation.component';
 import Weight from './components/weight.component';
+import newWorkout from './components/newWorkout.component';
 
 function PrivateRoute ({component: Component, authed, wasInitialised, ...rest}) {
   return (
@@ -80,10 +81,12 @@ class App extends Component {
           <Route path="/" exact component={Login}/>
           <Route path="/register" exact component={Register}/>
           {this.state.ptBool?
-          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
+          <Switch>
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={newWorkout} />
+          </Switch>
           :
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
-          
           }
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
           

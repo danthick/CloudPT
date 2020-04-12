@@ -108,7 +108,11 @@ section {
 
 
 
-
+.bubbleCard{
+  padding: 5px;
+  background-color: #e3e3e3;
+  border-radius: 10px;
+}
 
 .homeBackground{
   background-color: rgba(163, 163, 163, 0.596);
@@ -167,14 +171,6 @@ section {
 
 html, body{height: 100%}
 
-.messageList {
-  bottom: 0;
-  top: 0;
-  width: 90%;
-  height: 86%;
-  overflow: auto;
-}
-
 .currentUser {
   display: flex;
   margin-top: 10px;
@@ -190,7 +186,7 @@ html, body{height: 100%}
 
 .notCurrentUser .text{
   color: black;
-  background-color: lightgrey
+  background-color: lightgrey;  
 }
 
 .messageContent {
@@ -218,10 +214,6 @@ html, body{height: 100%}
   display: inline-block;
   overflow: hidden;
   overflow-wrap: break-word;
-}
-
-.currentUser > .text {
-  background-color: orangered;
 }
 
 .chatInputForm{

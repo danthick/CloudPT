@@ -268,10 +268,10 @@ export default class Messages extends Component{
 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#newChatModal">Start New Chat</button>
 
-                <List  className="userList" >
+                <List>
                     {this.state.userListLoaded?  this.state.userList.map((users, index) => {
                         return (
-                            <ListItem key={index} style={(index + 1) % 2? {background: "#e3e3e3"}:{background: "white"}}>
+                            <ListItem key={index} style={(index + 1) % 2? {background: "#e3e3e3", borderRadius:"10px"}:{background: "white", borderRadius:"10px"}}>
                                 
                                 <ListItemIcon>
                                     <FaceIcon/>

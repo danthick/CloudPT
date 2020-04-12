@@ -10,6 +10,14 @@ export default class Workout extends Component{
             
         }
 
+        this.createNewWorkout = this.createNewWorkout.bind(this);
+
+    }
+
+    createNewWorkout(){
+        this.props.history.push({
+            pathname: '/workout/new'
+        });
     }
 
 
@@ -17,8 +25,12 @@ export default class Workout extends Component{
         return (
             <Fragment>
                 <AppBar width="100%" pageName="WORKOUTS"/>
-                This is the workout page for a PT
+                <button type="button" className="btn btn-primary container" onClick={this.createNewWorkout}>Create New Workout</button><br/><br/>
+                <button type="button" className="btn btn-primary container" onClick={this.startChat}>Assign Workout to a Client</button><br/><br/>
 
+                <div className="bubbleCard">
+                    Soon to be list of workouts with edit button...
+                </div><br/>
             </Fragment>
         )
     }
