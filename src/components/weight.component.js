@@ -208,10 +208,10 @@ export default class Weight extends Component{
             </div>
 
 
-            <div className="container">
-            <div className="modal fade" id="weightModal">
+            
+            <div className="modal fade container" id="weightModal">
                 <div className="modal-dialog">
-                <br/><br/><br/>
+                <br/><br/><br/><br/><br/>
                 <div className="modal-content">
                     <div className="modal-header">
                     <h4 className="modal-title">Manual Weight Input</h4>
@@ -228,10 +228,9 @@ export default class Weight extends Component{
                 </div>
                 </div>
             </div>
-            </div>
-            <div className="modal fade" id="heightModal">
+            <div className="modal fade container" id="heightModal">
                 <div className="modal-dialog">
-                <br/><br/><br/>
+                <br/><br/><br/><br/><br/>
                 <div className="modal-content">
                     <div className="modal-header">
                     <h4 className="modal-title">Manual Height Input</h4>
