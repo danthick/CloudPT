@@ -144,13 +144,17 @@ export default class Login extends Component {
             <br/>
             <div>
                 <a href="/register" className="btn btn-primary container">SIGN UP HERE</a>
-            </div>
+            </div><br/><br/>
 
+
+            <div className="bubbleCard">
+                    <h6>  <b>Install this app on your phone: Tap </b>
+                    <img src="./safari.png" width="25px" height="25px"/> or <img src="./chrome.png" width="8px" height="25px"/> and then Add to Homescreen! </h6>
+            </div><br/>
 
             
             <div className="scroll-down-info"> Check out the app features!</div>
                 <section>
-                    {/* <button className="scroll-down"></button> */}
                     <a href="#scroll" className="scroll-down"> </a>
                 </section>
                 
