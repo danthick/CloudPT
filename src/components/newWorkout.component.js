@@ -7,12 +7,20 @@ export default class Workout extends Component{
         super(props);
 
         this.state = {
-            
+            bodyParts: ["Custom", "Legs", "Back", "Shoulders", "Chest", "Arms", "Cardio"],
+            exercises: [["Custom", "Squat", "Front Squat", "Lunge"], // for legs
+                        ["Custom", "Deadlift"], // for back
+                        ["Custom"], // for shoulders
+                        ["Custom"], // for chest
+                        ["Custom"],
+                        ["Custom"],
+                        []],
+            bodyPart: 6,
         }
-
     }
 
     addExercise(){
+
 
     }
 
@@ -51,24 +59,41 @@ export default class Workout extends Component{
 
 
                 <div className="modal fade container" id="addExercise">
-                    <div className="modal-dialog"><br/><br/><br/>
+                    <div className="modal-dialog"><br/><br/><br/><br/><br/>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h4 style={{fontSize: "22px"}} className="modal-title">Add Exercise to Workout</h4>
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div className="modal-body">
-                                <select className="mdb-select md-form md-outline colorful-select dropdown-primary" placeholder="Choose one of the following...">
-                                    <option hidden >Display but don't show in list</option>
-                                    <option value="1">Legs</option>
-                                    <option value="2">Back</option>
-                                    <option value="3">Shoulders</option>
-                                    <option value="3">Chest</option>
-                                    <option value="3">Arms</option>
-                                    <option value="3">Cardio</option>
+                                Body Part
+                                <select className="form-control" onChange={(e) => this.setState({bodyPart: e.target.value})}>
+                                    <option hidden >Choose a body part...</option>
+                                    {this.state.bodyParts.map((bodyPart, index) => <option value={index} key={index}>{bodyPart}</option>)}
+                                </select><br/>
+
+                                Exercise
+                                <select className="form-control" onChange={(e) => this.setState({exercise: e.target.value})}>
+                                    <option hidden >Choose a exercise...</option>
+                                    {this.state.exercises[this.state.bodyPart].map((exercise, index) => <option value={index} key={index}>{exercise}</option>)}
+
                                 </select>
+                                {this.state.exercise < 1 &&
+                                                        <input  
+                                                        type="text"
+                                                        id="workoutName"
+                                                        className="form-control"
+                                                        placeholder="Exercise Name"
+                                                        value={this.state.firstName}
+                                                        onChange={this.onChangeFirstName}
+                                                        required
+                                                    />
+                                }
                             </div>
+
+
                             <div className="modal-footer">
+                                {this.state.exercise}
                                 <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.addExercise}>Add</button>
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
