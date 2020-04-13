@@ -72,8 +72,10 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="container">
+      <Router style={{ background: "white"}}>
+
+        
+        <div className="container" >
           <div>
           {this.state.auth? <BottomNav /> : null}           
           </div>

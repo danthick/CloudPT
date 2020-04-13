@@ -3,9 +3,9 @@
 }
 
 .appTitle {
-  color: rgb(64, 119, 67);
+  color: rgb(53, 141, 58);
   border-radius: 10px;
-  background-color: rgba(214, 214, 214, 0.63);
+  background-color: rgba(138, 138, 138, 0.747);
   font-size: 40px;
   text-align: center;
   font-weight: bold;
@@ -14,6 +14,12 @@
 
 .appTitle img{
   float: left;
+}
+
+h6 {
+  color: white;
+  text-align: center;
+  padding: 5px;
 }
 
 h5 {
@@ -29,6 +35,22 @@ h3 {
   color: white;
   font-size: 26px;
   text-align: center;
+}
+
+.bubbleCard{
+  padding: 5px;
+  background-color: rgba(138, 138, 138, 0.747);
+  border-radius: 10px;
+}
+
+.homeBackground{
+  background-color: rgba(138, 138, 138, 0.747);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.homepageInfo{
+  background-color: rgba(255, 255, 255, 0.829);
 }
 
 section {
@@ -107,30 +129,13 @@ section {
 
 
 
-
-.bubbleCard{
-  padding: 5px;
-  background-color: #e3e3e3;
-  border-radius: 10px;
-}
-
-.homeBackground{
-  background-color: rgba(163, 163, 163, 0.596);
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.homepageInfo{
-  background-color: rgba(255, 255, 255, 0.829);
-}
-
 /* Background Video (Login and register pages) */
 
 .fullscreen-bg__video {
   position: fixed;
   right: 0;
   bottom: 0;
-  z-index: -100;
+  z-index: -10;
   min-width: 100%;
   min-height: 100%;
   transform: translateX(calc((100% - 100vw) / 2));

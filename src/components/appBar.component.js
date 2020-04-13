@@ -32,7 +32,7 @@ export default function ButtonAppBar(props) {
 
     return (
         <div className={classes.root}>
-        <AppBar position="fixed" style={{ background: "linear-gradient(90deg, rgba(117,236,117,1) 0%, rgba(92,184,92,1) 52%, rgba(71,140,71,1) 100%)", boxShadow: 'none'}}>
+        <AppBar position="fixed" style={{ background: "linear-gradient(90deg, rgba(117,236,117,1) 0%, rgba(92,184,92,1) 52%, rgba(71,140,71,1) 100%)", boxShadow: 'none', paddingTop: "8%"}}>
             <Toolbar>
             {props.back? 
             <Link to={props.back} style={{color: "#a3a3a3"}}>
@@ -48,7 +48,7 @@ export default function ButtonAppBar(props) {
             </Typography>
             </Toolbar>
         </AppBar>
-        <br/><br/>
+        <br/><br/><br/><br/>
         </div>
     );
 }
