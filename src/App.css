@@ -37,6 +37,10 @@ h3 {
   text-align: center;
 }
 
+.mat-ripple-element {
+  display: none;
+}
+
 .bubbleCard{
   padding: 5px;
   background-color: rgba(138, 138, 138, 0.747);

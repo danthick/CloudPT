@@ -31,11 +31,11 @@ const useStyles = makeStyles({
     };
   
     return (
-      <BottomNavigation value={value} onChange={handleChange}  className={classes.root} showLabels>
-        <BottomNavigationAction label="Home" value="home"  icon={<HomeIcon />} />
-        <BottomNavigationAction label="Workouts" value="workout"  icon={<FitnessCenterIcon />}/>
-        <BottomNavigationAction label="Messages" value="messages"  icon={<ChatIcon />} />
-        <BottomNavigationAction label="Account" value="account" icon={<PersonIcon />} />
+      <BottomNavigation value={value} onChange={handleChange}  className={classes.root}>
+        <BottomNavigationAction disableTouchRipple={true} label="Home" value="home"  icon={<HomeIcon />} />
+        <BottomNavigationAction disableTouchRipple={true} label="Workouts" value="workout"  icon={<FitnessCenterIcon />}/>
+        <BottomNavigationAction disableTouchRipple={true} label="Messages" value="messages"  icon={<ChatIcon />} />
+        <BottomNavigationAction disableTouchRipple={true} label="Account" value="account" icon={<PersonIcon />} />
       </BottomNavigation>
     );
   }

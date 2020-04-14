@@ -210,45 +210,44 @@ export default class Weight extends Component{
 
             
             <div className="modal fade container" id="weightModal">
-                <div className="modal-dialog">
-                <br/><br/><br/><br/><br/>
-                <div className="modal-content">
-                    <div className="modal-header">
-                    <h4 className="modal-title">Manual Weight Input</h4>
-                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                <div className="modal-dialog"><br/><br/><br/><br/><br/>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">Manual Weight Input</h4>
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <div ref='slideRulerWeight' className="ruler"></div>
+                            Weight: {this.state.weight} KG
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.addWeight}>Add Weight</button>
+                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div className="modal-body">
-                        <div ref='slideRulerWeight' className="ruler"></div>
-                        Weight: {this.state.weight} KG
-                    </div>
-                    <div className="modal-footer">
-                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.addWeight}>Add Weight</button>
-                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
                 </div>
             </div>
+
+
             <div className="modal fade container" id="heightModal">
-                <div className="modal-dialog">
-                <br/><br/><br/><br/><br/>
-                <div className="modal-content">
-                    <div className="modal-header">
-                    <h4 className="modal-title">Manual Height Input</h4>
-                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                <div className="modal-dialog"><br/><br/><br/><br/><br/>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">Manual Height Input</h4>
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <div ref='slideRulerHeight' className="ruler"></div>
+                            Height: {this.state.height} CM
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeight}>Update Height</button>
+                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div className="modal-body">
-                        <div ref='slideRulerHeight' className="ruler"></div>
-                        Height: {this.state.height} CM
-                    </div>
-                    <div className="modal-footer">
-                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeight}>Update Height</button>
-                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
                 </div>
             </div>
             <br/> <br/> <br/>
-            
             </Fragment>
         )
     }
