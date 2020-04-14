@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    textAlign: "center",
+    textAlign: "center"
   },
 }));
 
@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme => ({
 export default function ButtonAppBar(props) {
 
     const classes = useStyles();
-
     return (
         <div className={classes.root}>
         <AppBar position="fixed" style={{ background: "linear-gradient(90deg, rgba(117,236,117,1) 0%, rgba(92,184,92,1) 52%, rgba(71,140,71,1) 100%)", boxShadow: 'none', paddingTop: "30px"}}>

@@ -16,6 +16,7 @@ export default class Weight extends Component{
             height: 150,
             userHeight: false,
             date: new Date(),
+            allWeights: []
         };
         this.handleValueWeight = this.handleValueWeight.bind(this);
         this.handleValueHeight = this.handleValueHeight.bind(this);
@@ -27,15 +28,22 @@ export default class Weight extends Component{
         this.updateHeight = this.updateHeight.bind(this);
         this.getHeight = this.getHeight.bind(this);
     }
+    
+    componentDidMount(){
+        this.getWeight();
+        this.getHeight();
+        this.renderSlideRulerWeight();
+        this.renderSlideRulerHeight();
+    }
 
-      handleValueWeight(value){
-        this.setState({weight: value});
-      }
-      handleValueHeight(value){
-        this.setState({height: value});
-      }
+    handleValueWeight(value){
+    this.setState({weight: value});
+    }
+    handleValueHeight(value){
+    this.setState({height: value});
+    }
 
-      renderSlideRulerWeight(){
+    renderSlideRulerWeight(){
         return new SlideRuler({
             el: this.refs.slideRulerWeight,
             maxValue: 250,
@@ -45,8 +53,9 @@ export default class Weight extends Component{
             precision: 0.1,
             fontColor: "#FFFFFF"
         });
-      }
-      renderSlideRulerHeight(){
+    }
+
+    renderSlideRulerHeight(){
         return new SlideRuler({
             el: this.refs.slideRulerHeight,
             maxValue: 250,
@@ -56,15 +65,7 @@ export default class Weight extends Component{
             precision: 0.5,
             fontColor: "#FFFFFF"
         });
-      }
-
-      componentDidMount(){
-          this.getWeight();
-          this.getHeight();
-          this.renderSlideRulerWeight();
-          this.renderSlideRulerHeight();
-      }
-    
+    }
     
     getWeight(e){
         fetch('/api/weight/', {
@@ -78,14 +79,14 @@ export default class Weight extends Component{
             }
         ).then(res => {
             res.json().then(async log => {
-                this.setState({allWeights: log.weights})
+                // Sort weights into date order
+                this.setState({allWeights: log.weights.sort((a, b) => new Date(b.date) - new Date(a.date))})
             });
-            }).catch(error => console.log(error))
+        }).catch(error => console.log(error))
     }
     
     addWeight(e){
         const weightData = JSON.stringify(this.state)
-
         fetch('/api/weight/', {
             method: 'POST',
             credentials: 'include',
@@ -96,16 +97,8 @@ export default class Weight extends Component{
               },
             body: weightData
             }
-        ).then(res => {
-            res.json().then(log => {
-                 if (log.redirect === '/home') {
-                    //this.setState({auth: true});
-                 } else {
-                    // window.location = "/"
-                 }
-            });
-            }).catch(error => console.log(error))
-            window.location.reload();
+        )
+        window.location.reload();
       }
 
       deleteWeight(weightData){
@@ -118,21 +111,12 @@ export default class Weight extends Component{
                 "Access-Control-Allow-Credentials": true
               }
             }
-        ).then(res => {
-            res.json().then(log => {
-                 if (log.redirect === '/home') {
-                    //this.setState({auth: true});
-                 } else {
-                    // window.location = "/"
-                 }
-            });
-            }).catch(error => console.log(error))
-            window.location.reload();
+        )
+        window.location.reload();
       }
 
       updateHeight(e){
         const heightData = JSON.stringify(this.state)
-
         fetch('/api/height/', {
             method: 'POST',
             credentials: 'include',
@@ -143,16 +127,8 @@ export default class Weight extends Component{
               },
             body: heightData
             }
-        ).then(res => {
-            res.json().then(log => {
-                 if (log.redirect === '/home') {
-                    //this.setState({auth: true});
-                 } else {
-                    // window.location = "/"
-                 }
-            });
-            }).catch(error => console.log(error))
-            window.location.reload();
+        )
+        window.location.reload();
       }
 
       getHeight(){
@@ -181,13 +157,17 @@ export default class Weight extends Component{
                 <AppBar width="100%" pageName="HEIGHT & WEIGHT" back="/account"/>
                 
             
-
-            <h4>Current Height: {this.state.userHeight? <b>{this.state.userHeight} cm</b> : null}</h4>
-            <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#heightModal">Update Height</button>
-            <br/><br/>
             
+            {this.state.userHeight?
+            <h4><p style={{textAlign: "center"}}>Current Height</p>  <p style={{textAlign: "center"}}><b>{this.state.userHeight} cm</b></p></h4>
+            : null }
+            <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#heightModal">Update Height</button><br/><br/>
 
-            <h4>Current Weight: {} KG</h4>
+
+            {this.state.allWeights.length > 0 &&
+            <h4><p style={{textAlign: "center"}}>Current Weight</p>  <p style={{textAlign: "center"}}><b>{this.state.allWeights[0].weight} kg</b></p></h4>
+            }
+            
             <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#weightModal">Update Weight</button>
 
             <div style={{height:"auto"}}>
@@ -195,7 +175,7 @@ export default class Weight extends Component{
                     {this.state.allWeights && this.state.allWeights.map((weightsData, index) => {
                         return (
                             <ListItem key={index}>
-                                <ListItemText>{weightsData.weight} kg - {new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth()}/{new Date(weightsData.date).getFullYear()}</ListItemText>
+                                <ListItemText>{weightsData.weight}kg - {new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth() + 1}/{new Date(weightsData.date).getFullYear()}</ListItemText>
                                 <ListItemSecondaryAction onClick={() => this.deleteWeight(weightsData)}>
                                     <IconButton edge="end">
                                         <DeleteIcon />
@@ -208,8 +188,8 @@ export default class Weight extends Component{
             </div>
 
 
-            
-            <div className="modal fade container" id="weightModal">
+            <div className="container">
+            <div className="modal fade" id="weightModal">
                 <div className="modal-dialog"><br/><br/><br/><br/><br/>
                     <div className="modal-content">
                         <div className="modal-header">
@@ -227,8 +207,9 @@ export default class Weight extends Component{
                     </div>
                 </div>
             </div>
+            </div>
 
-
+            <div className="container">          
             <div className="modal fade container" id="heightModal">
                 <div className="modal-dialog"><br/><br/><br/><br/><br/>
                     <div className="modal-content">
@@ -247,6 +228,7 @@ export default class Weight extends Component{
                     </div>
                 </div>
             </div>
+            </div>  
             <br/> <br/> <br/>
             </Fragment>
         )

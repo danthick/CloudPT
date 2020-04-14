@@ -15,23 +15,10 @@ export default class Account extends Component{
     
     constructor(props) {
         super(props);
-        this.onChange = this.onChange.bind(this)
 
         this.state = {
-            auth: false
           }
-        this.onChange = this.onChange.bind(this)
     }
-
-    onChange(e) {
-        this.setState({
-            auth: e.target.value
-        });
-      }
-
-    componentDidMount() {
-            
-      }
 
 
     logout() {
@@ -67,7 +54,7 @@ export default class Account extends Component{
 
                 <div className={classes.root}>
                 <List component="nav" aria-label="main mailbox folders">
-                    <Link to={'/account/weight'}>
+                    <Link to={'/account/weight'} style={{color: "grey"}}>
                     <ListItem>
                     {/* <ListItemIcon>
                         
@@ -76,27 +63,26 @@ export default class Account extends Component{
                     </ListItem>
                     </Link>
 
-                    <ListItem button>
+                    <Divider />
 
-                    <ListItemText primary="Update Height" />
-                    </ListItem>
-
-                    <ListItem button>
-
-                    <ListItemText primary="Update User Details" />
-                    </ListItem>
-                    
-                </List>
-                <Divider />
-                <List component="nav" aria-label="secondary mailbox folders">
-                    <ListItem button>
-                    <ListItemText primary="Trash" />
-                    </ListItem>
-                    
-                    <ListItemLink>
+                    <Link to={''} style={{color: "grey"}}>
+                    <ListItem>
+                    {/* <ListItemIcon>
                         
-                    <ListItemText primary="Spam" />
-                    </ListItemLink>
+                    </ListItemIcon> */}
+                    <ListItemText primary="Update Account Details" />
+                    </ListItem>
+                    </Link>
+
+
+                    <Link to={''} style={{color: "grey"}}>
+                    <ListItem>
+                    {/* <ListItemIcon>
+                        
+                    </ListItemIcon> */}
+                    <ListItemText primary="Change Password" />
+                    </ListItem>
+                    </Link>
                     
                 </List>
 
