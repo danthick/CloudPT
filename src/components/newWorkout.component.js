@@ -7,7 +7,10 @@ export default class Workout extends Component{
         super(props);
 
         this.state = {
-            bodyParts: ["Custom", "Legs", "Back", "Shoulders", "Chest", "Arms", "Cardio"],
+            exerciseType: ["Cardio", "Streching", "Body Weight", "Barbell", "Dumbbell"],
+            cardioExercises: ["Custom", "Treadmill", "Cross-Trainer", "Bike", "Rowing Machine", "Stair Climb", ""],
+            strechtingExercises: ["Custom", ],
+            bodyParts: ["Custom", "Legs", "Back", "Shoulders", "Chest", "Arms", "Abs", "Cardio"],
             exercises: [["Custom", "Squat", "Front Squat", "Lunge"], // for legs
                         ["Custom", "Deadlift"], // for back
                         ["Custom"], // for shoulders
@@ -30,21 +33,15 @@ export default class Workout extends Component{
             <Fragment>
                 <AppBar width="100%" pageName="NEW WORKOUT" back="/workout"/>
 
-                <div className="bubbleCard">
-                    Soon to be where you can create a new workout
-                </div><br/>
-
-                <form onSubmit={this.onSubmit}>
-
-
+                <form onSubmit={this.addWorkout}>
                     <input  
                         type="text"
-                        id="workoutName"
                         className="form-control"
                         placeholder="Workout Name"
                         value={this.state.firstName}
                         onChange={this.onChangeFirstName}
                         required
+                        style={{textAlign: "center"}}
                     /><br/>
 
                     <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#addExercise">Add Exercise</button><br/><br/>
@@ -56,9 +53,9 @@ export default class Workout extends Component{
 
 
 
-
-
-                <div className="modal fade container" id="addExercise">
+                <form onSubmit={this.addExercise}>
+                <div className="container">
+                <div className="modal fade" id="addExercise">
                     <div className="modal-dialog"><br/><br/><br/><br/><br/>
                         <div className="modal-content">
                             <div className="modal-header">
@@ -66,6 +63,12 @@ export default class Workout extends Component{
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div className="modal-body">
+                                Exercise Type
+                                <select className="form-control" onChange={(e) => this.setState({bodyPart: e.target.value})}>
+                                    <option hidden >Choose exercise type...</option>
+                                    {this.state.exerciseType.map((exerciseType, index) => <option value={index} key={index}>{exerciseType}</option>)}
+                                </select><br/>
+
                                 Body Part
                                 <select className="form-control" onChange={(e) => this.setState({bodyPart: e.target.value})}>
                                     <option hidden >Choose a body part...</option>
@@ -76,18 +79,9 @@ export default class Workout extends Component{
                                 <select className="form-control" onChange={(e) => this.setState({exercise: e.target.value})}>
                                     <option hidden >Choose a exercise...</option>
                                     {this.state.exercises[this.state.bodyPart].map((exercise, index) => <option value={index} key={index}>{exercise}</option>)}
-
                                 </select>
                                 {this.state.exercise < 1 &&
-                                                        <input  
-                                                        type="text"
-                                                        id="workoutName"
-                                                        className="form-control"
-                                                        placeholder="Exercise Name"
-                                                        value={this.state.firstName}
-                                                        onChange={this.onChangeFirstName}
-                                                        required
-                                                    />
+                                    <input type="text" className="form-control" placeholder="Exercise Name" value={this.state.firstName} onChange={this.onChangeFirstName} required/>
                                 }
                             </div>
 
@@ -100,6 +94,8 @@ export default class Workout extends Component{
                         </div>
                     </div>
                 </div>
+                </div>
+                </form>
             </Fragment>
         )
     }
