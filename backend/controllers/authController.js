@@ -1,6 +1,7 @@
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const schemas = require("../schemas");
+const SparkPost = require('sparkpost')
 
 module.exports = function (app) {
     // Route to attempt login
@@ -69,6 +70,10 @@ module.exports = function (app) {
                 ptBool: user[0].ptBool
             })
         }
+
+
+
+        
     })
 
     // Route to logout and destroy current user session
@@ -102,5 +107,32 @@ module.exports = function (app) {
         return await schemas.User.find({
             email: email
         });
+    }
+
+    function sendConfirmationEmail(){
+        const client = new SparkPost('0637adc686a115395f4f4ccb9477d0c511f3f526')
+        client.transmissions.send({
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf"
+            },
+        content: {
+            name: "CloudPT",
+            from: 'no-reply@cloudpt.me',
+            subject: 'Hello from app',
+            html: '<p>Hello world</p>'
+        },
+        recipients: [
+            {address: 'dan.thick@hotmail.co.uk'}
+        ]
+        })
+        .then(data => {
+        console.log('Woohoo! You just sent your first mailing!')
+        console.log(data)
+        })
+        .catch(err => {
+        console.log('Whoops! Something went wrong')
+        console.log(err)
+        })
     }
 }
