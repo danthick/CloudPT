@@ -149,8 +149,7 @@ export default class Login extends Component {
 
             <div className="bubbleCard">
                     <h6>  <b>Install this app on your phone: Tap </b>
-                    <img src="./safari.png" width="25px" height="25px" alt="Safari Share Button"/> or <img src="./chrome.png" width="8px" height="25px" alt="Chrome Menu Button"/>
-                    and then Add to Homescreen! </h6>
+                    <img src="./safari.png" width="25px" height="25px" alt="Safari Share Button"/> or <img src="./chrome.png" width="8px" height="25px" alt="Chrome Menu Button"/> and then Add to Homescreen! </h6>
             </div><br/>
 
             

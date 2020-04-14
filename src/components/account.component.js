@@ -67,25 +67,25 @@ export default class Account extends Component{
 
                 <div className={classes.root}>
                 <List component="nav" aria-label="main mailbox folders">
-                <Link to={'/account/weight'}>
-                <ListItem>
-                {/* <ListItemIcon>
+                    <Link to={'/account/weight'}>
+                    <ListItem>
+                    {/* <ListItemIcon>
+                        
+                    </ListItemIcon> */}
+                    <ListItemText primary="Update Weight and Height" />
+                    </ListItem>
+                    </Link>
+
+                    <ListItem button>
+
+                    <ListItemText primary="Update Height" />
+                    </ListItem>
+
+                    <ListItem button>
+
+                    <ListItemText primary="Update User Details" />
+                    </ListItem>
                     
-                </ListItemIcon> */}
-                <ListItemText primary="Update Weight" />
-                </ListItem>
-                </Link>
-
-                <ListItem button>
-
-                <ListItemText primary="Update Height" />
-                </ListItem>
-
-                <ListItem button>
-
-                <ListItemText primary="Update User Details" />
-                </ListItem>
-                
                 </List>
                 <Divider />
                 <List component="nav" aria-label="secondary mailbox folders">
@@ -102,7 +102,7 @@ export default class Account extends Component{
 
 
                 <div className="form-group">
-                        <input type="button" value="Logout" className="btn btn-primary" onClick={this.logout} />
+                        <input type="button" value="Logout" className="btn btn-danger container" onClick={this.logout} />
                 </div>
             </div>
 
