@@ -159,7 +159,7 @@ export default class Messages extends Component{
         userTo = this.props.location.userTo;
         return (
             <Fragment>
-                <AppBar width="100%" pageName={this.captitaliseFirstLetter(userTo.firstName) + " " + this.captitaliseFirstLetter(userTo.lastName)} back="/messages"/>
+                <AppBar width="100%" pageName={userTo.firstName.toUpperCase() + " " + userTo.lastName.toUpperCase()} back="/messages"/>
 
                     <div className="messageList">
                         {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
