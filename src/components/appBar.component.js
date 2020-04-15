@@ -34,7 +34,7 @@ export default function ButtonAppBar(props) {
         <AppBar position="fixed" style={{ background: "linear-gradient(90deg, rgba(117,236,117,1) 0%, rgba(92,184,92,1) 52%, rgba(71,140,71,1) 100%)", boxShadow: 'none', paddingTop: "30px"}}>
             <Toolbar>
             {props.back? 
-            <Link to={props.back} style={{color: "#a3a3a3"}}>
+            <Link to={props.back} style={{color: "#a3a3a3", width: "20px"}}>
             <IconButton edge="start" color="inherit" aria-label="ArrowBackIosIcon">
                 <ArrowBackIosIcon />
             </IconButton>
