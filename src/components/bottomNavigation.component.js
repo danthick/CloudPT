@@ -7,8 +7,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ChatIcon from '@material-ui/icons/Chat';
 import PersonIcon from '@material-ui/icons/Person';
-import { red } from '@material-ui/core/colors';
-
 
 const useStyles = makeStyles({
     root: {
