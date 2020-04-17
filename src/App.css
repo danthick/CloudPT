@@ -16,6 +16,11 @@
   float: left;
 }
 
+.modal-info {
+  text-align: center;
+  font-size: 30px;
+}
+
 h6 {
   color: white;
   text-align: center;
@@ -162,8 +167,9 @@ section {
 
 @media (max-width: 767px){
   .weightList{
-    height: 40vh;
-    overflow: auto;
+    overflow: scroll;
+    border-radius: 5px;
+    background: rgba(209, 209, 209, 0.68);
   }
 }
 

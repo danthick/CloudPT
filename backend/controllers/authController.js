@@ -69,11 +69,67 @@ module.exports = function (app) {
                 redirect: '/home',
                 ptBool: user[0].ptBool
             })
+        }        
+    })
+
+    app.get("/api/user", async function (req, res) {
+        var user = await getUserByEmail(req.session.passport.user);
+        return res.json({
+            user: user
+        })
+    });
+
+    // Endpoint to change user password
+    app.post("/api/user/password", async function(req, res) {
+        var user = await getUserByEmail(req.session.passport.user);
+
+        // Checks current password matches user input
+        if (bcrypt.compareSync(req.body.currentPassword, user[0].password)){
+            // Hash password
+            var salt = bcrypt.genSaltSync(10);
+            var hash = bcrypt.hashSync(req.body.newPassword, salt);
+
+            // Update password
+            await schemas.User.findOneAndUpdate({email: user[0].email}, {password: hash}, {new: true, useFindAndModify: false});
+
+            // Return success
+            return res.json({
+                success: true
+            })
+        } else {
+            // Return error
+            return res.json({
+                success: false
+            })
         }
+    });
 
+    // End point to change user details
+    app.post("/api/user/update", async function(req, res) {
+        var user = await getUserByEmail(req.session.passport.user);
+        // Update first and last name
+        await schemas.User.findOneAndUpdate({email: user[0].email}, {firstName: req.body.firstName}, {new: true, useFindAndModify: false});
+        await schemas.User.findOneAndUpdate({email: user[0].email}, {lastName: req.body.lastName}, {new: true, useFindAndModify: false});
 
-
-        
+        // Checking is users email has been changed
+        if(req.body.email !== req.session.passport.user){
+            // Checking new email is unused
+            var newEmail = await getUserByEmail(req.body.email);
+            if (newEmail[0] == null) {
+                // Updating all recored in database
+                await schemas.Weight.updateMany({email: user[0].email}, {email: req.body.email}, {new: true, useFindAndModify: false});
+                await schemas.Message.updateMany({userTo: user[0].email}, {userTo: req.body.email}, {new: true, useFindAndModify: false});
+                await schemas.Message.updateMany({userFrom: user[0].email}, {userFrom: req.body.email}, {new: true, useFindAndModify: false});
+                await schemas.User.findOneAndUpdate({email: user[0].email}, {email: req.body.email}, {new: true, useFindAndModify: false});
+            } else {
+                return res.json({
+                    success: false
+                })
+            }
+        }
+        return res.json({
+            success: true
+        })
     })
 
     // Route to logout and destroy current user session
