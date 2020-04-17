@@ -107,7 +107,7 @@ export default class Login extends Component {
                 <div className="homeBackground">
                 { this.state.showError?
                     <div>
-                    <h4 className="alert alert-danger alert-dismissible" role="alert"> { this.state.errorMessage } </h4>
+                    <h4 className="alert alert-danger alert-dismissible" role="alert" style={{textAlign: "center", fontSize: "16px"}}> { this.state.errorMessage } </h4>
                     </div>
                 : null
                 }
