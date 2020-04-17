@@ -5,7 +5,7 @@ import SlideRuler from 'slide-ruler';
 import { List, ListItem, ListItemText, IconButton, ListItemSecondaryAction } from '@material-ui/core';
 import AppBar from './appBar.component'
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import Divider from '@material-ui/core/Divider';
 import WeightGraph from './weightGraph.component';
 
 export default class Weight extends Component{
@@ -104,17 +104,21 @@ export default class Weight extends Component{
       }
 
       deleteWeight(weightData){
-        fetch('/api/weight/' + weightData._id, {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true
-              }
-            }
-        )
-        window.location.reload();
+        let deleteWeight = window.confirm("Click OK if you want to delete this weight input");
+        if (deleteWeight){
+            fetch('/api/weight/' + weightData._id, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                  }
+                }
+            )
+            window.location.reload();
+        }
+        
       }
 
       updateHeight(e){
@@ -182,16 +186,25 @@ export default class Weight extends Component{
                 <List className="weightList">
                         {this.state.allWeights && this.state.allWeights.map((weightsData, index) => {
                             return (
-                                <ListItem key={index}>
-                                    <ListItemText>{weightsData.weight}kg - {new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth() + 1}/{new Date(weightsData.date).getFullYear()}</ListItemText>
+                                <div  key={index}>
+                                <ListItem>
+                                    <ListItemText>{weightsData.weight}kg <div style={{float: "right"}}>{new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth() + 1}/{new Date(weightsData.date).getFullYear()}</div></ListItemText>
                                     <ListItemSecondaryAction onClick={() => this.deleteWeight(weightsData)}>
                                         <IconButton edge="end">
                                             <DeleteIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
+                                    
                                 </ListItem>
+                                {index !== this.state.allWeights.length - 1 &&
+                                    <Divider/>
+                                }
+                                
+                                </div>
                             )
+                            
                             })}
+                            
                     </List>
                 
 
