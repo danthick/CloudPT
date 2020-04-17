@@ -1,38 +1,30 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 
-
-var state = "";
-var weightStack = [];
-var dateStack = [];
-
+var state = "";         // Stores state of graph
+var weightStack = [];   // Stores all the weights
+var dateStack = [];     // Stores all the dates
 export default class weightGraph extends Component{
     constructor(props) {
         super(props);
 
-        this.state ={
-            weightData: this.props.weights,
-        }
-
+        // Creating stack with all the users weights
         this.props.weights.forEach(weight => {
             weightStack.push(weight.weight)
         });
 
-
         const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
         ];
-
+        // Creating a stack with all the users dates that the weights were recorded
         this.props.weights.forEach(weight => {
             const d = new Date(weight.date);
             dateStack.push(d.getDate() + " " + monthNames[d.getMonth()])
-            console.log("The current month is " + monthNames[d.getMonth()]);
         });
-
         this.createGraph();
-
     }
 
+    // Creates state of the graph
     createGraph(){
         state = {
             labels: dateStack.reverse(),
