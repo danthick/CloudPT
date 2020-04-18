@@ -15,6 +15,7 @@ import Body from './components/body.component';
 import newWorkout from './components/newWorkout.component';
 import AccountEdit from './components/accountEdit.component';
 import ChangePassword from './components/changePassword.component';
+import UserRole from './components/userRole.component';
 
 function PrivateRoute ({component: Component, authed, wasInitialised, ...rest}) {
   return (
@@ -100,6 +101,7 @@ class App extends Component {
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account/body' component={Body} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account/update' component={AccountEdit} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account/password' component={ChangePassword} />
+          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/account/role' component={UserRole} />
           {/* <Route render={() => <Redirect to="/home" />} /> Used to catch all routes */}
         </div>
       </Router>

@@ -51,7 +51,7 @@ export default class Account extends Component{
 
                 <div className={classes.root}>
                     <List component="nav" aria-label="main mailbox folders">
-                        <ListItem onClick={() => this.listClick("account/body")}>
+                        <ListItem onClick={() => this.listClick("/account/body")}>
                         <ListItemIcon>
                             <AccessibilityIcon/>
                         </ListItemIcon>
@@ -60,14 +60,14 @@ export default class Account extends Component{
 
                         <Divider />
 
-                        <ListItem onClick={() => this.listClick("")}>
+                        <ListItem onClick={() => this.listClick("/account/role")}>
                         <ListItemIcon>
                             <PeopleIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Change User Role" />
                         </ListItem>
 
-                        <ListItem onClick={() => this.listClick("account/update")}>
+                        <ListItem onClick={() => this.listClick("/account/update")}>
                         <ListItemIcon>
                             <PersonIcon/>
                         </ListItemIcon>

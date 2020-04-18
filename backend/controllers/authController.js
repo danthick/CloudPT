@@ -130,7 +130,22 @@ module.exports = function (app) {
         return res.json({
             success: true
         })
-    })
+    });
+
+    app.post("/api/user/role", async function(req, res) {
+        var user = await getUserByEmail(req.session.passport.user);
+        if(user[0].ptBool){
+            await schemas.User.findOneAndUpdate({email: user[0].email}, {ptBool: false}, {new: true, useFindAndModify: false});
+            return res.json({
+                success: true
+            })
+        } else {
+            await schemas.User.findOneAndUpdate({email: user[0].email}, {ptBool: true}, {new: true, useFindAndModify: false});
+            return res.json({
+                success: true
+            })
+        }
+    });
 
     // Route to logout and destroy current user session
     app.get("/api/logout", async function (req, res) {
