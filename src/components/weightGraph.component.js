@@ -8,6 +8,11 @@ export default class weightGraph extends Component{
     constructor(props) {
         super(props);
 
+        // Clearing values
+        state = "";
+        weightStack = [];
+        dateStack = [];
+        
         // Creating stack with all the users weights
         this.props.weights.forEach(weight => {
             weightStack.push(weight.weight)
@@ -21,6 +26,7 @@ export default class weightGraph extends Component{
             const d = new Date(weight.date);
             dateStack.push(d.getDate() + " " + monthNames[d.getMonth()])
         });
+
         this.createGraph();
     }
 
