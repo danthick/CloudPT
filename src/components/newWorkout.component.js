@@ -183,7 +183,7 @@ export default class Workout extends Component{
 
     addExercise(){
         const exerciseData = JSON.stringify(this.state)
-        savedExercises.push()
+        //savedExercises.push()
     }
 
     
