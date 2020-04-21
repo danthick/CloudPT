@@ -36,7 +36,6 @@ const useStyles = makeStyles({
         <BottomNavigationAction disableTouchRipple={true} label="Workouts" value="workout"  icon={<FitnessCenterIcon />}/>
         <BottomNavigationAction disableTouchRipple={true} label="Messages" value="messages"  icon={<ChatIcon />} />
         <BottomNavigationAction disableTouchRipple={true} label="Account" value="account" icon={<PersonIcon />} />
-        <br/><br/>
       </BottomNavigation>
     );
   }

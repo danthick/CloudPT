@@ -22,7 +22,7 @@ export default class Workout extends Component{
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="WORKOUTS"/><br/>
+                <AppBar width="100%" pageName="WORKOUTS"/>
                 <button type="button" className="btn btn-primary container" onClick={this.createNewWorkout}>Create New Workout</button><br/><br/>
                 <button type="button" className="btn btn-primary container" onClick={this.startChat}>Assign Workout to a Client</button><br/><br/>
 
