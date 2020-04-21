@@ -173,6 +173,7 @@ export default class Messages extends Component{
                                 value = {this.state.text}
                                 type = "text"
                                 placeholder = "Enter your message here"
+                                required
                             />
                             <button className="sendButton" type="submit">Send</button>
                         </form>

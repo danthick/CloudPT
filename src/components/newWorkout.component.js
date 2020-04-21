@@ -14,6 +14,7 @@ export default class Workout extends Component{
             showExerciseList: false,
             showBodyPart: false,
             exerciseValue: -1,
+            showCardioOptions: false,
             disableBttn: true,
             exercise: [
                         //Cardio
@@ -161,11 +162,10 @@ export default class Workout extends Component{
 
     exerciseChange(e){
         this.setState({exerciseValue: e.target.value})
-        console.log("SHOW TIME")
-        console.log(this.state.exerciseTypeValue)
+
         // Exercise is cardio - show time/distance
         if(this.state.exerciseTypeValue === "0"){
-            console.log("SHOW TIME")
+            this.setState({showCardioOptions: true})
         // Exercise is body weight - no need to show weight
         } else if (0 < this.state.exerciseTypeValue < 2) {
         
@@ -250,12 +250,29 @@ export default class Workout extends Component{
                                 }
                                 </div>
                                 : null}
+
+                                {this.state.showCardioOptions?
+                                <div className="btn-group btn-group-toggle container" style={{padding:"0px",border:"1px solid", borderRadius:"5px", borderColor:"grey"}} data-toggle="buttons">
+                                    <label className="btn btn-light ">
+                                        <input type="radio" onClick={this.showDistance}/>Distance
+                                    </label>
+                                    <label className="btn btn-light active">
+                                        <input type="radio" onClick={this.showTime} defaultChecked/>Time
+                                    </label>
+                                </div>
+                                : null}
+                                        <input
+          type="time"
+          step="30"
+          value={this.state.time}
+          className="form-control"
+          placeholder="Time"
+        />
                             
                             </div>
 
 
                             <div className="modal-footer">
-                                {this.state.exerciseValue}
                                 <button type="submit" className="btn btn-primary" disabled={this.state.disableBttn}>Add</button>
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>

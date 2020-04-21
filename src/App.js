@@ -75,13 +75,12 @@ class App extends Component {
 
   render() {
     return (
-      <Router style={{ background: "white"}}>
+      <Router>
+
+        {this.state.auth? <BottomNav /> : null}
 
         
         <div className="container" >
-          <div>
-          {this.state.auth? <BottomNav /> : null}           
-          </div>
           <br/>
           <Route path="/" exact component={Login}/>
           <Route path="/register" exact component={Register}/>
@@ -105,7 +104,6 @@ class App extends Component {
           {/* <Route render={() => <Redirect to="/home" />} /> Used to catch all routes */}
         </div>
       </Router>
-
     );
   }
 }
