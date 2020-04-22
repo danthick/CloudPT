@@ -50,7 +50,7 @@ export default class Account extends Component{
                 <AppBar width="100%" pageName="ACCOUNT"/>
 
                 <div className={classes.root}>
-                    <List component="nav" aria-label="main mailbox folders">
+                    <List component="nav" aria-label="list">
                         <ListItem onClick={() => this.listClick("/account/body")}>
                         <ListItemIcon>
                             <AccessibilityIcon/>
