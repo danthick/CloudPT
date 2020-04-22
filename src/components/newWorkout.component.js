@@ -1,17 +1,19 @@
 import React, { Component, Fragment } from 'react';
-import AppBar from './appBar.component'
-import Exercise from '../data/exercises';
+import AppBar from './appBar.component';
+import ExerciseList from './exerciseList.component';
 
+import Exercise from '../data/exercises'; // Importing list of exercises array
+const $ = window.$;
 
 export default class Workout extends Component{
     constructor(props) {
         super(props);
 
-        this.showDistance = this.showDistance.bind(this);
-        this.showTime = this.showTime.bind(this);
+        this.addExercise = this.addExercise.bind(this);
+        this.deleteExercise = this.deleteExercise.bind(this);
 
         this.state = {
-            exerciseType: ["Cardio", "Streching", "Body Weight", "Barbell", "Dumbbell"],
+            exerciseType: ["Cardio", "Stretching", "Body Weight", "Barbell", "Dumbbell"],
             exerciseTypeValue: -1,
             bodyParts: ["Legs", "Back", "Shoulders", "Chest", "Arms", "Abs"],
             bodyPartValue: -1,
@@ -22,6 +24,7 @@ export default class Workout extends Component{
             disableBttn: true,
             showTime: false,
             showDistance: false,
+            showNotes: false,
             customName: "",
             minutes: "",
             seconds: "",
@@ -31,10 +34,12 @@ export default class Workout extends Component{
             repititions: "",
             notes: "",
             savedExercises: [],
+            workoutName: "",
         }
     }
 
     exerciseTypeChange(e){
+        // Hiding other options if exercise type is changed
         this.setState({
             showBodyPart: false,
             showExerciseList: false,
@@ -46,6 +51,8 @@ export default class Workout extends Component{
             showNotes: false
         })
         this.setState({exerciseTypeValue: e.target.value}); 
+        
+        // If exercise type is cardio - don't ask for a body part
         if (e.target.value === "0"){
             this.setState({showExerciseList: true})
         } else if (e.target.value > 0){
@@ -53,15 +60,17 @@ export default class Workout extends Component{
         }
     }
 
-    bodyPartChange(e){
-        this.setState({bodyPartValue: e.target.value})
-        if(e.target.value > -1){
-            this.setState({showExerciseList: true})
-        }
-    }
-
     exerciseChange(e){
-        this.setState({exerciseValue: e.target.value})
+        // Hiding other options if exercise is changed
+        this.setState({
+            exerciseValue: e.target.value,
+            showCardioOptions: false,
+            showTime: false,
+            showDistance: false,
+            showWeight: false,
+            showSets: false,
+            showNotes: false
+        })
 
         // Exercise is cardio - show time/distance
         if(this.state.exerciseTypeValue === "0"){
@@ -83,43 +92,98 @@ export default class Workout extends Component{
             })
         }
 
+        // Showing notes and enabling add button
         this.setState({
             showNotes: true,
             disableBttn: false
         })
     }
 
-    loadExercises(){
 
+    loadExercises(){
         if(this.state.showBodyPart){
+            // Showing correct exercises based on selected options - if a body part has been selected
             return Exercise[parseInt(this.state.bodyPartValue) + 1][parseInt(this.state.exerciseTypeValue) - 1].map((exercise, index) => <option value={index} key={index}>{exercise}</option>)
         } else {
+            // Showing correct exercises based on selected options - if cardio has been selected
             return Exercise[this.state.exerciseTypeValue].map((exercise, index) => <option value={index} key={index}>{exercise}</option>)
         }
     }
 
-    showTime(){
-        this.setState({
-            showTime: true,
-            showDistance: false
-        })
-    }
+    addExercise(e){
+        e.preventDefault();
 
-    showDistance(){
+        // var exerciseData =[];
+        // Object.keys(this.state).map(i => {
+        //     if(!Array.isArray(i)){
+        //         exerciseData[exerciseData.length].push(i)
+        //     }
+        //     console.log(this.state[i])})
+
+        // Pushing created exercise onto stack
+        this.state.savedExercises.push(this.state);
+
+        // Hiding modal and reseting values
+        $('#addExercise').modal('hide');
+        $("#exerciseType").val('hidden');
+
+        // Resetting states
         this.setState({
+            exerciseTypeValue: -1,
+            bodyPartValue: -1,
+            showExerciseList: false,
+            showBodyPart: false,
+            exerciseValue: -1,
+            showCardioOptions: false,
+            disableBttn: true,
             showTime: false,
-            showDistance: true
+            showDistance: false,
+            showNotes: false,
+            showSets: false,
+            showWeight: false,
+            customName: "",
+            minutes: "",
+            seconds: "",
+            distance: "",
+            weight: "",
+            sets: "",
+            repititions: "",
+            notes: "",
         })
     }
 
-    addExercise(){
-        const exerciseData = JSON.stringify(this.state)
-        //savedExercises.push()
+    deleteExercise(index){
+        const filteredItems = this.state.savedExercises.slice(0, index).concat(this.state.savedExercises.slice(index + 1, this.state.savedExercises.length))
+        this.setState({savedExercises: filteredItems})
     }
 
-    
+    saveWorkout(e){
+        e.preventDefault();
+        console.log(this.state)
 
-
+        const workoutData = JSON.stringify(this.state)
+        fetch('/api/workout/new', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+            },
+            body: workoutData
+        }).then(res => {
+            res.json().then(log => {
+                if(log.success){
+                    this.setState({
+                        showSuccess: true,
+                        successMessage: "User role has been updated. You must re-login for changes to take effect. You will now be logged out."
+                    });
+                } else {
+                }
+                
+            });
+            }).catch(error => console.log(error))
+    }
 
 
     render() {
@@ -128,14 +192,17 @@ export default class Workout extends Component{
                 
                 <AppBar width="100%" pageName="NEW WORKOUT" back="/workout"/>
                 
-                <form onSubmit={this.addWorkout}>
-                    <input type="text" className="form-control" placeholder="Workout Name" value={this.state.firstName} onChange={this.onChangeFirstName} required style={{textAlign: "center"}}/><br/>
+                <form onSubmit={e => this.saveWorkout(e)}>
+                    <input type="text" className="form-control" placeholder="Workout Name" onChange={(e) => this.setState({workoutName: e.target.value})} required style={{textAlign: "center"}}/><br/>
 
                     <button type="button" className="btn btn-success container" data-toggle="modal" data-target="#addExercise">ADD EXERCISE</button><br/><br/>
 
-                    <div className="bubbleCard">Will be a list of exercises in workout</div><br/>
+                    {this.state.savedExercises.length? null: 
+                    <div className="alert alert-info" role="alert" style={{textAlign: "center"}}>Add an exercise to begin creating this workout!</div>}
 
-                    <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#addExercise">CREATE WORKOUT</button>
+                    {this.state.savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/><p/></div>)}
+                    
+                    <button type="submit" className="btn btn-primary container" disabled={this.state.savedExercises.length? false:true}>CREATE WORKOUT</button> <br/><br/><br/><br/>
 
                 </form>
 
@@ -143,7 +210,7 @@ export default class Workout extends Component{
 
 
 
-                <form onSubmit={this.addExercise}>
+                <form onSubmit={e => this.addExercise(e)}>
                 <div className="container">
                 <div className="modal fade" id="addExercise">
                     <div className="modal-dialog"><br/><br/><br/><br/>
@@ -155,15 +222,15 @@ export default class Workout extends Component{
                             <div className="modal-body">
                             
                                 Exercise Type
-                                <select className="form-control" onChange={(e) => this.exerciseTypeChange(e)}>
-                                    <option hidden >Choose exercise type...</option>
+                                <select className="form-control" id="exerciseType" onChange={(e) => this.exerciseTypeChange(e)}>
+                                    <option hidden value="hidden">Choose exercise type...</option>
                                     {this.state.exerciseType.map((exerciseType, index) => <option value={index} key={index}>{exerciseType}</option>)}
                                 </select><br/>
 
                                 {this.state.showBodyPart?
                                 <div>
                                     Body Part
-                                    <select className="form-control" onChange={(e) => this.bodyPartChange(e)}>
+                                    <select className="form-control" onChange={(e) => this.setState({bodyPartValue: e.target.value, showExerciseList: true})}>
                                         <option hidden >Choose a body part...</option>
                                         {this.state.bodyParts.map((bodyPart, index) => <option value={index} key={index}>{bodyPart}</option>)}
                                     </select><br/>
@@ -191,10 +258,10 @@ export default class Workout extends Component{
                                 <div>
                                 <div className="btn-group btn-group-toggle container" style={{padding:"0px",border:"1px solid", borderRadius:"5px", borderColor:"lightgrey"}} data-toggle="buttons">
                                     <label className="btn btn-light ">
-                                        <input type="radio" onClick={this.showDistance}/>Distance
+                                        <input type="radio" onClick={(e) => this.setState({showTime: false, showDistance: true})}/>Distance
                                     </label>
                                     <label className="btn btn-light active">
-                                        <input type="radio" onClick={this.showTime} defaultChecked/>Time
+                                        <input type="radio" onClick={(e) => this.setState({showTime: true, showDistance: false})} defaultChecked/>Time
                                     </label>
                                 </div><p/><p/>
                                 </div>
@@ -210,13 +277,13 @@ export default class Workout extends Component{
 
                                 {this.state.showDistance?
                                     <div>
-                                        <input required type="number" inputMode="decimal" onChange={(e) => this.setState({distance: e.target.value})} className="form-control" style={{textAlign:"center"}} placeholder="Distance (Miles)"/>
+                                        <input required type="number" step="any" inputMode="decimal" onChange={(e) => this.setState({distance: e.target.value})} className="form-control" style={{textAlign:"center"}} placeholder="Distance (Miles)"/>
                                     </div>
                                 : null }
 
                                 {this.state.showWeight? 
                                     <div>
-                                        <input required type="number" inputMode="decimal" onChange={(e) => this.setState({weight: e.target.value})} className="form-control" style={{textAlign:"center"}} placeholder="Weight (KG)" /><p/><p/>
+                                        <input required type="number" step="any" inputMode="decimal" onChange={(e) => this.setState({weight: e.target.value})} className="form-control" style={{textAlign:"center"}} placeholder="Weight (KG)" /><p/><p/>
                                     </div>
                                 :null}   
 
@@ -235,7 +302,6 @@ export default class Workout extends Component{
 
 
                             <div className="modal-footer">
-                                {this.state.customName}
                                 <button type="submit" className="btn btn-primary" disabled={this.state.disableBttn}>Add</button>
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
