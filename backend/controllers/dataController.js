@@ -81,6 +81,13 @@ module.exports = function (app) {
         res.sendStatus(200);
     })
 
+    app.post("api/workout/new", async function(req, res){
+        var user = await getUserByEmail(req._passport.session.user);
+        console.log(req.body)
+        //req.body.savedWorkouts - will be the exercises array
+        // use .map
+    })
+
     // Route to return user 
     app.post("/api/user", async function(req, res){
         var user = await getUserByEmail(req.body.email)
