@@ -12,6 +12,7 @@ export default class exerciseList extends Component{
 
         this.state = {
             exerciseData: this.props.exercise,
+            exerciseType: ["Cardio", "Stretching", "Body Weight", "Barbell", "Dumbbell"],
         }
 
         this.getExerciseData()
@@ -37,7 +38,7 @@ export default class exerciseList extends Component{
             <Box overflow="hidden">
                 <Flex flexDirection='row'>
                     <Box flex='1'>
-                        <Text fontFamily="Arial, Helvetica, sans-serif"><b>Type: </b>{this.props.exercise.exerciseType[this.props.exercise.exerciseTypeValue]}</Text>
+                        <Text fontFamily="Arial, Helvetica, sans-serif"><b>Type: </b>{this.state.exerciseType[this.props.exercise.exerciseTypeValue]}</Text>
                     </Box>
                     <Box flex='1'>
                         <Text textAlign='right' fontFamily="Arial, Helvetica, sans-serif">
