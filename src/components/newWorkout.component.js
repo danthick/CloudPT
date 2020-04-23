@@ -5,6 +5,7 @@ import ExerciseList from './exerciseList.component';
 import Exercise from '../data/exercises'; // Importing list of exercises array
 const $ = window.$;
 
+var savedExercises = [];
 export default class Workout extends Component{
     constructor(props) {
         super(props);
@@ -31,9 +32,9 @@ export default class Workout extends Component{
             distance: "",
             weight: "",
             sets: "",
-            repititions: "",
+            repetitions: "",
             notes: "",
-            savedExercises: [],
+            showExercises: true,
             workoutName: "",
         }
     }
@@ -113,15 +114,8 @@ export default class Workout extends Component{
     addExercise(e){
         e.preventDefault();
 
-        // var exerciseData =[];
-        // Object.keys(this.state).map(i => {
-        //     if(!Array.isArray(i)){
-        //         exerciseData[exerciseData.length].push(i)
-        //     }
-        //     console.log(this.state[i])})
-
         // Pushing created exercise onto stack
-        this.state.savedExercises.push(this.state);
+        savedExercises.push(this.state);
 
         // Hiding modal and reseting values
         $('#addExercise').modal('hide');
@@ -147,21 +141,24 @@ export default class Workout extends Component{
             distance: "",
             weight: "",
             sets: "",
-            repititions: "",
+            repetitions: "",
             notes: "",
         })
     }
 
     deleteExercise(index){
-        const filteredItems = this.state.savedExercises.slice(0, index).concat(this.state.savedExercises.slice(index + 1, this.state.savedExercises.length))
-        this.setState({savedExercises: filteredItems})
+        const filteredItems = savedExercises.slice(0, index).concat(savedExercises.slice(index + 1, savedExercises.length))
+        savedExercises = filteredItems
+        this.setState({showExercises: false});
+        this.setState({showExercises: true});
     }
 
     saveWorkout(e){
         e.preventDefault();
-        console.log(this.state)
+        
+        savedExercises[0].workoutName = this.state.workoutName;
 
-        const workoutData = JSON.stringify(this.state)
+        const workoutData = JSON.stringify(savedExercises)
         fetch('/api/workout/new', {
             method: 'POST',
             credentials: 'include',
@@ -174,13 +171,8 @@ export default class Workout extends Component{
         }).then(res => {
             res.json().then(log => {
                 if(log.success){
-                    this.setState({
-                        showSuccess: true,
-                        successMessage: "User role has been updated. You must re-login for changes to take effect. You will now be logged out."
-                    });
-                } else {
+                    this.props.history.push({ pathname: '/workout/'});
                 }
-                
             });
             }).catch(error => console.log(error))
     }
@@ -197,12 +189,14 @@ export default class Workout extends Component{
 
                     <button type="button" className="btn btn-success container" data-toggle="modal" data-target="#addExercise">ADD EXERCISE</button><br/><br/>
 
-                    {this.state.savedExercises.length? null: 
+                    {savedExercises.length? null: 
                     <div className="alert alert-info" role="alert" style={{textAlign: "center"}}>Add an exercise to begin creating this workout!</div>}
 
-                    {this.state.savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/><p/></div>)}
-                    
-                    <button type="submit" className="btn btn-primary container" disabled={this.state.savedExercises.length? false:true}>CREATE WORKOUT</button> <br/><br/><br/><br/>
+                    {this.state.showExercises? 
+                    <div>{savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/><p/></div>)}</div>
+                    : null }
+
+                    <button type="submit" className="btn btn-primary container" disabled={savedExercises.length? false:true}>CREATE WORKOUT</button> <br/><br/><br/><br/>
 
                 </form>
 
@@ -290,7 +284,7 @@ export default class Workout extends Component{
                                 {this.state.showSets? 
                                     <div style={{margin: "0px auto", width:"90%"}}>
                                         <input required type="number" onChange={(e) => this.setState({sets: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Sets"/>  
-                                        <input required type="number" onChange={(e) => this.setState({repititions: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Repititions"/>
+                                        <input required type="number" onChange={(e) => this.setState({repetitions: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Repetitions"/>
                                     </div>
                                 :null}
                                 {this.state.showNotes?

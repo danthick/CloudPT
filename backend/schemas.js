@@ -26,7 +26,28 @@ var Message = mongoose.model("message", {
     date: String,
 });
 
+var Workout = mongoose.model("workout", {
+    name: String,
+    userCreated: String
+})
+
+var Exercise = mongoose.model("exercise", {
+    workoutID: String,
+    exerciseTypeValue: String,
+    exerciseValue: String,
+    customName: String,
+    minutes: String,
+    seconds: String,
+    distance: String,
+    weight: String,
+    sets: String,
+    repetitions: String,
+    notes: String,
+})
+
 // Export data structures
 module.exports.User = User;
 module.exports.Weight = Weight;
 module.exports.Message = Message;
+module.exports.Workout = Workout;
+module.exports.Exercise = Exercise;

@@ -81,11 +81,32 @@ module.exports = function (app) {
         res.sendStatus(200);
     })
 
-    app.post("api/workout/new", async function(req, res){
+    app.post("/api/workout/new", async function(req, res){
         var user = await getUserByEmail(req._passport.session.user);
-        console.log(req.body)
-        //req.body.savedWorkouts - will be the exercises array
-        // use .map
+        var newWorkout = new schemas.Workout({
+            name: req.body[0].workoutName,
+            userCreated: user[0].email
+        })
+        
+        newWorkout.save(function(err, message){
+            for (var i = 0; i < req.body.length; i++) {
+                var newExercise = new schemas.Exercise({
+                    workoutID: message._id,
+                    exerciseTypeValue: req.body[i].exerciseTypeValue,
+                    exerciseValue: req.body[i].exerciseValue,
+                    customName: req.body[i].customName,
+                    minutes: req.body[i].minutes,
+                    seconds: req.body[i].seconds,
+                    distance: req.body[i].distance,
+                    weight: req.body[i].weight,
+                    sets: req.body[i].sets,
+                    repetitions: req.body[i].repetitions,
+                    notes: req.body[i].notes
+                })
+                newExercise.save();
+            }
+        });
+        return res.json({success: true});
     })
 
     // Route to return user 
