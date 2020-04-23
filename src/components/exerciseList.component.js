@@ -54,7 +54,7 @@ export default class exerciseList extends Component{
                     </Box>
                     <Box flex='1'>
                     <Text textAlign='right' fontFamily="Arial, Helvetica, sans-serif">
-                        {this.state.exerciseData.sets? <span><b>Sets: </b>{this.state.exerciseData.sets} <span><b>Reps: </b>{this.state.exerciseData.repititions}</span></span>:null}
+                        {this.state.exerciseData.sets? <span><b>Sets: </b>{this.state.exerciseData.sets} <span><b>Reps: </b>{this.state.exerciseData.repetitions}</span></span>:null}
                     </Text>
                     </Box>
                 </Flex>
