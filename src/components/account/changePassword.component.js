@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import AppBar from './appBar.component';
+import AppBar from '../navigation/appBar.component';
 import Divider from '@material-ui/core/Divider';
 
 export default class accountEdit extends Component {

@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AppBar from './appBar.component'
+import AppBar from './navigation/appBar.component';
 import FaceIcon from '@material-ui/icons/Face';
 
 var socket = "";

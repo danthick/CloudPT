@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react';
-// eslint-disable-next-line
-import {BrowseRouter as Router, Route, Link} from 'react-router-dom'
 import SlideRuler from 'slide-ruler';
 import { List, ListItem, ListItemText, IconButton, ListItemSecondaryAction } from '@material-ui/core';
-import AppBar from './appBar.component'
+import AppBar from '../navigation/appBar.component';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
-import WeightGraph from './weightGraph.component';
+import WeightGraph from '../weightGraph.component';
 
 export default class Weight extends Component{
     

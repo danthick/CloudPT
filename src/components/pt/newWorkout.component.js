@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import AppBar from './appBar.component';
+import AppBar from '../navigation/appBar.component';
 import ExerciseList from './exerciseList.component';
 
-import Exercise from '../data/exercises'; // Importing list of exercises array
+import Exercise from '../../data/exercises'; // Importing list of exercises array
 const $ = window.$;
 
 var savedExercises = [];
