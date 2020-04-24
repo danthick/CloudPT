@@ -61,7 +61,7 @@ export default class accountEdit extends Component {
             },
         }).then(async res => {
             await res.json().then(log => {
-                this.setState({user: log.user[0]})
+                this.setState({user: log.currentUser[0]})
             });
             }).catch(error => console.log(error))
     }
@@ -133,7 +133,7 @@ export default class accountEdit extends Component {
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="UPDATE ACCOUNT DETAILS" back="/account"/><br/>
+                <AppBar width="100%" pageName="UPDATE ACCOUNT DETAILS" back="/account"/>
                 
                 <form onSubmit={this.onSubmit} autoComplete="new-password"  style={{color: "grey"}}>
 
