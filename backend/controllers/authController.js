@@ -75,9 +75,30 @@ module.exports = function (app) {
     app.get("/api/user", async function (req, res) {
         var user = await getUserByEmail(req.session.passport.user);
         return res.json({
-            user: user
+            currentUser: user
         })
     });
+
+    // Route to return user 
+    app.post("/api/user", async function(req, res){
+        var user = await getUserByEmail(req.body.email)
+        var currentUser = await getUserByEmail(req.session.passport.user)
+        if (user.length != 0){
+            return res.json({
+                user: {
+                    firstName: user[0].firstName,
+                    lastName: user[0].lastName,
+                    email: user[0].email
+                },
+                currentUser: currentUser
+            })
+        } else {
+            return res.json({
+                user: { email: null },
+                currentUser: currentUser
+            })
+        }
+    })
 
     // Endpoint to change user password
     app.post("/api/user/password", async function(req, res) {
