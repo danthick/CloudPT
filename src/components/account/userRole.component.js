@@ -28,7 +28,7 @@ export default class accountEdit extends Component {
             },
         }).then(async res => {
             await res.json().then(log => {
-                this.setState({user: log.user[0]})
+                this.setState({user: log.currentUser[0]})
             });
             }).catch(error => console.log(error))
     }
@@ -93,7 +93,7 @@ export default class accountEdit extends Component {
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="USER ROLE" back="/account"/><br/>
+                <AppBar width="100%" pageName="USER ROLE" back="/account"/>
 
                     { this.state.showSuccess?
                         <div>
