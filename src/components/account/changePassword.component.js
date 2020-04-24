@@ -93,7 +93,7 @@ export default class accountEdit extends Component {
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="CHANGE PASSWORD" back="/account"/><br/>
+                <AppBar width="100%" pageName="CHANGE PASSWORD" back="/account"/>
                 
                 <form onSubmit={this.onSubmit} autoComplete="new-password"  style={{color: "grey"}}>
                     { this.state.showError?
