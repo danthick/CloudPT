@@ -290,7 +290,7 @@ export default class Messages extends Component{
 
 
                 <div className="container">
-                    <div className="modal fade" id="newChatModal">
+                    <div className="modal fade" id="newChatModal" style={{top: "20px"}}>
                         <div className="modal-dialog">
                         <br/><br/><br/>
                             <div className="modal-content">
