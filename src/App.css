@@ -32,6 +32,20 @@
   width: auto;
 }
 
+.boxList .btn{
+  height: auto;
+  width: auto;
+}
+
+.boxList {
+  border-style: solid;
+  border-width: 1px;
+  padding: 6px;
+  border-color: lightgreen;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
 h6 {
   color: white;
   text-align: center;

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login.component";
 import Home from "./components/home.component";
+import HomePT from "./components/pt/home.component";
 import Register from "./components/register.component";
 import Workout from "./components/workout.component";
 import WorkoutPT from "./components/pt/workout.component";
@@ -15,7 +16,7 @@ import Body from './components/account/body.component';
 import newWorkout from './components/pt/newWorkout.component';
 import AccountEdit from './components/account/accountEdit.component';
 import ChangePassword from './components/account/changePassword.component';
-import UserRole from './components/account/changePassword.component';
+import UserRole from './components/account/userRole.component';
 
 function PrivateRoute ({component: Component, authed, wasInitialised, ...rest}) {
   return (
@@ -86,6 +87,7 @@ class App extends Component {
           <Route path="/register" exact component={Register}/>
           {this.state.ptBool?
           <Switch>
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={HomePT} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={newWorkout} />
           </Switch>

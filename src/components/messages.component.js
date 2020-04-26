@@ -7,6 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from './navigation/appBar.component';
 import FaceIcon from '@material-ui/icons/Face';
+import Loader from 'react-loader-spinner'
 
 var socket = "";
 export default class Messages extends Component{
@@ -285,7 +286,10 @@ export default class Messages extends Component{
                                 </Link>         
                             </ListItem>
                         )
-                        }): null}
+                        }) : 
+                        <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}>
+                            <Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} />
+                        </div>}
                 </List>
 
 

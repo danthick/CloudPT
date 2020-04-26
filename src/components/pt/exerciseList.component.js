@@ -34,7 +34,7 @@ export default class exerciseList extends Component{
     
     render() {
         return (
-            <div style={{borderStyle:"solid", borderWidth: "1px", borderRadius:"5px", padding: "6px", backgroundColor: "rgba(60, 172, 32, 0.16)"}}>
+            <div className="boxList">
             <Box overflow="hidden">
                 <Flex flexDirection='row'>
                     <Box flex='1'>
