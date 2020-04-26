@@ -45,9 +45,16 @@ var Exercise = mongoose.model("exercise", {
     notes: String,
 })
 
+var Relationship = mongoose.model("relationship", {
+    user1: String,
+    user2: String,
+    active: Boolean
+})
+
 // Export data structures
 module.exports.User = User;
 module.exports.Weight = Weight;
 module.exports.Message = Message;
 module.exports.Workout = Workout;
 module.exports.Exercise = Exercise;
+module.exports.Relationship = Relationship;

@@ -109,23 +109,48 @@ module.exports = function (app) {
         return res.json({success: true});
     })
 
-    // Route to return user 
-    app.post("/api/user", async function(req, res){
-        var user = await getUserByEmail(req.body.email)
-        if (user.length != 0){
-            return res.json({
-                user: {
-                    firstName: user[0].firstName,
-                    lastName: user[0].lastName,
-                    email: user[0].email
-                }
-            })
-        } else {
-            return res.json({
-                user: { email: null }
-            })
+    app.get("/api/user/relationship", async function (req, res){
+        var currentUser = await getUserByEmail(req._passport.session.user);
+
+        clientEmails = await schemas.Relationship.find({$or: [{user1: currentUser[0].email}, {user2: currentUser[0].email}]})
+        var clients = [];
+
+        for (var i = 0; i < clientEmails.length; i++){
+            if (clientEmails[i].user1 !== currentUser[0].email){
+                var user = await getUserByEmail(clientEmails[i].user1);
+                clients.push(user[0]);
+            } else if (clientEmails[i].user2 !== currentUser[0].email){
+                var user = await getUserByEmail(clientEmails[i].user2);
+                clients.push(user[0]);
+            }
         }
-    })
+
+        return res.json({
+            clients: clients,
+            currentUser: currentUser
+        })
+    });
+
+    app.post("/api/user/relationship", async function(req, res) {
+        var user1 = await getUserByEmail(req._passport.session.user);
+        var user2 = await getUserByEmail(req.body.email);
+        
+        if(user2.length !== 0){
+            // Checking only one user is a PT
+            if(!(user1[0].ptBool && user2[0].ptBool)){
+            var newRelationship = new schemas.Relationship({
+                user1: user1[0].email,
+                user2: req.body.email,
+                active: true
+            })
+            newRelationship.save();
+            return res.json({success: true});
+            }
+        }
+
+        return res.json({success: false});
+
+    });
 
     // Function to get user from email
     async function getUserByEmail(email) {
