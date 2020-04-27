@@ -185,28 +185,23 @@ export default class Weight extends Component{
                         {this.state.allWeights && this.state.allWeights.map((weightsData, index) => {
                             return (
                                 <div  key={index}>
-                                <ListItem>
-                                    <ListItemText>{weightsData.weight}kg <div style={{float: "right"}}>{new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth() + 1}/{new Date(weightsData.date).getFullYear()}</div></ListItemText>
-                                    <ListItemSecondaryAction onClick={() => this.deleteWeight(weightsData)}>
-                                        <IconButton edge="end">
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                    
-                                </ListItem>
-                                {index !== this.state.allWeights.length - 1 &&
-                                    <Divider/>
-                                }
-                                
+                                    <ListItem>
+                                        <ListItemText>{weightsData.weight}kg <div style={{float: "right"}}>{new Date(weightsData.date).getDate()}/{new Date(weightsData.date).getMonth() + 1}/{new Date(weightsData.date).getFullYear()}</div></ListItemText>
+                                        <ListItemSecondaryAction onClick={() => this.deleteWeight(weightsData)}>
+                                            <IconButton edge="end">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                        
+                                    </ListItem>
+                                    {index !== this.state.allWeights.length - 1 &&
+                                        <Divider/>
+                                    }
                                 </div>
                             )
-                            
                             })}
-                            
                     </List>
                 
-
-
                 <div className="container">
                 <div className="modal fade" id="weightModal">
                     <div className="modal-dialog"><br/><br/><br/><br/><br/>
@@ -251,7 +246,7 @@ export default class Weight extends Component{
                     </div>
                 </div>
                 </div>
-                <br/><br/><br/>
+                <br/><br/><br/><br/>
             </Fragment>
         )
     }
