@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import AppBar from './navigation/appBar.component';
+const $ = window.$;
 
 var messages = []
 var userTo;
@@ -22,8 +23,7 @@ export default class Messages extends Component{
     }
 
     componentDidMount(){
-        window.scrollTo(1000000, 1000000);
-
+        document.getElementById('scroll').scrollIntoView();
         this.props.location.socket.onmessage = e => {
             var messageData = JSON.parse(e.data)
             if(messageData.messageType === "messageSent" && messageData.userFrom[0].email === this.state.userTo.email){
@@ -47,7 +47,7 @@ export default class Messages extends Component{
         }
     }
     componentDidUpdate(){
-        window.scrollTo(1000000, 1000000);
+        document.getElementById('scroll').scrollIntoView();
     }
 
 
@@ -161,10 +161,11 @@ export default class Messages extends Component{
             <Fragment>
                 <AppBar width="100%" pageName={userTo.firstName.toUpperCase() + " " + userTo.lastName.toUpperCase()} back="/messages"/>
 
-                    <div className="messageList">
+                    <div style={{overflow: "scroll"}}>
                         {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
                     </div>
                     <br/><br/><br/><br/><br/><br/>
+                    <div id="scroll"></div>
                     <div className="chatInput">
                         <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}  >
                             <input

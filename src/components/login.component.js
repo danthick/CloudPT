@@ -92,12 +92,13 @@ export default class Login extends Component {
     render() {
         return (
             <Fragment>
+            <div>
             <div className="fullscreen-bg">
                 <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
                     <source src="/login-video.mp4" type="video/mp4"/>
                 </video>
             </div>
-                <div style={{marginTop: 10}}>
+                <div style={{marginTop: 40}}>
 
                 <p className="appTitle">
                     <img src="logo512.png" alt="logo" height="60" width="60"/>
@@ -142,7 +143,7 @@ export default class Login extends Component {
             </div>
             
             <br/>
-            <div>
+            <div >
                 <a href="/register" className="btn btn-primary container">SIGN UP HERE</a>
             </div><br/><br/>
 
@@ -204,6 +205,7 @@ export default class Login extends Component {
                     </div>
                     <br/>
                 </section>
+            </div>
             </div>
         </Fragment>
         )

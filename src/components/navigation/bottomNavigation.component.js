@@ -15,8 +15,9 @@ const useStyles = makeStyles({
       bottom: 0,
       left: 0,
       zIndex: 100,
+      height: "75px",
       borderTop: "1px solid #c7c7c7",
-      overflowX: "hidden"
+      overflow: "hidden",     
     },
   });
   

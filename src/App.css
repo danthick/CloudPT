@@ -3,9 +3,9 @@
 }
 
 .appTitle {
-  color: rgb(53, 141, 58);
+  color: rgb(46, 121, 50);
   border-radius: 10px;
-  background-color: rgba(138, 138, 138, 0.747);
+  background-color: rgba(160, 160, 160, 0.76);
   font-size: 40px;
   text-align: center;
   font-weight: bold;
@@ -22,9 +22,12 @@
 }
 
 .btn{
+  display: flex;
   height: 60px;
   width: 100%;
   margin: auto;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-dialog .btn{
@@ -93,8 +96,8 @@ section {
 }
 
 .scroll-down-info{
-  position: absolute;
-  bottom: 70px;
+  position: relative;
+  bottom: 10px;
   left: 50%;
   margin-left: -170px;
   display: block;
@@ -107,8 +110,8 @@ section {
 }
 
 .scroll-down {
-  position: absolute;
-  bottom: 30px;
+  position: relative;
+  bottom: 0px;
   left: 50%;
   margin-left: -16px;
   display: block;
@@ -173,7 +176,8 @@ section {
   min-width: 100%;
   min-height: 100%;
   transform: translateX(calc((100% - 100vw) / 2));
-  filter: grayscale(100%) blur(5px);
+  filter: grayscale(100%) blur(7px);
+  transform: scale(1.1); 
 }
 
 @media (min-aspect-ratio: 16/9) {
@@ -192,10 +196,12 @@ section {
 
 body {
   width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
 }
 
 html {
+  height: 100%;
   overflow-x: hidden;
 }
 
@@ -216,9 +222,6 @@ html {
 
 
 /* MESSAGE CSS */
-
-html, body{height: 100%}
-
 .currentUser {
   display: flex;
   margin-top: 10px;
