@@ -28,7 +28,8 @@ var Message = mongoose.model("message", {
 
 var Workout = mongoose.model("workout", {
     name: String,
-    userCreated: String
+    userCreated: String,
+    dateCreated: Date,
 })
 
 var Exercise = mongoose.model("exercise", {

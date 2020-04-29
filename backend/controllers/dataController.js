@@ -28,7 +28,7 @@ module.exports = function (app) {
         // Get user
         var user = await getUserByEmail(req._passport.session.user);
         // Get all weights
-        var weights = await schemas.Weight.deleteOne({
+        await schemas.Weight.deleteOne({
             _id: req.params.id,
             email: user[0].email
         })
@@ -36,7 +36,6 @@ module.exports = function (app) {
     });
 
     app.get("/api/height/", async function(req, res){
-        // Get user
         var user = await getUserByEmail(req._passport.session.user);
         return res.json({
             height: user[0].height
@@ -44,7 +43,6 @@ module.exports = function (app) {
     });
 
     app.post("/api/height", async function(req, res){
-        // Add or update height to user
         await schemas.User.findOneAndUpdate({email: req._passport.session.user}, {height: req.body.height}, {new: true, useFindAndModify: false});
         res.sendStatus(200);
     });
@@ -85,7 +83,8 @@ module.exports = function (app) {
         var user = await getUserByEmail(req._passport.session.user);
         var newWorkout = new schemas.Workout({
             name: req.body[0].workoutName,
-            userCreated: user[0].email
+            userCreated: user[0].email,
+            dateCreated: new Date(),
         })
         
         newWorkout.save(function(err, message){
@@ -108,6 +107,37 @@ module.exports = function (app) {
         });
         return res.json({success: true});
     })
+
+    app.get("/api/workout", async function(req, res){
+        workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
+        var workoutData = [];
+        for (var i = 0; i < workouts.length; i++){
+            exercises = await schemas.Exercise.find({workoutID: workouts[i]._id});
+            workoutData[i] = {workout: workouts[i], exercises: exercises}; 
+        }
+        return res.json({workouts: workoutData})
+    });
+
+    app.delete("/api/workout", async function(req, res){
+        workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
+        var workoutData = [];
+        for (var i = 0; i < workouts.length; i++){
+            exercises = await schemas.Exercise.find({workoutID: workouts[i]._id});
+            workoutData[i] = {workout: workouts[i], exercises: exercises}; 
+        }
+        return res.json({workouts: workoutData})
+    });
+
+    app.delete("/api/workout/:id", async function(req, res){
+        await schemas.Workout.deleteOne({
+            _id: req.params.id,
+            userCreated: req._passport.session.user
+        })
+        await schemas.Exercise.deleteMany({
+            workoutID: req.params.id
+        })
+
+    });
 
     app.get("/api/user/relationship", async function (req, res){
         var currentUser = await getUserByEmail(req._passport.session.user);

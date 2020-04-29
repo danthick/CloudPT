@@ -196,7 +196,7 @@ export default class Workout extends Component{
                     <div>{savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/></div>)}</div>
                     : null }
 
-                    <button type="submit" className="btn btn-primary container" disabled={savedExercises.length? false:true}>CREATE WORKOUT</button> <br/><br/><br/><br/>
+                    <br/><button type="submit" className="btn btn-primary container" disabled={savedExercises.length? false:true}>CREATE WORKOUT</button> <br/><br/><br/><br/>
 
                 </form>
 
