@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import AppBar from './navigation/appBar.component';
-const $ = window.$;
 
 var messages = []
 var userTo;
