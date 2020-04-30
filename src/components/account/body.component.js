@@ -180,7 +180,7 @@ export default class Weight extends Component{
                 }
                 
 
-                
+                {this.state.allWeights.length > 0 && 
                 <List className="weightList">
                         {this.state.allWeights && this.state.allWeights.map((weightsData, index) => {
                             return (
@@ -200,7 +200,8 @@ export default class Weight extends Component{
                                 </div>
                             )
                             })}
-                    </List>
+                </List>
+                }
                 
                 <div className="container">
                 <div className="modal fade" id="weightModal">

@@ -206,7 +206,6 @@ html {
 }
 
 .weightList{
-  overflow: scroll;
   border-radius: 5px;
   background: rgba(209, 209, 209, 0.68);
 }

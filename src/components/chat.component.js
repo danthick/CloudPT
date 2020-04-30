@@ -160,9 +160,9 @@ export default class Messages extends Component{
             <Fragment>
                 <AppBar width="100%" pageName={userTo.firstName.toUpperCase() + " " + userTo.lastName.toUpperCase()} back="/messages"/>
 
-                    <div style={{overflow: "scroll"}}>
-                        {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
-                    </div>
+                    
+                    {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
+                    
                     <br/><br/><br/><br/><br/><br/>
                     <div id="scroll"></div>
                     <div className="chatInput">
