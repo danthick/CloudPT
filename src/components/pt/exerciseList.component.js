@@ -69,7 +69,6 @@ export default class exerciseList extends Component{
 
                 
                 <button type="button" className="btn btn-danger container" style={{float: "left"}} onClick={() => this.props.delete(this.props.index)}>Delete</button>
-                <button type="button" className="btn btn-info container" style={{float: "right"}} onClick={() => this.props.delete(this.props.index)}>Edit</button>
             </Box>
             
             </div>

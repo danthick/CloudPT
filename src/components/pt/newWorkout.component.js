@@ -161,6 +161,10 @@ export default class Workout extends Component{
         })
     }
 
+    editExercise(index){
+        
+    }
+
     deleteExercise(index){
         const filteredItems = savedExercises.slice(0, index).concat(savedExercises.slice(index + 1, savedExercises.length))
         savedExercises = filteredItems
@@ -170,9 +174,9 @@ export default class Workout extends Component{
 
     saveWorkout(e){
         e.preventDefault();
-        
         savedExercises[0].workoutName = this.state.workoutName;
 
+        // If updating a workout - delete current workout first
         if(this.state.workoutID !== ""){
             fetch('/api/workout/' + this.state.workoutID, {
                 method: 'DELETE',
@@ -184,8 +188,6 @@ export default class Workout extends Component{
                 }
             })
         }
-
-
 
         const workoutData = JSON.stringify(savedExercises)
         fetch('/api/workout/new', {
@@ -215,24 +217,24 @@ export default class Workout extends Component{
                 
                 <form onSubmit={e => this.saveWorkout(e)}>
                     <input type="text" className="form-control" placeholder="Workout Name" value={this.state.workoutName} onChange={(e) => this.setState({workoutName: e.target.value})} required style={{textAlign: "center"}}/><br/>
-
                     <button type="button" className="btn btn-success container" data-toggle="modal" data-target="#addExercise">ADD EXERCISE</button><br/><br/>
 
+                    {/* Prompt for user to add an exercise if none have been added */}
                     {savedExercises.length? null: 
                     <div className="alert alert-info" role="alert" style={{textAlign: "center"}}>Add an exercise to begin creating this workout!</div>}
 
+                    {/* List all exercises that have been added to the workout */}
                     {this.state.showExercises? 
                     <div>{savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/></div>)}</div>
                     : null }
 
                     <br/><button type="submit" className="btn btn-primary container" disabled={savedExercises.length? false:true}>SAVE WORKOUT</button> <br/><br/><br/><br/>
-
                 </form>
 
 
 
 
-
+                {/* The modal to add a new exercise to the workout */}
                 <form onSubmit={e => this.addExercise(e)}>
                 <div className="container">
                 <div className="modal fade" id="addExercise">
@@ -243,13 +245,15 @@ export default class Workout extends Component{
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div className="modal-body">
-                            
+
+                                {/* Option to choose the exercise type */}
                                 Exercise Type
                                 <select className="form-control" id="exerciseType" onChange={(e) => this.exerciseTypeChange(e)}>
                                     <option hidden value="hidden">Choose exercise type...</option>
                                     {this.state.exerciseType.map((exerciseType, index) => <option value={index} key={index}>{exerciseType}</option>)}
                                 </select><br/>
 
+                                {/* Option to choose the body part - shown after the exercise type */}
                                 {this.state.showBodyPart?
                                 <div>
                                     Body Part
@@ -260,23 +264,25 @@ export default class Workout extends Component{
                                 </div>
                                 : null }
 
-
+                                {/* Option to choose the specific exercise - shown after the body part selection */}
                                 {this.state.showExerciseList?
                                 <div>
                                 Exercise
                                 <select required className="form-control" onChange={(e) => this.exerciseChange(e) }>
                                     <option hidden >Choose a exercise...</option>
                                     {this.loadExercises()}
-                                    
                                 </select><br/>
+
+                                {/* Option to add a custom exercise name - shown if "custom" is selected in the drop down list */}
                                 {this.state.exerciseValue === "0" &&
                                     <div>
-                                    <input required type="text" className="form-control" placeholder="Exercise Name" onChange={(e) => this.setState({customName: e.target.value})}/><p/><p/>
+                                    <input required type="text" className="form-control" placeholder="Exercise Name" onChange={(e) => this.setState({customName: e.target.value})} value={this.state.customName}/><p/><p/>
                                     </div>
                                 }
                                 </div>
                                 : null}
-
+                                
+                                {/* Ability to add cardio details if a cardio exercise was added */}
                                 {this.state.showCardioOptions?
                                 <div>
                                 <div className="btn-group btn-group-toggle container" style={{padding:"0px",border:"1px solid", borderRadius:"5px", borderColor:"lightgrey"}} data-toggle="buttons">
@@ -290,40 +296,43 @@ export default class Workout extends Component{
                                 </div>
                                 : null}
 
-                                
+                                {/* Ability to add a duration */}
                                 {this.state.showTime?
                                     <div style={{margin: "0px auto", width:"90%"}}>
                                         <input required type="number" inputMode="decimal" onChange={(e) => this.setState({minutes: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Minutes"/>  
                                         <input required type="number" inputMode="decimal" onChange={(e) => this.setState({seconds: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Seconds"/>
                                     </div>
                                 : null }
-
+                                
+                                {/* Ability to add a distance */}
                                 {this.state.showDistance?
                                     <div>
                                         <input required type="number" step="any" inputMode="decimal" onChange={(e) => this.setState({distance: e.target.value})} className="form-control" style={{textAlign:"center"}} placeholder="Distance (Miles)"/>
                                     </div>
                                 : null }
 
+                                {/* Ability to add a weight */}
                                 {this.state.showWeight? 
                                     <div>
                                         <input required type="number" step="any" inputMode="decimal" onChange={(e) => this.setState({weight: e.target.value})} className="form-control" style={{textAlign:"center"}} placeholder="Weight (KG)" /><p/><p/>
                                     </div>
                                 :null}   
 
+                                {/* Ability to add sets and reps */}
                                 {this.state.showSets? 
                                     <div style={{margin: "0px auto", width:"90%"}}>
                                         <input required type="number" onChange={(e) => this.setState({sets: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Sets"/>  
                                         <input required type="number" onChange={(e) => this.setState({repetitions: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Repetitions"/>
                                     </div>
                                 :null}
+                                
+                                {/* Ability to add notes */}
                                 {this.state.showNotes?
-                                    <p>
-                                        <textarea rows="3" onChange={(e) => this.setState({notes: e.target.value})} className="form-control" placeholder="Notes (e.g. Video links)" style={{marginTop: "20px"}}/>
-                                    </p>
+                                    <p><textarea rows="3" onChange={(e) => this.setState({notes: e.target.value})} className="form-control" placeholder="Notes (e.g. Video links)" style={{marginTop: "20px"}}/></p>
                                 :null}
                             </div>
 
-
+                            {/* Modal close and add buttons */}
                             <div className="modal-footer">
                                 <button type="submit" className="btn btn-primary" disabled={this.state.disableBttn}>Add</button>
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
