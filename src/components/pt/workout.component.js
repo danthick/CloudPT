@@ -11,6 +11,7 @@ export default class Workout extends Component{
         this.createNewWorkout = this.createNewWorkout.bind(this);
         this.getWorkouts = this.getWorkouts.bind(this);
         this.deleteWorkout = this.deleteWorkout.bind(this);
+        this.editWorkout = this.editWorkout.bind(this);
 
         this.state = {
             workoutsLoading: false,
@@ -25,7 +26,7 @@ export default class Workout extends Component{
     }
 
     createNewWorkout(){
-        this.props.history.push({ pathname: '/workout/new'});
+        this.props.history.push({ pathname: '/workout/new', workout: "null"});
     }
 
     async getWorkouts(){
@@ -66,6 +67,10 @@ export default class Workout extends Component{
         }
     }
 
+    editWorkout(index){
+        this.props.history.push({ pathname: '/workout/new', workout: this.state.workouts[index]});
+    }
+
 
 
     render() {
@@ -81,8 +86,7 @@ export default class Workout extends Component{
 
                     {this.state.workouts.map((workout, index) => {
                     return (
-                        <div key={index}><WorkoutList workout={workout} delete={this.deleteWorkout} index={index}/></div>
-                        
+                        <div key={index}><WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} index={index}/></div>
                     )})}</div>
                 }
             <br/><br/><br/><br/></Fragment>

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import AppBar from '../navigation/appBar.component';
 import ExerciseList from './exerciseList.component';
-
 import Exercise from '../../data/exercises'; // Importing list of exercises array
 const $ = window.$;
 
@@ -36,7 +35,23 @@ export default class Workout extends Component{
             notes: "",
             showExercises: true,
             workoutName: "",
+            workoutID: "", 
         }
+    }
+
+    componentDidMount(){
+        if(this.props.location.workout !== "null"){
+            savedExercises = this.props.location.workout.exercises
+            this.setState({
+                workoutName: this.props.location.workout.workout.name,
+                workoutID: this.props.location.workout.workout._id
+            })
+        } else {
+            savedExercises = [];
+            this.setState({showExercises: false})
+            this.setState({showExercises: false})
+        }
+
     }
 
     exerciseTypeChange(e){
@@ -158,6 +173,20 @@ export default class Workout extends Component{
         
         savedExercises[0].workoutName = this.state.workoutName;
 
+        if(this.state.workoutID !== ""){
+            fetch('/api/workout/' + this.state.workoutID, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                }
+            })
+        }
+
+
+
         const workoutData = JSON.stringify(savedExercises)
         fetch('/api/workout/new', {
             method: 'POST',
@@ -182,10 +211,10 @@ export default class Workout extends Component{
         return (
             <Fragment>
                 
-                <AppBar width="100%" pageName="NEW WORKOUT" back="/workout"/>
+                <AppBar width="100%" pageName="CREATE WORKOUT" back="/workout"/>
                 
                 <form onSubmit={e => this.saveWorkout(e)}>
-                    <input type="text" className="form-control" placeholder="Workout Name" onChange={(e) => this.setState({workoutName: e.target.value})} required style={{textAlign: "center"}}/><br/>
+                    <input type="text" className="form-control" placeholder="Workout Name" value={this.state.workoutName} onChange={(e) => this.setState({workoutName: e.target.value})} required style={{textAlign: "center"}}/><br/>
 
                     <button type="button" className="btn btn-success container" data-toggle="modal" data-target="#addExercise">ADD EXERCISE</button><br/><br/>
 
@@ -196,7 +225,7 @@ export default class Workout extends Component{
                     <div>{savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/></div>)}</div>
                     : null }
 
-                    <br/><button type="submit" className="btn btn-primary container" disabled={savedExercises.length? false:true}>CREATE WORKOUT</button> <br/><br/><br/><br/>
+                    <br/><button type="submit" className="btn btn-primary container" disabled={savedExercises.length? false:true}>SAVE WORKOUT</button> <br/><br/><br/><br/>
 
                 </form>
 

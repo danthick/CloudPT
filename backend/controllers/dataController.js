@@ -81,6 +81,8 @@ module.exports = function (app) {
 
     app.post("/api/workout/new", async function(req, res){
         var user = await getUserByEmail(req._passport.session.user);
+
+        // Create new workout and save exercises
         var newWorkout = new schemas.Workout({
             name: req.body[0].workoutName,
             userCreated: user[0].email,
@@ -106,19 +108,10 @@ module.exports = function (app) {
             }
         });
         return res.json({success: true});
+    
     })
 
     app.get("/api/workout", async function(req, res){
-        workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
-        var workoutData = [];
-        for (var i = 0; i < workouts.length; i++){
-            exercises = await schemas.Exercise.find({workoutID: workouts[i]._id});
-            workoutData[i] = {workout: workouts[i], exercises: exercises}; 
-        }
-        return res.json({workouts: workoutData})
-    });
-
-    app.delete("/api/workout", async function(req, res){
         workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
         var workoutData = [];
         for (var i = 0; i < workouts.length; i++){
