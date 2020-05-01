@@ -304,3 +304,37 @@ html {
   bottom: 0;
   background-color: white;
 }
+
+/* Client List */
+
+.clientList{
+  border-radius: 5px;
+  border-style: solid;
+  border-color: lightgray;
+  border-width: 1px;
+  margin-bottom: 10px;
+  padding: 5px 5px 30px 30px;
+  display:block;
+  text-align: center;
+  font-size: larger;
+}
+
+label {
+  display: block;
+}
+
+.clientList .custom-control-label::before, 
+.clientList .custom-control-label::after {
+  top: 1.2rem;
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+.clientList .custom-control-label{
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
+.daySelection{
+  padding: 20px;
+}

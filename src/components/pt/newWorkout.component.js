@@ -158,11 +158,9 @@ export default class Workout extends Component{
             sets: "",
             repetitions: "",
             notes: "",
+            showExercises: false
         })
-    }
-
-    editExercise(index){
-        
+        this.setState({showExercises: true})
     }
 
     deleteExercise(index){

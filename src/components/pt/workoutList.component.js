@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/core'
 
 
-export default class exerciseList extends Component{
+export default class workoutList extends Component{
     constructor(props) {
         super(props);
 
@@ -31,8 +31,9 @@ export default class exerciseList extends Component{
                     </Box>
                 </Flex>
                 
-                <button style={{float: "left"}} type="button" className="btn btn-danger container" onClick={() => this.props.delete(this.props.index)}>Delete</button>
-                <button style={{float: "right"}} type="button" className="btn btn-info container" onClick={() => this.props.edit(this.props.index)}>Edit</button>
+                <button style={{float: "left", width: "80px"}} type="button" className="btn btn-danger container" onClick={() => this.props.delete(this.props.index)}>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button style={{display: "inline-block", width: "140px"}} type="button" className="btn btn-success container" onClick={() => this.props.assign(this.props.index)}>Assign Workout</button>
+                <button style={{float: "right", width: "80px"}} type="button" className="btn btn-info container" onClick={() => this.props.edit(this.props.index)}>Edit</button>
             </Box>
             
             </div>
