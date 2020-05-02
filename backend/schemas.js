@@ -52,6 +52,14 @@ var Relationship = mongoose.model("relationship", {
     active: Boolean
 })
 
+var AssignedWorkout = mongoose.model("assignedworkout", {
+    user: String,
+    pt: String,
+    workoutID: String,
+    day: String,
+    dateAssigned: Date
+});
+
 // Export data structures
 module.exports.User = User;
 module.exports.Weight = Weight;
@@ -59,3 +67,4 @@ module.exports.Message = Message;
 module.exports.Workout = Workout;
 module.exports.Exercise = Exercise;
 module.exports.Relationship = Relationship;
+module.exports.AssignedWorkout = AssignedWorkout;

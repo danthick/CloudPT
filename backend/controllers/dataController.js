@@ -132,6 +132,18 @@ module.exports = function (app) {
 
     });
 
+    app.post("/api/workout/assign", async function(req, res){
+        var assignment = new schemas.AssignedWorkout({
+            user: req.body.client.email,
+            pt: req._passport.session.user,
+            workoutID: req.body.workoutSelected._id,
+            day: req.body.day,
+            dateAssigned: new Date(),
+        })
+        assignment.save();
+        return res.json({success: true})
+    });
+
     app.get("/api/user/relationship", async function (req, res){
         var currentUser = await getUserByEmail(req._passport.session.user);
 

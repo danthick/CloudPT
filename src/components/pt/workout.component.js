@@ -18,16 +18,20 @@ export default class Workout extends Component{
         this.state = {
             workoutsLoading: false,
             workouts: [],
-            clients: [],
+            allClients: [],
             day: "Monday",
             assignBttn: false,
+            client: "",
+            workoutSelected: "",
+            showSuccess: false,
+            successMsg: "",
         };
     }
 
     async componentDidMount(){
         await this.getWorkouts();
         await this.getClients();
-        selectedClients = [this.state.clients.length].fill(false);
+        selectedClients = [this.state.allClients.length].fill(false);
     }
 
     createNewWorkout(){
@@ -46,7 +50,7 @@ export default class Workout extends Component{
         }).then(async res => {
             await res.json().then(log => {
                 this.setState({ 
-                    clients: log.clients,
+                    allClients: log.clients,
                     currentUser: log.currentUser[0]
                 })
             });
@@ -91,12 +95,36 @@ export default class Workout extends Component{
         }
     }
 
-    assignWorkout(){
-        for(var i = 0; i < this.state.clients.length; i++){
+    async assignWorkout(){
+        for(var i = 0; i < this.state.allClients.length; i++){
             if(selectedClients[i] === true){
-                console.log(this.state.day)
-                console.log(this.state.clients[i].firstName)
-                console.log(this.state.clients[i].lastName)
+                console.log(this.state.allClients[i].email)
+
+                await this.setState({
+                    client: this.state.allClients[i],
+                }, async () => {
+                    console.log(this.state.client.email)
+                    const assignmentData = JSON.stringify(this.state);
+                    await fetch('/api/workout/assign', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Credentials": true
+                            },
+                        body: assignmentData
+                    }).then(async res => {
+                        await res.json().then(async log => {
+                            if (log.success){
+                                this.setState({
+                                    showSuccess: true,
+                                    successMsg: "Workout has been assigned!"
+                                })
+                            }
+                        });
+                        }).catch(error => console.log(error))
+                })
             }
         }
     }
@@ -107,7 +135,9 @@ export default class Workout extends Component{
 
     openModal(index){
         // Setting workout name for modal title
-        this.setState({workoutNameAssign: this.state.workouts[index].workout.name})
+        this.setState({
+            workoutSelected: this.state.workouts[index].workout
+        })
         // Open modal
         window.$('#assignModal').modal();
     }
@@ -122,7 +152,12 @@ export default class Workout extends Component{
         return (
             <Fragment>
                 <AppBar width="100%" pageName="WORKOUTS"/>
-                <button type="button" className="btn btn-primary container" onClick={this.createNewWorkout}>Create New Workout</button><br/><br/>
+                <button type="button" className="btn btn-primary container" onClick={this.createNewWorkout}>Create New Workout</button><br/>
+
+                { this.state.showSuccess?
+                    <h4 className="alert alert-success alert-dismissible" role="alert" style={{textAlign: "center", fontSize: "16px"}}> { this.state.successMsg } </h4>
+                : null
+                }
                 
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : this.state.workouts.length > 0 &&
@@ -147,7 +182,7 @@ export default class Workout extends Component{
                     <div className="modal-dialog"><br/><br/><br/><br/><br/>
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="modal-title">{this.state.workoutNameAssign}</h4>
+                                <h4 className="modal-title">{this.state.workoutSelected.name}</h4>
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div className="modal-body">    
@@ -178,10 +213,10 @@ export default class Workout extends Component{
                                 </div><p/><p/>
 
                                 {/* List of clients to select */}
-                                {this.state.clients.length?
+                                {this.state.allClients.length?
                                 <div className="custom-control-lg custom-checkbox mb-0">
                                     <h4>Select clients</h4>
-                                    {this.state.clients.map((client, index) => {
+                                    {this.state.allClients.map((client, index) => {
                                     return (
                                     <li key={index} className="clientList">
                                         <input type="checkbox" className="custom-control-input" id={index} value={index} onChange={e => this.checkboxChange(e)}/>
