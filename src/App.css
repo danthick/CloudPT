@@ -338,3 +338,12 @@ label {
 .daySelection{
   padding: 20px;
 }
+
+
+
+.clientWorkoutList{
+  background: rgba(128, 128, 128, 0.205); 
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

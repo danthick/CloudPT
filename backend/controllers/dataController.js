@@ -129,9 +129,13 @@ module.exports = function (app) {
         await schemas.Exercise.deleteMany({
             workoutID: req.params.id
         })
+        await schemas.AssignedWorkout.deleteMany({
+            workoutID: req.params.id
+        })
 
     });
 
+    // Route to assign a workout to a client
     app.post("/api/workout/assign", async function(req, res){
         var assignment = new schemas.AssignedWorkout({
             user: req.body.client.email,
@@ -142,6 +146,31 @@ module.exports = function (app) {
         })
         assignment.save();
         return res.json({success: true})
+    });
+
+    // Route to get all workouts assigned to current user
+    app.get("/api/workout/assigned", async function(req, res){
+        var user = await getUserByEmail(req._passport.session.user);
+
+        var assignedWorkouts = await schemas.AssignedWorkout.find({user: user[0].email});
+
+        // Get all workouts
+        var workouts = [];
+        for (var i = 0; i < assignedWorkouts.length; i++){
+            workouts[i] = await schemas.Workout.findOne({_id: assignedWorkouts[i].workoutID})
+        }
+        
+        // Get all exercises for each workout
+        var workoutData = [];
+        for (var i = 0; i < workouts.length; i++){
+            exercises = await schemas.Exercise.find({workoutID: workouts[i]._id});
+            workoutData[i] = {workout: workouts[i], exercises: exercises}; 
+        }
+
+        return res.json({
+            workouts: workoutData,
+            assignment: assignedWorkouts
+        })
     });
 
     app.get("/api/user/relationship", async function (req, res){

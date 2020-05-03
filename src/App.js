@@ -6,7 +6,7 @@ import Login from "./components/login.component";
 import Home from "./components/home.component";
 import HomePT from "./components/pt/home.component";
 import Register from "./components/register.component";
-import Workout from "./components/workout.component";
+import Workout from "./components/client/workout.component";
 import WorkoutPT from "./components/pt/workout.component";
 import Messages from "./components/messages.component";
 import Chat from "./components/chat.component";
@@ -92,9 +92,12 @@ class App extends Component {
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={newWorkout} />
           </Switch>
           :
-          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
+          <Switch>
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={Workout} />
+          </Switch>
           }
-          <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={Home} />
+          
           
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/messages' component={Messages} />
           <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/chat' component={Chat} />
