@@ -9,6 +9,7 @@ export default class Workout extends Component{
 
         this.getWorkouts = this.getWorkouts.bind(this);
         this.loadWorkouts = this.loadWorkouts.bind(this);
+        this.startWorkout = this.startWorkout.bind(this);
 
         this.state = {
             workoutsLoading: false,
@@ -40,7 +41,6 @@ export default class Workout extends Component{
               },
         }).then(async res => {
             await res.json().then(async log => {
-                console.log(log.workouts)
                 this.setState({
                     workouts: log.workouts,
                     assignment: log.assignment
@@ -85,6 +85,13 @@ export default class Workout extends Component{
         }
     }
 
+    startWorkout(workout){
+        this.props.history.push({
+            pathname: '/workout/record',
+            workout: workout,
+        });
+    }
+
 
     render() {
         return (
@@ -103,7 +110,7 @@ export default class Workout extends Component{
                         {this.state.monday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}
@@ -112,7 +119,7 @@ export default class Workout extends Component{
                         {this.state.tuesday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}
@@ -121,7 +128,7 @@ export default class Workout extends Component{
                         {this.state.wednesday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}
@@ -130,7 +137,7 @@ export default class Workout extends Component{
                         {this.state.thursday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}
@@ -139,7 +146,7 @@ export default class Workout extends Component{
                         {this.state.friday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}
@@ -148,7 +155,7 @@ export default class Workout extends Component{
                         {this.state.saturday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}
@@ -157,7 +164,7 @@ export default class Workout extends Component{
                         {this.state.sunday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/>
+                            <WorkoutList workout={workout} start={this.startWorkout} index={index}/>
                         </div>
                         )})}
                     </div>}

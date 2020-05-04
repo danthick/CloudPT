@@ -94,6 +94,7 @@ module.exports = function (app) {
                 var newExercise = new schemas.Exercise({
                     workoutID: message._id,
                     exerciseTypeValue: req.body[i].exerciseTypeValue,
+                    bodyPartValue: req.body[i].bodyPartValue,
                     exerciseValue: req.body[i].exerciseValue,
                     customName: req.body[i].customName,
                     minutes: req.body[i].minutes,
@@ -106,8 +107,12 @@ module.exports = function (app) {
                 })
                 newExercise.save();
             }
+            return res.json({
+                success: true,
+                _id: message._id
+            });
         });
-        return res.json({success: true});
+        
     
     })
 
@@ -121,7 +126,7 @@ module.exports = function (app) {
         return res.json({workouts: workoutData})
     });
 
-    app.delete("/api/workout/:id", async function(req, res){
+    app.delete("/api/workout/delete/:id", async function(req, res){
         await schemas.Workout.deleteOne({
             _id: req.params.id,
             userCreated: req._passport.session.user
@@ -132,7 +137,24 @@ module.exports = function (app) {
         await schemas.AssignedWorkout.deleteMany({
             workoutID: req.params.id
         })
+        res.sendStatus(200);
+    });
 
+    app.post("/api/workout/update/:id", async function(req, res){
+        await schemas.Workout.deleteOne({
+            _id: req.params.id,
+            userCreated: req._passport.session.user
+        })
+        await schemas.Exercise.deleteMany({
+            workoutID: req.params.id
+        })
+
+        await schemas.AssignedWorkout.updateMany({
+            workoutID: req.params.id}, 
+            {"$set": {workoutID: req.body.newWorkoutID}}, 
+            {new: true, multi: true, useFindAndModify: false
+        })
+        res.sendStatus(200);
     });
 
     // Route to assign a workout to a client
