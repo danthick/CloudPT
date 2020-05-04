@@ -152,7 +152,7 @@ chai.should();
 //     });
 // });
 
-// // Testing deleting a user
+// Testing deleting a user
 // describe("Delete User", () => {
 //     it("should delete an existing user", (done) => {
 //         chai.request(app)
@@ -164,3 +164,11 @@ chai.should();
 //             });
 //     });
 // });
+
+
+describe("Testing test", () => {
+    it("should test tests", (done) => {
+        chai.assert.equal(3, 3);
+        done();
+    });
+});

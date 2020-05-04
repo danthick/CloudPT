@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.9.4",
     "@chakra-ui/core": "^0.7.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
@@ -11,6 +12,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
@@ -49,7 +51,7 @@
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd backend && nodemon server\"",
     "build": "react-scripts build",
-    "test": "concurrently \"react-scripts test\" \"cd backend && mocha test\"",
+    "test": "concurrently \"react-scripts test --watchAll=false\" \"cd backend && mocha test --exit\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
