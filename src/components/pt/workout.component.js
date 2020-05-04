@@ -81,7 +81,7 @@ export default class Workout extends Component{
     deleteWorkout(index){
         let deleteWeight = window.confirm("Click OK if you want to delete this workout. It will also be deleted from clients schedule.");
         if (deleteWeight){
-            fetch('/api/workout/' + this.state.workouts[index].workout._id, {
+            fetch('/api/workout/delete/' + this.state.workouts[index].workout._id, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -98,12 +98,9 @@ export default class Workout extends Component{
     async assignWorkout(){
         for(var i = 0; i < this.state.allClients.length; i++){
             if(selectedClients[i] === true){
-                console.log(this.state.allClients[i].email)
-
                 await this.setState({
                     client: this.state.allClients[i],
                 }, async () => {
-                    console.log(this.state.client.email)
                     const assignmentData = JSON.stringify(this.state);
                     await fetch('/api/workout/assign', {
                         method: 'POST',

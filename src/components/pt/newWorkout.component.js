@@ -37,6 +37,9 @@ export default class Workout extends Component{
             workoutName: "",
             workoutID: "", 
         }
+        if(typeof this.props.location.workout === "undefined"){
+            window.location = "/workout"
+        }
     }
 
     componentDidMount(){
@@ -170,25 +173,13 @@ export default class Workout extends Component{
         this.setState({showExercises: true});
     }
 
-    saveWorkout(e){
+    async saveWorkout(e){
         e.preventDefault();
         savedExercises[0].workoutName = this.state.workoutName;
 
-        // If updating a workout - delete current workout first
-        if(this.state.workoutID !== ""){
-            fetch('/api/workout/' + this.state.workoutID, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true
-                }
-            })
-        }
-
         const workoutData = JSON.stringify(savedExercises)
-        fetch('/api/workout/new', {
+        var newWorkoutID;
+        await fetch('/api/workout/new', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -197,13 +188,31 @@ export default class Workout extends Component{
                 "Access-Control-Allow-Credentials": true
             },
             body: workoutData
-        }).then(res => {
-            res.json().then(log => {
-                if(log.success){
-                    this.props.history.push({ pathname: '/workout/'});
-                }
+        }).then(async res => {
+            await res.json().then(async log => {
+                newWorkoutID = log._id;
             });
             }).catch(error => console.log(error))
+
+        // If workout is being updated
+        if(this.state.workoutID !== ""){
+            console.log(newWorkoutID)
+            console.log(this.state.workoutID)
+            fetch('/api/workout/update/' + this.state.workoutID, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify({oldWorkoutID: this.state.workoutID, newWorkoutID: newWorkoutID})
+            })
+        }
+
+        this.props.history.push({ pathname: '/workout/'});
+        
+
     }
 
 
@@ -222,7 +231,7 @@ export default class Workout extends Component{
                     <div className="alert alert-info" role="alert" style={{textAlign: "center"}}>Add an exercise to begin creating this workout!</div>}
 
                     {/* List all exercises that have been added to the workout */}
-                    {this.state.showExercises? 
+                    {this.state.showExercises?
                     <div>{savedExercises.map((exercise, index) => <div key={index}><ExerciseList exercise={exercise} index={index} delete={this.deleteExercise}/></div>)}</div>
                     : null }
 

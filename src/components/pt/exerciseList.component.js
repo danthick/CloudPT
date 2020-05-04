@@ -14,12 +14,11 @@ export default class exerciseList extends Component{
             exerciseData: this.props.exercise,
             exerciseType: ["Cardio", "Stretching", "Body Weight", "Barbell", "Dumbbell"],
         }
-
         this.getExerciseData()
     }
 
     getExerciseData(){
-        // // Checking if a custom exercise name was used or a pre-selected one
+        // Checking if a custom exercise name was used or a pre-selected one
         if(this.state.exerciseData.customName !== ""){
             name = this.state.exerciseData.customName
         } else if(this.state.exerciseData.exerciseTypeValue === "0") {

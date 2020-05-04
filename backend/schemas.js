@@ -36,6 +36,7 @@ var Exercise = mongoose.model("exercise", {
     workoutID: String,
     exerciseTypeValue: String,
     exerciseValue: String,
+    bodyPartValue: String,
     customName: String,
     minutes: String,
     seconds: String,
