@@ -49,7 +49,7 @@
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd backend && nodemon server\"",
     "build": "react-scripts build",
-    "test": "concurrently \"react-scripts test\" \"mocha cd backend/test.js \"",
+    "test": "concurrently \"react-scripts test\" \"cd backend && mocha test\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
