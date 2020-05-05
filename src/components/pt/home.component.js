@@ -133,12 +133,16 @@ export default class Home extends Component{
                 }
 
                 {this.state.clientsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
-                : this.state.clients.map((client, index) => {
+                :
+                <div>
+                <h2>Clients</h2>
+                {this.state.clients.map((client, index) => {
                     return (
                         <div key={index}><ClientList client={client}/></div>
                         
                     )
                 })}
+                </div>}
 
                 <form onSubmit={e => this.addClient(e)}>
                 <div className="container">
@@ -162,7 +166,7 @@ export default class Home extends Component{
                         </div>
                     </div>
                 </div>
-                </form>
+                </form><br/><br/><br/><br/>
                 
               
             </Fragment>
