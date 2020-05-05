@@ -328,8 +328,8 @@ export default class Workout extends Component{
                                 {/* Ability to add sets and reps */}
                                 {this.state.showSets? 
                                     <div style={{margin: "0px auto", width:"90%"}}>
-                                        <input required type="number" onChange={(e) => this.setState({sets: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Sets"/>  
-                                        <input required type="number" onChange={(e) => this.setState({repetitions: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Repetitions"/>
+                                        <input required type="number" inputMode="decimal" onChange={(e) => this.setState({sets: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Sets"/>  
+                                        <input required type="number" inputMode="decimal" onChange={(e) => this.setState({repetitions: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Repetitions"/>
                                     </div>
                                 :null}
                                 
