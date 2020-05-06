@@ -23,6 +23,7 @@ export default class Workout extends Component{
             sunday: [],
             showMessage: false,
             message: "",
+            assignment: [],
         };
     }
 
