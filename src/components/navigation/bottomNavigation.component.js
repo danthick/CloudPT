@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   
   export default function LabelBottomNavigation() {
     const classes = useStyles();
-    const [value, setValue] = React.useState('home');
+    const [value, setValue] = React.useState(window.location.pathname.substr(1,));
     const history = useHistory();
   
     const handleChange = (event, newValue) => {
