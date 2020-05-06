@@ -21,12 +21,21 @@ export default class Workout extends Component{
             friday: [],
             saturday: [],
             sunday: [],
+            showMessage: false,
+            message: "",
         };
     }
 
     async componentDidMount(){
         await this.getWorkouts();
         this.loadWorkouts();
+
+        if(this.props.location.workoutRecorded){
+            this.setState({
+                showMessage: true,
+                message: "Workout has been completed, well done!"
+            })
+        }
     }
 
     async getWorkouts(){
@@ -98,6 +107,11 @@ export default class Workout extends Component{
             <Fragment>
                 <AppBar width="100%" pageName="WORKOUTS"/>
                 
+                { this.state.showMessage?
+                    <h6 className="alert alert-success alert-dismissible" role="alert"> {this.state.message} </h6>
+                :   null  
+                }
+
                 
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : this.state.workouts.length > 0 &&

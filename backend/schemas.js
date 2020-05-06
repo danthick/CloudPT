@@ -61,6 +61,13 @@ var AssignedWorkout = mongoose.model("assignedworkout", {
     dateAssigned: Date
 });
 
+var RecordedWorkout = mongoose.model("recordedworkout", {
+    user: String,
+    workoutID: String,
+    completedExercises: Object,
+    notes: String,
+})
+
 // Export data structures
 module.exports.User = User;
 module.exports.Weight = Weight;
@@ -69,3 +76,4 @@ module.exports.Workout = Workout;
 module.exports.Exercise = Exercise;
 module.exports.Relationship = Relationship;
 module.exports.AssignedWorkout = AssignedWorkout;
+module.exports.RecordedWorkout = RecordedWorkout;
