@@ -307,7 +307,7 @@ export default class Workout extends Component{
                                 {this.state.showTime?
                                     <div style={{margin: "0px auto", width:"90%"}}>
                                         <input required type="number" inputMode="decimal" onChange={(e) => this.setState({minutes: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Minutes"/>  
-                                        <input required type="number" inputMode="decimal" onChange={(e) => this.setState({seconds: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Seconds"/>
+                                        <input required type="number" inputMode="decimal" max="59" onChange={(e) => this.setState({seconds: e.target.value})} className="form-control" style={{width: "47%", textAlign:"center", display: "inline-block", margin: "2px"}} placeholder="Seconds"/>
                                     </div>
                                 : null }
                                 
