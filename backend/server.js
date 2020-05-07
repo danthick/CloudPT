@@ -7,6 +7,7 @@ const passportFunc = require("./passport");
 const flash = require("express-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const path = require("path")
 
 const authController = require("./controllers/authController");
 const dataController = require("./controllers/dataController");
@@ -44,7 +45,7 @@ app.use(
       credentials: true // allow session cookie from browser to pass through
     })
   );
-
+  
 passportFunc.initPassport(passport);
 
 app.get('/serviceWorker.js', (req, res)=> {
@@ -59,6 +60,11 @@ authController(app);
 dataController(app);
 webSocketController(app, server);
 
-
+if(app.get('env') === 'production'){
+  app.use(express.static(path.resolve(__dirname, 'build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+  })
+}
 
 module.exports = app;
