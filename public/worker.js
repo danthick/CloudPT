@@ -1,7 +1,10 @@
 var CACHE_NAME = 'cloudpt';
 var urlsToCache = [
   '/',
-  '/completed'
+  '/home',
+  '/workout',
+  '/messages',
+  '/account'
 ];
 
 // Install a service worker
