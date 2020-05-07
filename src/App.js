@@ -13,7 +13,7 @@ import Chat from "./components/chat.component";
 import Account from "./components/account/account.component";
 import BottomNav from  './components/navigation/bottomNavigation.component';
 import Body from './components/account/body.component';
-import newWorkout from './components/pt/newWorkout.component';
+import NewWorkout from './components/pt/newWorkout.component';
 import AccountEdit from './components/account/accountEdit.component';
 import ChangePassword from './components/account/changePassword.component';
 import UserRole from './components/account/userRole.component';
@@ -90,7 +90,7 @@ class App extends Component {
           <Switch>
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={HomePT} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
-            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={newWorkout} />
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={NewWorkout} />
           </Switch>
           :
           <Switch>
