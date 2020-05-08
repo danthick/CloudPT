@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login.component";
-import Home from "./components/home.component";
+import Home from "./components/client/home.component";
 import HomePT from "./components/pt/home.component";
 import Register from "./components/register.component";
 import Workout from "./components/client/workout.component";

@@ -196,17 +196,23 @@ module.exports = function (app) {
     });
 
     app.post("/api/workout/record", async function(req, res){
-        console.log(req.body.completedExercises)
-        console.log(typeof req.body.completedExercises)
-
         var recordedWorkout = new schemas.RecordedWorkout({
             user: req._passport.session.user,
             workoutID: req.body.workoutID,
             completedExercises: req.body.completedExercises,
-            notes: req.body.notes
+            notes: req.body.notes,
+            dateRecorded: new Date(),
         })
         recordedWorkout.save();
         return res.json({success: true})
+    });
+
+    app.get("/api/workout/record", async function(req, res){
+        var user = await getUserByEmail(req._passport.session.user);
+
+        var recordedWorkouts = await schemas.RecordedWorkout.find({user: user[0].email});
+        
+        return res.json({recordedWorkouts: recordedWorkouts})
     });
 
     app.get("/api/user/relationship", async function (req, res){

@@ -66,6 +66,7 @@ var RecordedWorkout = mongoose.model("recordedworkout", {
     workoutID: String,
     completedExercises: Object,
     notes: String,
+    dateRecorded: Date,
 })
 
 // Export data structures
