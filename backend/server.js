@@ -29,7 +29,7 @@ app.use(session({
     resave: true,
     rolling: true,
     saveUninitialized: true,
-    cookie: {maxAge: 1 * 60 * 60 * 1000} // 1 hour of inactivity
+    //cookie: {maxAge: 1 * 60 * 60 * 1000} // 1 hour of inactivity
 }))
 app.use(cookieParser());
 app.use(bodyParser.json());
