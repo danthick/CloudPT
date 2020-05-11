@@ -178,7 +178,7 @@ export default class Login extends Component {
                         <TimelineIcon style={{fontSize: "65px", float: "left"}}/>
                         <h3 style={{fontSize: "30px", lineHeight: "55px"}}>Track Progress</h3>
                         <li className="list-group-item" style={{textAlign: "center"}}>See progress your clients are making during programs</li>
-                        <li className="list-group-item" style={{textAlign: "center"}}></li>
+                        <li className="list-group-item" style={{textAlign: "center"}}>View all your clients past workout</li>
                         
 
                     </div>
