@@ -102,7 +102,6 @@ export default class Workout extends Component{
         });
     }
 
-
     render() {
         return (
             <Fragment>
@@ -189,6 +188,8 @@ export default class Workout extends Component{
                 {this.state.workoutsLoading? null : this.state.workouts.length < 1 &&
                     <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}> Workouts that get assigned to you will appear here! </div>
                 }
+
+                <button type="button" className="btn btn-primary container" onClick={() => this.props.history.push({pathname: '/workout/history'})}>Workout History</button>
 
             <br/><br/><br/><br/></Fragment>
         )

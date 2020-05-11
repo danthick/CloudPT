@@ -117,13 +117,22 @@ module.exports = function (app) {
     })
 
     app.get("/api/workout", async function(req, res){
-        workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
+        var workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
         var workoutData = [];
         for (var i = 0; i < workouts.length; i++){
             exercises = await schemas.Exercise.find({workoutID: workouts[i]._id});
             workoutData[i] = {workout: workouts[i], exercises: exercises}; 
         }
         return res.json({workouts: workoutData})
+    });
+
+    // Route to return one workout given it's ID
+    app.get("/api/workout/one/:id", async function(req, res){
+        var workout = await schemas.Workout.find({_id: req.params.id});
+        var exercises = await schemas.Exercise.find({workoutID: workout[0]._id});
+
+        var workoutData = {workout: workout[0], exercises: exercises}; 
+        return res.json({workout: workoutData})
     });
 
     app.delete("/api/workout/delete/:id", async function(req, res){
