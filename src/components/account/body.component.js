@@ -14,6 +14,8 @@ export default class Weight extends Component{
         this.state = {
             weight: 60,
             height: 150,
+            sliderWeight: 0,
+            sliderHeight: 0,
             userHeight: false,
             date: new Date(),
             allWeights: []
@@ -29,9 +31,9 @@ export default class Weight extends Component{
         this.getHeight = this.getHeight.bind(this);
     }
     
-    componentDidMount(){
-        this.getWeight();
-        this.getHeight();
+    async componentDidMount(){
+        await this.getWeight();
+        await this.getHeight();
         this.renderSlideRulerWeight();
         this.renderSlideRulerHeight();
     }
@@ -48,7 +50,7 @@ export default class Weight extends Component{
             el: this.refs.slideRulerWeight,
             maxValue: 250,
             minValue: 30,
-            currentValue: 80,
+            currentValue: this.state.allWeights[0].weight,
             handleValue: this.handleValueWeight,
             precision: 0.1,
             fontColor: "#FFFFFF"
@@ -60,15 +62,15 @@ export default class Weight extends Component{
             el: this.refs.slideRulerHeight,
             maxValue: 250,
             minValue: 30,
-            currentValue: 150,
+            currentValue: this.state.userHeight,
             handleValue: this.handleValueHeight,
             precision: 0.5,
             fontColor: "#FFFFFF"
         });
     }
     
-    getWeight(e){
-        fetch('/api/weight/', {
+    async getWeight(e){
+        await fetch('/api/weight/', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -77,8 +79,8 @@ export default class Weight extends Component{
                 "Access-Control-Allow-Credentials": true
               }
             }
-        ).then(res => {
-            res.json().then(async log => {
+        ).then(async res => {
+            await res.json().then(async log => {
                 // Sort weights into date order
                 this.setState({allWeights: log.weights.sort((a, b) => new Date(b.date) - new Date(a.date))})
             });
@@ -135,8 +137,8 @@ export default class Weight extends Component{
         window.location.reload();
       }
 
-      getHeight(){
-        fetch('/api/height/', {
+      async getHeight(){
+        await fetch('/api/height/', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -145,8 +147,8 @@ export default class Weight extends Component{
                 "Access-Control-Allow-Credentials": true
               }
             }
-        ).then(res => {
-            res.json().then(async log => {
+        ).then(async res => {
+            await res.json().then(async log => {
                 this.setState({userHeight: log.height})
             });
             }).catch(error => console.log(error))
