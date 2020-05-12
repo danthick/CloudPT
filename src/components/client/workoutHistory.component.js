@@ -10,6 +10,7 @@ export default class WorkoutHistory extends Component{
 
         this.getRecordedWorkouts = this.getRecordedWorkouts.bind(this);
         this.getWorkoutInfo = this.getWorkoutInfo.bind(this);
+        this.viewRecordedWorkout = this.viewRecordedWorkout.bind(this);
 
         this.state = {
             workoutsLoading: false,
@@ -20,11 +21,6 @@ export default class WorkoutHistory extends Component{
     async componentDidMount(){
         await this.getRecordedWorkouts();
         await this.getWorkoutInfo();
-        if(this.state.recordedWorkouts.length > 0){
-            //this.calculateWorkoutInfo();
-        }
-        console.log(workoutInfo)
-        
     }
 
     async getRecordedWorkouts(){
@@ -75,30 +71,13 @@ export default class WorkoutHistory extends Component{
         });
     }
 
-
-
-    
-
     render() {
         return (
             <Fragment>
                 <AppBar width="100%" pageName="WORKOUT HISTORY" back={"/workout"}/>
-                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "24px"}}>Welcome to CloudPT!</div>
 
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
-                : this.state.recordedWorkouts.length > 0 &&
-                <div>
-                    <div className="alert alert-info" role="alert">
-                        <p style={{textAlign: "center",fontSize: "36px"}}>{this.state.noOfWorkoutsInWeek} </p>
-                        <p style={{textAlign: "center"}}>Workout{this.state.noOfWorkoutsInWeek !== 1 && <span>s</span>} completed this week!</p>
-                        {this.state.noOfWorkoutsInWeek === 0 && <p style={{textAlign: "center"}}>Try completing a work out soon! You can do this!</p>}
-                    </div>
-                    <div className="alert alert-info" role="alert">
-                        <p style={{textAlign: "center",fontSize: "36px"}}>{this.state.lastWorkout}</p>
-                        <p style={{textAlign: "center"}}>Last completed workout!</p>
-                    </div>
-
-                </div>}
+                : null }
 
                 {this.state.workoutsLoading? null
                 : this.state.recordedWorkouts.length < 1 &&

@@ -17,7 +17,18 @@ export default class exerciseList extends Component{
             exerciseType: ["Cardio", "Stretching", "Body Weight", "Barbell", "Dumbbell"],
         }
 
+        console.log(this.props.index)
+
         this.getExerciseData()
+
+    }
+
+    componentDidMount(){
+        if(this.props.recordedInfo){
+            this.complete();
+        } else {
+            this.missed();
+        }
     }
 
     getExerciseData(){
@@ -37,13 +48,13 @@ export default class exerciseList extends Component{
     complete(){
         document.getElementById("list" + this.props.index).style.backgroundColor = "rgba(0, 230, 11, 0.37)";
         document.getElementById("list" + this.props.index).style.borderColor = "white";
-        this.props.complete(this.props.index);
+        //this.props.complete(this.props.index);
     }
 
     missed(){
         document.getElementById("list" + this.props.index).style.backgroundColor = "rgba(230, 0, 0, 0.37)";
         document.getElementById("list" + this.props.index).style.borderColor = "white";
-        this.props.missed(this.props.index);
+        //this.props.missed(this.props.index);
     }
     
     render() {
@@ -80,10 +91,6 @@ export default class exerciseList extends Component{
                         <Text fontFamily="Arial, Helvetica, sans-serif" dangerouslySetInnerHTML={{__html: notes}}/>
                     </Box>
                 </Flex>
-
-                
-                <button type="button" className="btn btn-success container" style={{float: "left"}} onClick={this.complete}>Completed</button>
-                <button type="button" className="btn btn-danger container" style={{float: "right"}} onClick={this.missed}>Missed</button>
             </Box>
             
             </div>
