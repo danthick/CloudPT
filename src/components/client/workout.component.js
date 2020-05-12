@@ -42,7 +42,7 @@ export default class Workout extends Component{
     async getWorkouts(){
         this.setState({workoutsLoading: true});
         await fetch('/api/workout/assigned', {
-            method: 'GET',
+            method: 'POST',
             credentials: 'include',
             headers: {
                 Accept: "application/json",
