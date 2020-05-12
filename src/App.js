@@ -20,6 +20,7 @@ import UserRole from './components/account/userRole.component';
 import RecordWorkout from './components/client/recordWorkout.component';
 import WorkoutHistory from './components/client/workoutHistory.component';
 import ViewWorkoutHistory from './components/client/exerciseHistory.component';
+import ClientSchedule from './components/pt/clientSchedule.component';
 
 function PrivateRoute ({component: Component, authed, wasInitialised, ...rest}) {
   return (
@@ -91,8 +92,10 @@ class App extends Component {
           {this.state.ptBool?
           <Switch>
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home' component={HomePT} />
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home/schedule' component={ClientSchedule} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={NewWorkout} />
+            
           </Switch>
           :
           <Switch>

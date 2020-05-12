@@ -9,6 +9,7 @@ export default class Home extends Component{
         super(props);
 
         this.addClient = this.addClient.bind(this);
+        this.viewSchedule = this.viewSchedule.bind(this);
 
         this.state ={
             clients: [],
@@ -91,7 +92,7 @@ export default class Home extends Component{
 
     async getClients(){
         this.setState({clientsLoading: true});
-        await fetch('api/user/relationship', {
+        await fetch('/api/user/relationship', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -108,6 +109,17 @@ export default class Home extends Component{
             });
             }).catch(error => console.log(error))
         this.setState({clientsLoading: false});
+    }
+
+    viewSchedule(user){
+        this.props.history.push({
+            pathname: '/home/schedule',
+            user: user,
+        });
+    }
+
+    viewDetails(){
+
     }
 
 
@@ -138,7 +150,7 @@ export default class Home extends Component{
                 <h2>Clients</h2>
                 {this.state.clients.map((client, index) => {
                     return (
-                        <div key={index}><ClientList client={client}/></div>
+                        <div key={index}><ClientList client={client} viewSchedule={this.viewSchedule} viewDetails={this.viewDetails}/></div>
                         
                     )
                 })}

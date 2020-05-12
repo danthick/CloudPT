@@ -179,9 +179,20 @@ module.exports = function (app) {
         return res.json({success: true})
     });
 
-    // Route to get all workouts assigned to current user
-    app.get("/api/workout/assigned", async function(req, res){
-        var user = await getUserByEmail(req._passport.session.user);
+    app.delete("api/workout/assign", async function(req, res){
+        await schemas.AssignedWorkout.findOneAndDelete({user: user[0].email});
+        res.sendStatus(200);
+    });
+
+    // Route to get all workouts assigned to a given user/current user
+    app.post("/api/workout/assigned", async function(req, res){
+        console.log(req.body)
+        if (typeof req.body.user === "undefined"){
+            var user = await getUserByEmail(req._passport.session.user);
+        } else {
+            var user = await getUserByEmail(req.body.user.email);
+        }
+        
 
         var assignedWorkouts = await schemas.AssignedWorkout.find({user: user[0].email});
 
@@ -269,6 +280,6 @@ module.exports = function (app) {
 
     // Function to get user from email
     async function getUserByEmail(email) {
-        return await schemas.User.find({email: email});
+        return await schemas.User.find({email: email}, "firstName lastName email ptBool height");
     }
 }

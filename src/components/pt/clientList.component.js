@@ -40,8 +40,8 @@ export default class exerciseList extends Component{
                 </Flex>
 
                 
-                <button type="button" style={{float:"left"}} className="btn btn-primary container" onClick={() => this.props.delete(this.props.index)}>View Details</button>
-                <button type="button" style={{float:"right"}} className="btn btn-success container" onClick={() => this.props.delete()}>View Schedule</button>
+                <button type="button" style={{float:"left"}} className="btn btn-primary container" onClick={() => this.props.viewDetails(this.state.client)}>View Details</button>
+                <button type="button" style={{float:"right"}} className="btn btn-success container" onClick={() => this.props.viewSchedule(this.state.client)}>View Schedule</button>
             </Box>
             
             </div>

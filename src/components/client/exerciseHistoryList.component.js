@@ -26,7 +26,7 @@ export default class exerciseList extends Component{
     componentDidMount(){
         if(this.props.recordedInfo){
             this.complete();
-        } else {
+        } else if (!this.props.recordedInfo) {
             this.missed();
         }
     }
