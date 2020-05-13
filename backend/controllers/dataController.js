@@ -179,14 +179,13 @@ module.exports = function (app) {
         return res.json({success: true})
     });
 
-    app.delete("api/workout/assign", async function(req, res){
-        await schemas.AssignedWorkout.findOneAndDelete({user: user[0].email});
+    app.delete("/api/workout/assign", async function(req, res){
+        await schemas.AssignedWorkout.findOneAndDelete({workoutID: req.body.workout._id, day: req.body.recordedInfo.day});
         res.sendStatus(200);
     });
 
     // Route to get all workouts assigned to a given user/current user
     app.post("/api/workout/assigned", async function(req, res){
-        console.log(req.body)
         if (typeof req.body.user === "undefined"){
             var user = await getUserByEmail(req._passport.session.user);
         } else {

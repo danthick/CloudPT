@@ -32,6 +32,10 @@ export default class Workout extends Component{
     }
 
     async componentDidMount(){
+        this.loadPage();
+    }
+
+    async loadPage(){
         await this.getWorkouts();
         this.loadWorkouts();
     }
@@ -63,49 +67,63 @@ export default class Workout extends Component{
         for (var i = 0; i< this.state.assignment.length; i++){
             if(this.state.assignment[i].day === "Monday"){
                 var monday = this.state.monday;
-                monday.push(this.state.workouts[i])
+                monday.push(i)
                 this.setState({monday: monday})
             } else if(this.state.assignment[i].day === "Tuesday"){
                 var tuesday = this.state.tuesday;
-                tuesday.push(this.state.workouts[i])
+                tuesday.push(i)
                 this.setState({tuesday: tuesday})
             } else if(this.state.assignment[i].day === "Wednesday"){
                 var wednesday = this.state.wednesday;
-                wednesday.push(this.state.workouts[i])
+                wednesday.push(i)
                 this.setState({wednesday: wednesday})
             } else if(this.state.assignment[i].day === "Thursday"){
                 var thursday = this.state.thursday;
-                thursday.push(this.state.workouts[i])
+                thursday.push(i)
                 this.setState({thursday: thursday})
             }  else if(this.state.assignment[i].day === "Friday"){
                 var friday = this.state.friday;
-                friday.push(this.state.workouts[i])
+                friday.push(i)
                 this.setState({friday: friday})
             }  if(this.state.assignment[i].day === "Saturday"){
                 var saturday = this.state.saturday;
-                saturday.push(this.state.workouts[i])
+                saturday.push(i)
                 this.setState({saturday: saturday})
             } else if(this.state.assignment[i].day === "Sunday"){
                 var sunday = this.state.sunday;
-                sunday.push(this.state.workouts[i])
+                sunday.push(i)
                 this.setState({sunday: sunday})
             }
         }
     }
 
-    deleteAssignedWorkout(workout){
-        console.log(workout)
-        // fetch('/api/workout/assigned', {
-        //     method: 'DELETE',
-        //     credentials: 'include',
-        //     headers: {
-        //         Accept: "application/json",
-        //         "Content-Type": "application/json",
-        //         "Access-Control-Allow-Credentials": true
-        //     },
-        //     body: JSON.stringify({workout: workout})
-        // })
+    deleteAssignedWorkout(workout, recordedInfo){
+        fetch('/api/workout/assign', {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+            },
+            body: JSON.stringify({workout: workout.workout, recordedInfo: recordedInfo})
+        })
 
+        this.setState({
+            workoutsLoading: false,
+            workouts: [],
+            monday: [],
+            tuesday: [],
+            wednesday: [],
+            thursday: [],
+            friday: [],
+            saturday: [],
+            sunday: [],
+            showMessage: false,
+            message: "",
+            assignment: [],
+        })
+        this.loadPage();
     }
 
     render() {
@@ -130,7 +148,7 @@ export default class Workout extends Component{
                         {this.state.monday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
@@ -139,7 +157,7 @@ export default class Workout extends Component{
                         {this.state.tuesday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
@@ -148,7 +166,7 @@ export default class Workout extends Component{
                         {this.state.wednesday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
@@ -157,7 +175,7 @@ export default class Workout extends Component{
                         {this.state.thursday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
@@ -166,7 +184,7 @@ export default class Workout extends Component{
                         {this.state.friday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
@@ -175,7 +193,7 @@ export default class Workout extends Component{
                         {this.state.saturday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
@@ -184,7 +202,7 @@ export default class Workout extends Component{
                         {this.state.sunday.map((workout, index) => {
                          return (
                         <div key={index}>
-                            <ClientWorkoutList workout={workout} delete={this.deleteAssignedWorkout} index={index}/>
+                            <ClientWorkoutList workout={this.state.workouts[workout]} delete={this.deleteAssignedWorkout} recordedInfo={this.state.assignment[workout]}/>
                         </div>
                         )})}
                     </div>}
