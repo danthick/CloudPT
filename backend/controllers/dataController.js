@@ -226,8 +226,12 @@ module.exports = function (app) {
         return res.json({success: true})
     });
 
-    app.get("/api/workout/record", async function(req, res){
-        var user = await getUserByEmail(req._passport.session.user);
+    app.post("/api/workout/recorded", async function(req, res){
+        if (typeof req.body.user === "undefined"){
+            var user = await getUserByEmail(req._passport.session.user);
+        } else {
+            var user = await getUserByEmail(req.body.user.email);
+        }
 
         var recordedWorkouts = await schemas.RecordedWorkout.find({user: user[0].email});
         

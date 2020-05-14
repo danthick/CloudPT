@@ -3,7 +3,7 @@ import AppBar from '../navigation/appBar.component';
 import Loader from 'react-loader-spinner';
 import ClientWorkoutList from './clientWorkoutList.component';
 
-export default class Workout extends Component{
+export default class ClientSchedule extends Component{
     constructor(props) {
         super(props);
 

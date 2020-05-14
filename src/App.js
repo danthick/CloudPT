@@ -7,13 +7,13 @@ import Home from "./components/client/home.component";
 import HomePT from "./components/pt/home.component";
 import Register from "./components/register.component";
 import Workout from "./components/client/workout.component";
-import WorkoutPT from "./components/pt/workout.component";
+import WorkoutPT from "./components/pt/workouts/workout.component";
 import Messages from "./components/messages.component";
 import Chat from "./components/chat.component";
 import Account from "./components/account/account.component";
 import BottomNav from  './components/navigation/bottomNavigation.component';
 import Body from './components/account/body.component';
-import NewWorkout from './components/pt/newWorkout.component';
+import NewWorkout from './components/pt/workouts/newWorkout.component';
 import AccountEdit from './components/account/accountEdit.component';
 import ChangePassword from './components/account/changePassword.component';
 import UserRole from './components/account/userRole.component';
@@ -21,6 +21,8 @@ import RecordWorkout from './components/client/recordWorkout.component';
 import WorkoutHistory from './components/client/workoutHistory.component';
 import ViewWorkoutHistory from './components/client/exerciseHistory.component';
 import ClientSchedule from './components/pt/clientSchedule.component';
+import ClientDetails from './components/pt/clientDetails.component';
+import ClientWorkoutHistory from './components/pt/clientWorkoutHistory.component';
 
 function PrivateRoute ({component: Component, authed, wasInitialised, ...rest}) {
   return (
@@ -95,7 +97,9 @@ class App extends Component {
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home/schedule' component={ClientSchedule} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout' component={WorkoutPT} />
             <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/workout/new' component={NewWorkout} />
-            
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home/details' component={ClientDetails} />
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home/details/history' component={ClientWorkoutHistory} />
+            <PrivateRoute authed={this.state.auth} wasInitialised={this.state.wasInitialised} exact path='/home/details/history/view' component={ViewWorkoutHistory} />
           </Switch>
           :
           <Switch>

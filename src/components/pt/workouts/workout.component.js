@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import AppBar from '../navigation/appBar.component';
+import AppBar from '../../navigation/appBar.component';
 import Loader from 'react-loader-spinner';
 import WorkoutList from './workoutList.component';
 

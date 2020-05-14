@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import AppBar from '../navigation/appBar.component';
 import Loader from 'react-loader-spinner';
-import WorkoutHistoryList from './workoutHistoryList.componenet';
+import WorkoutHistoryList from '../client/workoutHistoryList.componenet';
 
 var workoutInfo = [];
 export default class WorkoutHistory extends Component{
@@ -15,6 +15,10 @@ export default class WorkoutHistory extends Component{
         this.state = {
             workoutsLoading: false,
             recordedWorkouts: [],        
+        }
+
+        if(typeof this.props.location.user == "undefined"){
+            this.props.history.push({pathname: '/home'});
         }
     }
 
@@ -33,6 +37,7 @@ export default class WorkoutHistory extends Component{
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Credentials": true
               },
+            body: JSON.stringify({user: this.props.location.user})
         }).then(async res => {
             await res.json().then(async log => {
                 this.setState({
@@ -44,6 +49,7 @@ export default class WorkoutHistory extends Component{
 
     async getWorkoutInfo(){
         for(var i = 0; i < this.state.recordedWorkouts.length; i++){
+            console.log(this.state.recordedWorkouts[i].workoutID)
             await fetch('/api/workout/one/' + this.state.recordedWorkouts[i].workoutID, {
                 method: 'GET',
                 credentials: 'include',
@@ -64,7 +70,7 @@ export default class WorkoutHistory extends Component{
 
     viewRecordedWorkout(index){
         this.props.history.push({
-            pathname: '/workout/history/view',
+            pathname: '/home/details/history/view',
             recordedWorkout: this.state.recordedWorkouts[index],
             workoutInfo: workoutInfo[index]
         });
@@ -73,7 +79,9 @@ export default class WorkoutHistory extends Component{
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="WORKOUT HISTORY" back={"/workout"}/>
+                <AppBar width="100%" pageName="WORKOUT HISTORY" back={"/home"}/>
+
+                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.props.location.user.firstName} {this.props.location.user.lastName}</div>
 
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : null }

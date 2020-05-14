@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/core'
 import linkifyHtml from 'linkifyjs/html';
-import Exercise from '../../data/exercises';
+import Exercise from '../../../data/exercises';
 
 var name, notes = false;
 export default class exerciseList extends Component{

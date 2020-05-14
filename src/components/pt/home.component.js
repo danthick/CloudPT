@@ -10,6 +10,7 @@ export default class Home extends Component{
 
         this.addClient = this.addClient.bind(this);
         this.viewSchedule = this.viewSchedule.bind(this);
+        this.viewDetails = this.viewDetails.bind(this);
 
         this.state ={
             clients: [],
@@ -118,8 +119,11 @@ export default class Home extends Component{
         });
     }
 
-    viewDetails(){
-
+    viewDetails(user){
+        this.props.history.push({
+            pathname: '/home/details',
+            user: user,
+        });
     }
 
 
