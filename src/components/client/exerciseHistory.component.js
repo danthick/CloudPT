@@ -17,7 +17,6 @@ export default class Workout extends Component{
         if(typeof this.props.location.workoutInfo === "undefined"){
             window.location = "/workout/history"
         }
-        console.log(this.props.location.recordedWorkout)
     }
 
     async componentDidMount(){
@@ -37,7 +36,12 @@ export default class Workout extends Component{
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="WORKOUT INFORMATION" back="/workout/history"/>
+                {window.location.pathname.split('/')[1] === "home" && 
+                    <AppBar width="100%" pageName="WORKOUT INFORMATION" back="/home/details/history"/>
+                }
+                {window.location.pathname.split('/')[1] === "workout" && 
+                    <AppBar width="100%" pageName="WORKOUT INFORMATION" back="/workout/history"/>
+                }
                 <h2 style={{textAlign: "center"}}>{this.props.location.workoutInfo.workout.name}</h2>
 
                 <div>

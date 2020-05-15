@@ -16,11 +16,7 @@ export default class exerciseList extends Component{
             exerciseData: this.props.exercise,
             exerciseType: ["Cardio", "Stretching", "Body Weight", "Barbell", "Dumbbell"],
         }
-
-        console.log(this.props.index)
-
         this.getExerciseData()
-
     }
 
     componentDidMount(){

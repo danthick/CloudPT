@@ -54,10 +54,7 @@ export default class Workout extends Component{
                 });
             }
         });
-        }).catch(error => console.log(error))
-
-        console.log(this.props.location.workout.workout._id)
-        
+        }).catch(error => console.log(error))        
     }
 
 

@@ -14,15 +14,31 @@ export default class WorkoutHistory extends Component{
 
         this.state = {
             workoutsLoading: false,
-            recordedWorkouts: [],        
+            recordedWorkouts: [],  
+            user: this.props.location.user,
+            show: false,     
         }
 
-        if(typeof this.props.location.user == "undefined"){
-            this.props.history.push({pathname: '/home'});
+        if(typeof this.state.user !== "undefined"){
+            localStorage.clear();
         }
     }
 
     async componentDidMount(){
+        const rehydrate = JSON.parse(localStorage.getItem('user'))
+        this.setState(rehydrate, () => {
+            this.loadInformation();
+        })
+        this.setState({show: true})
+        
+    }
+
+    componentWillUnmount() {
+        localStorage.setItem('user', JSON.stringify(this.state))
+    }
+
+    async loadInformation(){
+        
         await this.getRecordedWorkouts();
         await this.getWorkoutInfo();
     }
@@ -37,7 +53,7 @@ export default class WorkoutHistory extends Component{
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Credentials": true
               },
-            body: JSON.stringify({user: this.props.location.user})
+            body: JSON.stringify({user: this.state.user})
         }).then(async res => {
             await res.json().then(async log => {
                 this.setState({
@@ -49,7 +65,6 @@ export default class WorkoutHistory extends Component{
 
     async getWorkoutInfo(){
         for(var i = 0; i < this.state.recordedWorkouts.length; i++){
-            console.log(this.state.recordedWorkouts[i].workoutID)
             await fetch('/api/workout/one/' + this.state.recordedWorkouts[i].workoutID, {
                 method: 'GET',
                 credentials: 'include',
@@ -79,9 +94,11 @@ export default class WorkoutHistory extends Component{
     render() {
         return (
             <Fragment>
-                <AppBar width="100%" pageName="WORKOUT HISTORY" back={"/home"}/>
+                <AppBar width="100%" pageName="WORKOUT HISTORY" back={"/home/details"}/>
 
-                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.props.location.user.firstName} {this.props.location.user.lastName}</div>
+                {this.state.show?
+                <div>
+                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.state.user.firstName} {this.state.user.lastName}</div>
 
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : null }
@@ -97,6 +114,8 @@ export default class WorkoutHistory extends Component{
                         <WorkoutHistoryList recordInfo={workout} workoutInfo={workoutInfo[index]} view={this.viewRecordedWorkout} index={index}/>
                     </div>
                 )})}
+                </div>
+                : null }
               
             </Fragment>
         )

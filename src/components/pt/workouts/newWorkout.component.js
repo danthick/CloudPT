@@ -196,8 +196,6 @@ export default class Workout extends Component{
 
         // If workout is being updated
         if(this.state.workoutID !== ""){
-            console.log(newWorkoutID)
-            console.log(this.state.workoutID)
             fetch('/api/workout/update/' + this.state.workoutID, {
                 method: 'POST',
                 credentials: 'include',
