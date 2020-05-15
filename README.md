@@ -1,6 +1,8 @@
-[![Build Status](https://travis-ci.com/danthick/PRCO304.svg?token=TxZAJ6udeP3cTDCTxJVG&branch=master)](https://travis-ci.com/danthick/PRCO304)
 # CloudPT
 PRCO304 - Final Year Project - CloudPT
+
+## Build Status
+[![Build Status](https://travis-ci.com/danthick/PRCO304.svg?token=TxZAJ6udeP3cTDCTxJVG&branch=master)](https://travis-ci.com/danthick/PRCO304)
 
 ## Project Vision
 CloudPT is an application designed at making it easier for personal trainers to interact and work with their clients.
