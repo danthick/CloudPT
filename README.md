@@ -7,7 +7,28 @@ PRCO304 - Final Year Project - CloudPT
 ## Project Vision
 CloudPT is an application designed at making it easier for personal trainers to interact and work with their clients.
 
-CloudPT is bringing personal training into the 21st centrury by allowing for seamless communication between personal trainers and their clients. From viewing progress, assigning workouts, nutrition advice and instant messaging. All availble from one cloud based application.
+CloudPT is bringing personal training into the 21st centrury by allowing for seamless communication between personal trainers and their clients. From viewing progress, assigning workouts, and instant messaging. All availble from one cloud based application.
+
+## Installation
+To run the application use the following commands, assuming that [Node.js is installed](https://nodejs.org/en/download/):
+
+```
+git clone https://github.com/danthick/PRCO304.git
+cd prco304
+npm install
+npm start
+```
+
+The application should open on:
+http://localhost:3000
+
+## Hosting
+The application is hosted on Heroku and can be found at:
+https://cloudpt.me/
+
+## Notes
+The application is a progressive web app and can be installed via Chrome and Safari on desktop and mobile.
+The UI is designed for mobile use but is usable on a desktop browser.
 
 ## Project Supervisor
 Marius Varga
