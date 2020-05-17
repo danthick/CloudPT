@@ -171,8 +171,13 @@ export default class Login extends Component {
                 </div>
                 <br/>
                 <div>
-                        <a href="/" className="btn btn-primary container">LOGIN HERE</a>
-                    </div>
+                        <a href="/" className="btn btn-primary container">LOGIN</a>
+                </div><br/>
+
+                <div className="alert alert-info">
+                    User data is only stored for logging in and communication purposes. Your full name will be displayed to other users. Your email address and
+                    password will never be shared with other users.
+                </div>
             </div>
         )
     }

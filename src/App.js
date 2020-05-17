@@ -91,7 +91,7 @@ class App extends Component {
           buttonStyle={{ color: "#4e503b", fontSize: "16px", borderRadius: "5px" }}
           buttonClasses="btn btn-primary"
           expires={150}
-        >This website uses cookies to enhance the user experience.{" "}</CookieConsent>
+        >This website uses cookies to maintain a users session.{" "}</CookieConsent>
 
         {this.state.auth? <BottomNav /> : null}
 
