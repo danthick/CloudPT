@@ -87,6 +87,7 @@ module.exports = function (app) {
             name: req.body[0].workoutName,
             userCreated: user[0].email,
             dateCreated: new Date(),
+            active: true,
         })
         
         newWorkout.save(function(err, message){
@@ -117,7 +118,7 @@ module.exports = function (app) {
     })
 
     app.get("/api/workout", async function(req, res){
-        var workouts = await schemas.Workout.find({userCreated: req._passport.session.user});
+        var workouts = await schemas.Workout.find({userCreated: req._passport.session.user, active: true});
         var workoutData = [];
         for (var i = 0; i < workouts.length; i++){
             exercises = await schemas.Exercise.find({workoutID: workouts[i]._id});
@@ -136,13 +137,8 @@ module.exports = function (app) {
     });
 
     app.delete("/api/workout/delete/:id", async function(req, res){
-        await schemas.Workout.deleteOne({
-            _id: req.params.id,
-            userCreated: req._passport.session.user
-        })
-        await schemas.Exercise.deleteMany({
-            workoutID: req.params.id
-        })
+        await schemas.Workout.findOneAndUpdate({_id: req.params.id, userCreated: req._passport.session.user}, {active: false}, {new: true, useFindAndModify: false})
+
         await schemas.AssignedWorkout.deleteMany({
             workoutID: req.params.id
         })
@@ -150,13 +146,7 @@ module.exports = function (app) {
     });
 
     app.post("/api/workout/update/:id", async function(req, res){
-        await schemas.Workout.deleteOne({
-            _id: req.params.id,
-            userCreated: req._passport.session.user
-        })
-        await schemas.Exercise.deleteMany({
-            workoutID: req.params.id
-        })
+        await schemas.Workout.findOneAndUpdate({_id: req.params.id, userCreated: req._passport.session.user}, {active: false}, {new: true, useFindAndModify: false})
 
         await schemas.AssignedWorkout.updateMany({
             workoutID: req.params.id}, 
@@ -267,18 +257,22 @@ module.exports = function (app) {
         if(user2.length !== 0){
             // Checking only one user is a PT
             if(!(user1[0].ptBool && user2[0].ptBool)){
+                // Returns "taken" if client already has a pt
+                relationship1 = await schemas.Relationship.find({user1: req.body.email})
+                relationship2 = await schemas.Relationship.find({user2: req.body.email})
+                if(relationship1.length !== 0 || relationship2.length !== 0){
+                    return res.json({success: "taken"});
+                }
             var newRelationship = new schemas.Relationship({
                 user1: user1[0].email,
                 user2: req.body.email,
                 active: true
             })
             newRelationship.save();
-            return res.json({success: true});
+            return res.json({success: "true"});
             }
         }
-
-        return res.json({success: false});
-
+        return res.json({success: "false"});
     });
 
     // Function to get user from email

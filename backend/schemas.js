@@ -30,6 +30,7 @@ var Workout = mongoose.model("workout", {
     name: String,
     userCreated: String,
     dateCreated: Date,
+    active: Boolean,
 })
 
 var Exercise = mongoose.model("exercise", {

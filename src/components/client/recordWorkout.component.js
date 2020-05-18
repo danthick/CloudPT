@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Component, Fragment } from 'react';
 import AppBar from '../navigation/appBar.component';
 import ExerciseList from './exerciseList.component';
 
@@ -33,36 +33,44 @@ export default class Workout extends Component{
     }
 
     async finishWorkout(){
-        await fetch('/api/workout/record', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true
-          },
-          body: JSON.stringify({workoutID: this.props.location.workout.workout._id, 
-                                completedExercises: completedExercises, 
-                                notes: this.state.notes
-                            })
-    }).then(async res => {
-        await res.json().then(async log => {
-            if(log.success){
-                this.props.history.push({
-                    pathname: '/workout',
-                    workoutRecorded: true,
+        if(completedExercises.length !== this.props.location.workout.exercises.length){
+            this.setState({
+                showMessage: true,
+                message: "Please mark all exercises as completed or missed!"
+            })
+        } else {
+            await fetch('/api/workout/record', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                  },
+                  body: JSON.stringify({workoutID: this.props.location.workout.workout._id, 
+                                        completedExercises: completedExercises, 
+                                        notes: this.state.notes
+                                    })
+            }).then(async res => {
+                await res.json().then(async log => {
+                    if(log.success){
+                        this.props.history.push({
+                            pathname: '/workout',
+                            workoutRecorded: true,
+                        });
+                    }
                 });
-            }
-        });
-        }).catch(error => console.log(error))        
+                }).catch(error => console.log(error))      
+        }
     }
-
-
 
     render() {
         return (
             <Fragment>
                 <AppBar width="100%" pageName="RECORD WORKOUT" back="/workout"/>
+
+
+
                 <h2 style={{textAlign: "center"}}>{this.props.location.workout.workout.name}</h2>
 
                 <div>
@@ -73,7 +81,12 @@ export default class Workout extends Component{
 
                 <textarea rows="3" onChange={(e) => this.setState({notes: e.target.value})} value={this.state.notes} className="form-control" placeholder="How did it go?" style={{marginTop: "20px"}}/><br/>
                 
-                <button className="btn btn-primary container" onClick={this.finishWorkout} >Finish Workout</button>
+                { this.state.showMessage?
+                    <h6 className="alert alert-danger alert-dismissible" role="alert"> {this.state.message} </h6>
+                :   null  
+                }
+
+                <button className="btn btn-primary container" onClick={this.finishWorkout} >Finish Workout</button><br/><br/><br/><br/>
             </Fragment>
         )
     }

@@ -45,7 +45,8 @@ export default class ClientDetails extends Component{
                     <div>
                     <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.state.user.firstName} {this.state.user.lastName}</div>
 
-                    <button type="button" className="btn btn-primary container" onClick={this.viewWorkoutHistory}>View Workout History</button>
+                    <button type="button" className="btn btn-primary container" onClick={this.viewWorkoutHistory}>View Workout History</button><br/>
+                    <input type="button" value="Remove Client" className="btn btn-danger container" onClick={this.logout} />
                     </div>
                 : null }
 

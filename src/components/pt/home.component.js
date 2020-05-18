@@ -64,13 +64,19 @@ export default class Home extends Component{
             }).then(async res => {
                 await res.json().then(async log => {
                     // Client has been added
-                    if(log.success){
+                    if(log.success === "true"){
                         this.setState({
                             showSuccess: true,
                             message: "Client has been added!",
                             email: ""
                         })
                         this.getClients();
+                    } else if (log.success === "taken") {
+                        this.setState({
+                            showError: true,
+                            message: "User already has a personal trainer assigned to them!",
+                            email: ""
+                        })
                     } else {
                         // Email address could not be found
                         this.setState({
@@ -144,14 +150,14 @@ export default class Home extends Component{
                 :   null  
                 }
                 { this.state.showSuccess?
-                    <h6 className="alert alert-info alert-dismissible" role="alert"> {this.state.message} </h6>
+                    <h6 className="alert alert-success alert-dismissible" role="alert"> {this.state.message} </h6>
                 :   null  
                 }
 
                 {this.state.clientsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 :
                 <div>
-                <h2>Clients</h2>
+                <h2 style={{textAlign:"center"}}>Clients</h2>
                 {this.state.clients.map((client, index) => {
                     return (
                         <div key={index}><ClientList client={client} viewSchedule={this.viewSchedule} viewDetails={this.viewDetails}/></div>

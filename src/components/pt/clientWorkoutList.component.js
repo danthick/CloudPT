@@ -31,7 +31,7 @@ export default class workoutList extends Component{
                     </Box>
                 </Flex>
                 
-                <button style={{float: "left", width: "80px"}} type="button" className="btn btn-danger container" onClick={() => this.props.delete(this.props.workout, this.props.recordedInfo)}>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button style={{float: "left", width: "80px"}} type="button" className="btn btn-danger container" onClick={() => this.props.delete(this.props.workout, this.props.recordedInfo)}>Remove</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </Box>
             
             </div>

@@ -27,7 +27,7 @@ export default class workoutList extends Component{
                 </Flex>
                 <Flex flexDirection='row'>
                     <Box flex='1'>
-                        <Text fontFamily="Arial, Helvetica, sans-serif">Date Created: <b>{new Date(this.props.workout.workout.dateCreated).getDate()}/{new Date(this.props.workout.workout.dateCreated).getMonth() + 1}/{new Date(this.props.workout.workout.dateCreated).getFullYear()}</b></Text>
+                        <Text fontFamily="Arial, Helvetica, sans-serif">Last Updated: <b>{new Date(this.props.workout.workout.dateCreated).getDate()}/{new Date(this.props.workout.workout.dateCreated).getMonth() + 1}/{new Date(this.props.workout.workout.dateCreated).getFullYear()}</b></Text>
                     </Box>
                 </Flex>
                 

@@ -28,8 +28,8 @@ export default class Home extends Component{
 
     async getRecordedWorkouts(){
         this.setState({workoutsLoading: true});
-        await fetch('/api/workout/record', {
-            method: 'GET',
+        await fetch('/api/workout/recorded', {
+            method: 'POST',
             credentials: 'include',
             headers: {
                 Accept: "application/json",

@@ -88,9 +88,8 @@ class App extends Component {
           location="bottom"
           buttonText="I understand!"
           style={{ background: "#2B373B" }}
-          buttonStyle={{ color: "#4e503b", fontSize: "16px", borderRadius: "5px" }}
-          buttonClasses="btn btn-primary"
-          expires={150}
+          buttonStyle={{ color: "#4e503b", fontSize: "16px", borderRadius: "5px", padding: "20px"}}
+          expires={150} // Number of days
         >This website uses cookies to maintain a users session.{" "}</CookieConsent>
 
         {this.state.auth? <BottomNav /> : null}
