@@ -13,6 +13,7 @@ module.exports = function (app) {
 
     // Returns {auth: true} if passport login successful
     app.get("/api/login/success", function (req, res) {
+        console.log("Here")
         return res.json({
             auth: true,
             user: req.user
