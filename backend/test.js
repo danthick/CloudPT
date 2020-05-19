@@ -64,22 +64,22 @@ chai.should();
 //                 });
 //         });
 //     });
-    describe("Log User In", () => {
-        it("should log test user in successfully", (done) => {
-            agent
-                .post('/api/login')
-                .type('form')
-                .send(JSON.stringify({
-                    email: "teest@test.com",
-                    password: "password"
-                }))
-                .end((err, res) => {
-                    console.log(res.body)
-                    res.body.auth.should.have.property(true);
-                    done();
-                });
-         });
-     });
+    // describe("Log User In", () => {
+    //     it("should log test user in successfully", (done) => {
+    //         agent
+    //             .post('/api/login')
+    //             .type('form')
+    //             .send(JSON.stringify({
+    //                 email: "teest@test.com",
+    //                 password: "password"
+    //             }))
+    //             .end((err, res) => {
+    //                 console.log(res.body)
+    //                 res.body.auth.should.have.property(true);
+    //                 done();
+    //             });
+    //      });
+    //  });
 // });
 
 
