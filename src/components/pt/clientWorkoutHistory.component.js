@@ -105,7 +105,7 @@ export default class WorkoutHistory extends Component{
 
                 {this.state.workoutsLoading? null
                 : this.state.recordedWorkouts.length < 1 &&
-                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "26px"}} onClick={() => window.location.replace("/workout")}>Head over to the workouts section to get started!</div>}
+                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}>This user has not completed any workouts yet.</div>}
                 
                 {this.state.workoutsLoading? null :
                 this.state.recordedWorkouts.map((workout, index) => {

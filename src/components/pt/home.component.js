@@ -157,13 +157,16 @@ export default class Home extends Component{
                 {this.state.clientsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 :
                 <div>
-                <h2 style={{textAlign:"center"}}>Clients</h2>
+                <h4 style={{textAlign:"center"}}>Clients</h4>
                 {this.state.clients.map((client, index) => {
                     return (
                         <div key={index}><ClientList client={client} viewSchedule={this.viewSchedule} viewDetails={this.viewDetails}/></div>
                         
                     )
                 })}
+                {this.state.clients.length < 1 &&
+                <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}>You currently do not have any clients.</div>
+                }
                 </div>}
 
                 <form onSubmit={e => this.addClient(e)}>

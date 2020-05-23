@@ -231,7 +231,7 @@ module.exports = function (app) {
     app.get("/api/user/relationship", async function (req, res){
         var currentUser = await getUserByEmail(req._passport.session.user);
 
-        clientEmails = await schemas.Relationship.find({$or: [{user1: currentUser[0].email}, {user2: currentUser[0].email}]})
+        clientEmails = await schemas.Relationship.find({$or: [{user1: currentUser[0].email, active: true}, {user2: currentUser[0].email,  active: true}]})
         var clients = [];
 
         for (var i = 0; i < clientEmails.length; i++){
@@ -273,6 +273,20 @@ module.exports = function (app) {
             }
         }
         return res.json({success: "false"});
+    });
+
+    app.delete("/api/user/relationship", async function(req, res) {
+        var user1 = await getUserByEmail(req._passport.session.user);
+        var user2 = await getUserByEmail(req.body.email);
+
+        // Marking relationship as not active
+        await schemas.Relationship.findOneAndRemove({user1: user1[0].email, user2: user2[0].email});
+        await schemas.Relationship.findOneAndRemove({user1: user2[0].email, user2: user1[0].email});
+
+        // Removing all asigned workouts
+        await schemas.AssignedWorkout.deleteMany({user: user2[0].email, pt: user1[0].email});
+
+        return res.json({success: "true"});
     });
 
     // Function to get user from email

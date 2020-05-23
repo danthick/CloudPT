@@ -158,7 +158,7 @@ export default class Workout extends Component{
                 
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : this.state.workouts.length > 0 &&
-                <div><p className="h4">Active Workouts</p>
+                <div><h4 style={{textAlign:"center"}}>Created Workouts</h4>
 
                     {this.state.workouts.map((workout, index) => {
                     return (

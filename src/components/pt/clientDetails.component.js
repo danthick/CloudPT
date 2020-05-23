@@ -8,6 +8,7 @@ export default class ClientDetails extends Component{
         super(props);
 
         this.viewWorkoutHistory = this.viewWorkoutHistory.bind(this);
+        this.removeClient = this.removeClient.bind(this);
 
         this.state = {
             user: this.props.location.user,
@@ -36,6 +37,28 @@ export default class ClientDetails extends Component{
         });
     }
 
+    removeClient(){
+        let removeClient = window.confirm("Click OK if you want to remove this client. All workouts assigned to them will also be removed.");
+        if (removeClient){
+            fetch('/api/user/relationship', {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify({email: this.state.user.email})
+            }).then(res => {
+                res.json().then(log => {
+                    if(log.success){
+                        this.props.history.push({pathname: '/home'});
+                    }
+                });
+                }).catch(error => console.log(error))
+        }
+    }
+
 
     render() {
         return (
@@ -46,7 +69,7 @@ export default class ClientDetails extends Component{
                     <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.state.user.firstName} {this.state.user.lastName}</div>
 
                     <button type="button" className="btn btn-primary container" onClick={this.viewWorkoutHistory}>View Workout History</button><br/>
-                    <input type="button" value="Remove Client" className="btn btn-danger container" onClick={this.logout} />
+                    <input type="button" value="Remove Client" className="btn btn-danger container" onClick={this.removeClient} />
                     </div>
                 : null }
 
