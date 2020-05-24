@@ -51,6 +51,7 @@ export default class Home extends Component{
         var min = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);  // Get date a week ago
         var max = new Date();   // Get todays date
 
+        // Calculating number of workouts within past week
         for (var i = 0; i < this.state.recordedWorkouts.length; i++){
             var date = new Date(this.state.recordedWorkouts[i].dateRecorded);   // Getting date of workout
             var isBetween = (date, min, max) => (date.getTime() >= min.getTime() && date.getTime() <= max.getTime()); // Returns true or false is date is between min and max

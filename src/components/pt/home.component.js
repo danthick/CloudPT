@@ -4,6 +4,8 @@ import ClientList from './clientList.component';
 import Loader from 'react-loader-spinner'
 const $ = window.$;
 
+var clientAssignedWorkout = [];
+var recordedWorkouts = [];
 export default class Home extends Component{
     constructor(props) {
         super(props);
@@ -11,8 +13,10 @@ export default class Home extends Component{
         this.addClient = this.addClient.bind(this);
         this.viewSchedule = this.viewSchedule.bind(this);
         this.viewDetails = this.viewDetails.bind(this);
+        this.getAssignedWorkout = this.getAssignedWorkout.bind(this);
+        this.getRecordedWorkouts = this.getRecordedWorkouts.bind(this);
 
-        this.state ={
+        this.state = {
             clients: [],
             email: "",
             newClient: "",
@@ -24,7 +28,27 @@ export default class Home extends Component{
     }
 
     async componentDidMount(){
+        await this.load();
+    }
+
+    async load(){
+        this.setState({clientsLoading: true});
+        clientAssignedWorkout = []
+
+        // Get list of clients
         await this.getClients();
+
+        
+        for(var i = 0; i < this.state.clients.length; i++){
+            // Check if each client has an assigned workout
+            await this.getAssignedWorkout(this.state.clients[i]);
+            // Get dates of last workout
+            await this.getRecordedWorkouts(this.state.clients[i]);
+        }
+
+        
+
+        this.setState({clientsLoading: false});
     }
 
     async addClient(e){
@@ -70,7 +94,7 @@ export default class Home extends Component{
                             message: "Client has been added!",
                             email: ""
                         })
-                        this.getClients();
+                        await this.load();
                     } else if (log.success === "taken") {
                         this.setState({
                             showError: true,
@@ -98,7 +122,6 @@ export default class Home extends Component{
     }
 
     async getClients(){
-        this.setState({clientsLoading: true});
         await fetch('/api/user/relationship', {
             method: 'GET',
             credentials: 'include',
@@ -114,8 +137,41 @@ export default class Home extends Component{
                     currentUser: log.currentUser[0]
                 })
             });
+            }).catch(error => console.log(error))        
+    }
+
+    async getAssignedWorkout(user){
+        await fetch('/api/workout/assigned', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+            },
+            body: JSON.stringify({user: user})
+        }).then(async res => {
+            await res.json().then(log => {
+                clientAssignedWorkout.push(log.workouts)
+            });
             }).catch(error => console.log(error))
-        this.setState({clientsLoading: false});
+    }
+
+    async getRecordedWorkouts(user){
+        await fetch('/api/workout/recorded', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+              },
+            body: JSON.stringify({user: user})
+        }).then(async res => {
+            await res.json().then(async log => {
+                recordedWorkouts.push(log.recordedWorkouts);
+            });
+            }).catch(error => console.log(error))
     }
 
     viewSchedule(user){
@@ -160,7 +216,7 @@ export default class Home extends Component{
                 <h4 style={{textAlign:"center"}}>Clients</h4>
                 {this.state.clients.map((client, index) => {
                     return (
-                        <div key={index}><ClientList client={client} viewSchedule={this.viewSchedule} viewDetails={this.viewDetails}/></div>
+                        <div key={index}><ClientList client={client} assignedWorkout={clientAssignedWorkout[index]} recordedWorkouts={recordedWorkouts[index]} viewSchedule={this.viewSchedule} viewDetails={this.viewDetails}/></div>
                         
                     )
                 })}

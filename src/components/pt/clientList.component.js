@@ -8,8 +8,33 @@ export default class exerciseList extends Component{
 
         this.state = {
             client: this.props.client,
-            assigned: false
+            assigned: this.props.assignedWorkout.length,
+            withinWeek: false,
+            lastWorkout: "",
         }
+    }
+
+    componentDidMount(){
+        if(this.props.recordedWorkouts.length > 0){
+
+            console.log(this.props.recordedWorkouts[0])
+
+            var min = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);  // Get date a week ago
+            var max = new Date();   // Get todays date
+
+            var date = new Date(this.props.recordedWorkouts[this.props.recordedWorkouts.length - 1].dateRecorded);   // Getting date of workout
+            var isBetween = (date, min, max) => (date.getTime() >= min.getTime() && date.getTime() <= max.getTime()); // Returns true or false is date is between min and max
+
+            console.log(date)
+
+            if(isBetween(date, min, max)){
+                this.setState({
+                    withinWeek: true,
+                    lastWorkout: date
+                })
+            }
+        }
+
     }
 
     
@@ -34,7 +59,21 @@ export default class exerciseList extends Component{
                 <Flex flexDirection='row'>
                 <Box flex='1'>
                     <Text fontFamily="Arial, Helvetica, sans-serif">
-                        Last Workout: {this.state.assigned? <span style={{color: "green", fontWeight: "bold"}}>01/01/2000</span>: <span style={{color: "red", fontWeight: "bold"}}>01/01/2000</span>}
+                        {this.state.lastWorkout !== "" &&
+                        <span>
+                            Last Workout: {this.state.withinWeek? 
+                            <span style={{color: "green", fontWeight: "bold"}}>
+                                {new Date(this.state.lastWorkout).getDate()}/{new Date(this.state.lastWorkout).getMonth() + 1}/{new Date(this.state.lastWorkout).getFullYear()}
+                            </span>
+                            : 
+                            <span style={{color: "red", fontWeight: "bold"}}>
+                                {new Date(this.state.lastWorkout).getDate()}/{new Date(this.state.lastWorkout).getMonth() + 1}/{new Date(this.state.lastWorkout).getFullYear()}
+                            </span>}
+                        </span>
+                        
+                        
+                        }
+                        
                     </Text>
                     </Box>
                 </Flex>
