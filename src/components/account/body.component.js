@@ -70,8 +70,8 @@ export default class Weight extends Component{
     }
     
     async getWeight(e){
-        await fetch('/api/weight/', {
-            method: 'GET',
+        await fetch('/api/weight/user', {
+            method: 'post',
             credentials: 'include',
             headers: {
                 Accept: "application/json",

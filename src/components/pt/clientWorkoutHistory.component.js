@@ -25,20 +25,21 @@ export default class WorkoutHistory extends Component{
     }
 
     async componentDidMount(){
-        const rehydrate = JSON.parse(localStorage.getItem('user'))
-        this.setState(rehydrate, () => {
-            this.loadInformation();
+        const rehydrate = JSON.parse(localStorage.getItem('userDetails'))
+        await this.setState(rehydrate, async () => {
+            await this.loadInformation();
+            this.setState({
+                workoutsLoading: false,
+                show: true
+            })
         })
-        this.setState({show: true})
-        
     }
 
     componentWillUnmount() {
-        localStorage.setItem('user', JSON.stringify(this.state))
+        localStorage.setItem('userDetails', JSON.stringify(this.state))
     }
 
     async loadInformation(){
-        
         await this.getRecordedWorkouts();
         await this.getWorkoutInfo();
     }
@@ -79,7 +80,7 @@ export default class WorkoutHistory extends Component{
                 });
                 }).catch(error => console.log(error))
         }
-        this.setState({workoutsLoading: false});
+        
     }
 
 
@@ -110,6 +111,7 @@ export default class WorkoutHistory extends Component{
                 {this.state.workoutsLoading? null :
                 this.state.recordedWorkouts.map((workout, index) => {
                 return (
+                    
                     <div key={index}>
                         <WorkoutHistoryList recordInfo={workout} workoutInfo={workoutInfo[index]} view={this.viewRecordedWorkout} index={index}/>
                     </div>

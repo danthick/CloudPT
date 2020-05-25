@@ -12,9 +12,13 @@ module.exports = function (app) {
         newWeight.save();
     })
 
-    app.get("/api/weight/", async function(req, res){
-        // Get user
-        var user = await getUserByEmail(req._passport.session.user);
+    app.post("/api/weight/user", async function(req, res){
+        if (typeof req.body.user === "undefined"){
+            var user = await getUserByEmail(req._passport.session.user);
+        } else {
+            var user = await getUserByEmail(req.body.user.email);
+        }
+        
         // Get all weights
         var weights = await schemas.Weight.find({
             email: user[0].email

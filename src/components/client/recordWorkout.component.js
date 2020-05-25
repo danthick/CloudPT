@@ -1,4 +1,4 @@
-import React, { useEffect, Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import AppBar from '../navigation/appBar.component';
 import ExerciseList from './exerciseList.component';
 
