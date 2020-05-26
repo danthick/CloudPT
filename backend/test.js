@@ -3,7 +3,6 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var app = require('./server');
 var requestp = require("supertest-as-promised");
-var agent = requestp.agent(app)
 
 // Configure chai and server
 chai.use(chaiHttp);
@@ -20,8 +19,8 @@ chai.should();
 //     "item": "Complete coursework"
 // }
 
-// // Testing user functions. Registering, and logging in.
-// describe("Users", () => {
+ // Testing user functions. Registering, and logging in.
+describe("Users", () => {
 //     describe("Register User", () => {
 //         it("should register a new user", (done) => {
 //             chai.request(app)
@@ -64,23 +63,23 @@ chai.should();
 //                 });
 //         });
 //     });
-    // describe("Log User In", () => {
-    //     it("should log test user in successfully", (done) => {
-    //         agent
-    //             .post('/api/login')
-    //             .type('form')
-    //             .send(JSON.stringify({
-    //                 email: "teest@test.com",
-    //                 password: "password"
-    //             }))
-    //             .end((err, res) => {
-    //                 console.log(res.body)
-    //                 res.body.auth.should.have.property(true);
-    //                 done();
-    //             });
-    //      });
-    //  });
-// });
+    describe("Log User In", () => {
+        it("should log test user in successfully", (done) => {
+            chai
+                .request(app)
+                .post('/api/login')
+                .set('content-type', 'application/json', "access-control", true)
+                .send(JSON.stringify({
+                    email: "teest@test.com",
+                    password: "password"
+                }))
+                .end((err, res) => {
+                    chai.assert.equal(true, res.body.auth)
+                    done();
+                });
+        });
+    });
+});
 
 
 // // Testing item functions. Adding, editing and deleting items.
@@ -165,11 +164,3 @@ chai.should();
 //             });
 //     });
 // });
-
-
-describe("Testing test", () => {
-    it("should test tests", (done) => {
-        chai.assert.equal(3, 3);
-        done();
-    });
-});
