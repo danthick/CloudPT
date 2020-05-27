@@ -10,6 +10,7 @@ module.exports = function (app) {
             date: req.body.date
         });
         newWeight.save();
+        res.sendStatus(200);
     })
 
     app.post("/api/weight/user", async function(req, res){
