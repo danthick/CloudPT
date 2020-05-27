@@ -95,6 +95,8 @@ export default class Login extends Component {
                     </video>
                 </div>
 
+                <div style={{marginTop: 40}}>
+
                 <p className="appTitle">
                     <img src="logo512.png" alt="logo" height="60" width="60"/>
                     CloudPT
@@ -177,6 +179,7 @@ export default class Login extends Component {
                 <div className="alert alert-info">
                     User data is only stored for logging in and communication purposes. Your full name will be displayed to other users. Your email address and
                     password will never be shared with other users.
+                </div>
                 </div>
             </div>
         )
