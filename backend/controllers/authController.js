@@ -56,6 +56,12 @@ module.exports = function (app) {
         }
     })
 
+    app.delete("/api/register", async function(req, res){
+        var user = await getUserByEmail(req._passport.session.user);
+        await schemas.User.findOneAndDelete({email: user[0].email})
+        res.sendStatus(200);
+    });
+
     // Checking if user has active session
     app.get("/api/auth", async function (req, res) {
         if (!req.user) {

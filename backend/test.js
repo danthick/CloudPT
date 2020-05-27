@@ -7,71 +7,69 @@ var requestp = require("supertest-as-promised");
 // Configure chai and server
 chai.use(chaiHttp);
 chai.should();
+var agent = chai.request.agent(app);
 
-// // Creating test item and user
-// var user = {
-//     "firstName": "Test",
-//     "lastName": "User",
-//     "email": "test@user.com",
-//     "password": "test"
-// };
-// var testItem = {
-//     "item": "Complete coursework"
-// }
+// Creating test item and user
+var user = {
+    firstName: "Test",
+    lastName: "User",
+    email: "test@user.com",
+    password: "test"
+};
 
  // Testing user functions. Registering, and logging in.
 describe("Users", () => {
-//     describe("Register User", () => {
-//         it("should register a new user", (done) => {
-//             chai.request(app)
-//                 .post("/register")
-//                 .type('form')
-//                 .send(user)
-//                 .end((err, res) => {
-//                     res.should.have.status(200);
-//                     done();
-//                 });
-//         });
-//     });
-//     describe("Incorrect Password", () => {
-//         it("should fail to log test user in due to incorrect password", (done) => {
-//             agent
-//                 .post('/login')
-//                 .type('form')
-//                 .send({
-//                     email: user.email,
-//                     password: "wrong"
-//                 })
-//                 .end((err, res) => {
-//                     res.should.redirectTo('/login');
-//                     done();
-//                 });
-//         });
-//     });
-//     describe("Incorrect Email", () => {
-//         it("should fail to log test user in due to incorrect email", (done) => {
-//             agent
-//                 .post('/login')
-//                 .type('form')
-//                 .send({
-//                     email: "wrong@wrongemail.com",
-//                     password: user.password
-//                 })
-//                 .end((err, res) => {
-//                     res.should.redirectTo('/login');
-//                     done();
-//                 });
-//         });
-//     });
+    describe("Register User", () => {
+        it("should register a new user", (done) => {
+            agent
+                .post("/api/register")
+                .type('form')
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+    describe("Incorrect Password", () => {
+        it("should fail to log test user in due to incorrect password", (done) => {
+            agent
+                .post('/api/login')
+                .type('form')
+                .send({
+                    email: user.email,
+                    password: "wrong"
+                })
+                .end((err, res) => {
+                    chai.assert.equal(false, res.body.auth)
+                    done();
+                });
+        });
+    });
+    describe("Incorrect Email", () => {
+        it("should fail to log test user in due to incorrect email", (done) => {
+            agent
+                .post('/api/login')
+                .type('form')
+                .send({
+                    email: "wrong@wrongemail.com",
+                    password: user.password
+                })
+                .end((err, res) => {
+                    chai.assert.equal(false, res.body.auth)
+                    done();
+                });
+        });
+    });
     describe("Log User In", () => {
         it("should log test user in successfully", (done) => {
-            chai
-                .request(app)
+            agent
+                
                 .post('/api/login')
                 .set('content-type', 'application/json', "access-control", true)
                 .send(JSON.stringify({
-                    email: "teest@test.com",
-                    password: "password"
+                    email: user.email,
+                    password: user.password
                 }))
                 .end((err, res) => {
                     chai.assert.equal(true, res.body.auth)
@@ -139,28 +137,17 @@ describe("Users", () => {
 //     });
 // });
 
-// // Testing logging the user out
-// describe("Log User Out", () => {
-//     it("should log user out and return to login page", (done) => {
-//         agent
-//             .get("/logout")
-//             .type('form')
-//             .end((err, res) => {
-//                 res.should.redirectTo('/login');
-//                 done();
-//             });
-//     });
-// });
-
 // Testing deleting a user
-// describe("Delete User", () => {
-//     it("should delete an existing user", (done) => {
-//         chai.request(app)
-//             .delete("/register/" + user.email)
-//             .type('form')
-//             .end((err, res) => {
-//                 res.should.have.status(200);
-//                 done();
-//             });
-//     });
-// });
+describe("Delete User", () => {
+    it("should delete an existing user", (done) => {
+        agent
+            .delete("/api/register")
+            .type('form')
+            .set('content-type', 'application/json', "access-control", true, "access-control-allow-credentials", true)
+            .withCredentials(true)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    });
+});

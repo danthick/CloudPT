@@ -1,15 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import App from './components/account/account.component';
-
-import { configure } from 'enzyme';
+import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+
+import Account from './components/account/account.component';
+
 configure({ adapter: new Adapter() });
 
 
-describe('First React component test with Enzyme', () => {
+describe('Testing account component', () => {
    it('renders without crashing', () => {
-      shallow(<App />);
+      shallow(<Account />);
     });
 });
 
