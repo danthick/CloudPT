@@ -37,7 +37,7 @@ module.exports = function (app) {
             _id: req.params.id,
             email: user[0].email
         })
-        
+        res.sendStatus(200);
     });
 
     app.get("/api/height/", async function(req, res){
@@ -151,7 +151,7 @@ module.exports = function (app) {
     });
 
     app.post("/api/workout/update/:id", async function(req, res){
-        await schemas.Workout.findOneAndUpdate({_id: req.params.id, userCreated: req._passport.session.user}, {active: false}, {new: true, useFindAndModify: false})
+        await schemas.Workout.findOneAndUpdate({_id: req.params.id, userCreated: req._passport.session.user}, {active: false})
 
         await schemas.AssignedWorkout.updateMany({
             workoutID: req.params.id}, 
@@ -285,8 +285,8 @@ module.exports = function (app) {
         var user2 = await getUserByEmail(req.body.email);
 
         // Marking relationship as not active
-        await schemas.Relationship.findOneAndRemove({user1: user1[0].email, user2: user2[0].email});
-        await schemas.Relationship.findOneAndRemove({user1: user2[0].email, user2: user1[0].email});
+        await schemas.Relationship.findOneAndRemove({user1: user1[0].email, user2: user2[0].email}, {new: true, useFindAndModify: false});
+        await schemas.Relationship.findOneAndRemove({user1: user2[0].email, user2: user1[0].email}, {new: true, useFindAndModify: false});
 
         // Removing all asigned workouts
         await schemas.AssignedWorkout.deleteMany({user: user2[0].email, pt: user1[0].email});

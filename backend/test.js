@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 chai.should();
 var agent = chai.request.agent(app);
 
-// Creating test item and user
+// Creating test user
 var user = {
     firstName: "Test",
     lastName: "User",
@@ -17,8 +17,8 @@ var user = {
     password: "test"
 };
 
- // Testing user functions. Registering, and logging in.
-describe("Users", () => {
+ // Testing authentication functions
+describe("Authentication", () => {
     describe("Register User", () => {
         it("should register a new user", (done) => {
             agent
@@ -79,63 +79,101 @@ describe("Users", () => {
     });
 });
 
+describe("Data", () => {
+    describe("Add a weight", () => {
+        it("should add a weight for the current user", (done) => {
+            agent
+                .post("/api/weight")
+                .type('form')
+                .send({
+                    weight: 60,
+                    date: new Date()
+                })
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+    var weight;
+    describe("Get a weight", () => {
+        it("should get all weights for the current user", (done) => {
+            agent
+                .post("/api/weight/user")
+                .type('form')
+                .end((err, res) => {
+                    weight = res.body.weights[0]
+                    chai.assert.equal(60, res.body.weights[0].weight)
+                    done();
+                });
+        });
+    });
+    describe("Delete a weight", () => {
+        it("should delete a specific weight for the current user", (done) => {
+            agent
+                .delete("/api/weight/" + weight._id)
+                .type('form')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+    describe("Add a height", () => {
+        it("should add a height for the current user", (done) => {
+            agent
+                .post("/api/height/")
+                .type('form')
+                .send({
+                    height: 180,
+                })
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+    describe("Get a height", () => {
+        it("should get the height for the current user", (done) => {
+            agent
+                .get("/api/height/")
+                .type('form')
+                .end((err, res) => {
+                    chai.assert.equal(180, res.body.height)
+                    done();
+                });
+        });
+    });
+    describe("Create a Relationship", () => {
+        it("should create a new relationship with another user", (done) => {
+            agent
+                .post("/api/user/relationship")
+                .type('form')
+                .send({
+                    email: "jack.naughton@gmail.com",
+                })
+                .end((err, res) => {
+                    chai.assert.equal("true", res.body.success)
+                    done();
+                });
+        });
+    });
+    describe("Remove a Relationship", () => {
+        it("should remove a relationship with another user", (done) => {
+            agent
+                .delete("/api/user/relationship")
+                .type('form')
+                .send({
+                    email: "jack.naughton@gmail.com",
+                })
+                .end((err, res) => {
+                    chai.assert.equal("true", res.body.success)
+                    done();
+                });
+        });
+    });
+});
 
-// // Testing item functions. Adding, editing and deleting items.
-// describe("Items", () => {
-//     describe("Get To Do List", () => {
-//         it("should get all user to do item", (done) => {
-//             agent
-//                 .get('/todo')
-//                 .end((err, res) => {
-//                     res.should.have.status(200);
-//                     done();
-//                 });
-//         });
-//     });
-//     describe("Add Item", () => {
-//         it("should add an item to test users to do list", (done) => {
-//             agent
-//                 .post("/todo")
-//                 .type('form')
-//                 .send({
-//                     item: testItem.item
-//                 })
-//                 .end((err, res) => {
-//                     res.should.have.status(200);
-//                     done();
-//                 });
-//         });
-//     });
-//     describe("Edit Item", () => {
-//         it("should edit an items name", (done) => {
-//             agent
-//                 .put("/todo/" + testItem.item)
-//                 .type('form')
-//                 .send({
-//                     old: testItem.item,
-//                     new: "Updated"
-//                 })
-//                 .end()
-//                 .then(function (err, res) {
-//                     done()
-//                 })
-//                 .catch(function (err) {
-//                     done(err);
-//                 })
-//         })
-//     });
-//     describe("Delete Item", () => {
-//         it("should delete an item", (done) => {
-//             agent
-//                 .delete("/todo/" + "Updated")
-//                 .type('form')
-//                 .end((err, res) => {
-//                     res.should.have.status(200);
-//                     done();
-//                 });
-//         })
-//     });
-// });
 
 // Testing deleting a user
 describe("Delete User", () => {
