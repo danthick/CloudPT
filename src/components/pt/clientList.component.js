@@ -5,7 +5,6 @@ export default class exerciseList extends Component{
     constructor(props) {
         super(props);
 
-
         this.state = {
             client: this.props.client,
             assigned: this.props.assignedWorkout.length,
@@ -67,8 +66,6 @@ export default class exerciseList extends Component{
                                 {new Date(this.state.lastWorkout).getDate()}/{new Date(this.state.lastWorkout).getMonth() + 1}/{new Date(this.state.lastWorkout).getFullYear()}
                             </span>}
                         </span>
-                        
-                        
                         }
                         
                     </Text>

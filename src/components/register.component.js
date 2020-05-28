@@ -87,7 +87,6 @@ export default class Login extends Component {
 
     render() {
         return (
-            
             <div style={{marginTop: 10}}>
                 {/* Background video */}
                 <div className="fullscreen-bg">
