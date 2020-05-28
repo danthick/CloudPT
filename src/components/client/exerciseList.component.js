@@ -34,12 +34,14 @@ export default class exerciseList extends Component{
         notes = (linkifyHtml(this.state.exerciseData.notes, {defaultProtocol: 'https'}));
     }
 
+    // Changing colour of completed exercise to green
     complete(){
         document.getElementById("list" + this.props.index).style.backgroundColor = "rgba(0, 230, 11, 0.37)";
         document.getElementById("list" + this.props.index).style.borderColor = "white";
         this.props.complete(this.props.index);
     }
 
+    // Changing colour of missed exercise to red
     missed(){
         document.getElementById("list" + this.props.index).style.backgroundColor = "rgba(230, 0, 0, 0.37)";
         document.getElementById("list" + this.props.index).style.borderColor = "white";

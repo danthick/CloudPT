@@ -8,6 +8,7 @@ import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ChatIcon from '@material-ui/icons/Chat';
 import PersonIcon from '@material-ui/icons/Person';
 
+// Styles for bottom navigation bar
 const useStyles = makeStyles({
     root: {
       width: '100%',
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
   
   export default function LabelBottomNavigation() {
     const classes = useStyles();
+    // Checking what page the application is on
     const [value, setValue] = React.useState(window.location.pathname.split('/')[1]);
     const history = useHistory();
   
@@ -30,7 +32,8 @@ const useStyles = makeStyles({
         history.push(`/${newValue}`);
         setValue(newValue)
     };
-  
+    
+    // Navigation routes
     return (
       <BottomNavigation value={value} onChange={handleChange}  className={classes.root}>
         <BottomNavigationAction disableTouchRipple={true} label="Home" value="home"  icon={<HomeIcon />} />

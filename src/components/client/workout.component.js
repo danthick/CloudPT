@@ -62,6 +62,7 @@ export default class Workout extends Component{
     }
 
     loadWorkouts(){
+        // Store each workout in a seperate array depening on what day it is in the schedule
         for (var i = 0; i< this.state.assignment.length; i++){
             if(this.state.assignment[i].day === "Monday"){
                 var monday = this.state.monday;
@@ -107,17 +108,16 @@ export default class Workout extends Component{
             <Fragment>
                 <AppBar width="100%" pageName="WORKOUTS"/>
                 
+                {/* Success message */}
                 { this.state.showMessage?
                     <h6 className="alert alert-success alert-dismissible" role="alert"> {this.state.message} </h6>
                 :   null  
                 }
 
-                
+                {/* Show schedule of workouts by using seperate arrays for each day */}
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : this.state.workouts.length > 0 &&
                 <div><div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>Schedule</div>
-
-
                     
                     {this.state.monday.length > 0 &&
                     <div className="clientWorkoutList"><h4>Monday</h4>
@@ -185,6 +185,7 @@ export default class Workout extends Component{
                 </div>
                 }
 
+                {/* Show if no workouts assigned */}
                 {this.state.workoutsLoading? null : this.state.workouts.length < 1 &&
                     <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}> Workouts that get assigned to you will appear here! </div>
                 }

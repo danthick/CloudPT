@@ -151,11 +151,13 @@ export default class Workout extends Component{
                 <AppBar width="100%" pageName="WORKOUTS"/>
                 <button type="button" className="btn btn-primary container" onClick={this.createNewWorkout}>Create New Workout</button><br/>
 
+                {/* Success message */}
                 { this.state.showSuccess?
                     <h4 className="alert alert-success alert-dismissible" role="alert" style={{textAlign: "center", fontSize: "16px"}}> { this.state.successMsg } </h4>
                 : null
                 }
                 
+                {/* List all workouts that have been created by user */}
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : this.state.workouts.length > 0 &&
                 <div><h4 style={{textAlign:"center"}}>Created Workouts</h4>
@@ -165,15 +167,13 @@ export default class Workout extends Component{
                         <div key={index}><WorkoutList workout={workout} delete={this.deleteWorkout} edit={this.editWorkout} assign={this.openModal} index={index}/></div>
                     )})}</div>
                 }
-
+                
+                {/* Show if no workouts have been created by the user */}
                 {this.state.workoutsLoading? null : this.state.workouts.length < 1 &&
                     <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}> Start by creating a workout! </div>
                 }
 
-
-
-
-
+                {/* Modal to assign a workout to a client */}
                 <div className="container">
                 <div className="modal fade" id="assignModal">
                     <div className="modal-dialog"><br/><br/><br/><br/><br/>
@@ -232,10 +232,6 @@ export default class Workout extends Component{
                     </div>
                 </div>
                 </div>
-
-
-
-
             <br/><br/><br/><br/></Fragment>
         )
     }

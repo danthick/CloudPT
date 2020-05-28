@@ -14,16 +14,15 @@ export default class Home extends Component{
             recordedWorkouts: [],
             noOfWorkoutsInWeek: 0,
             lastWorkout: "",
-            
         }
     }
 
     async componentDidMount(){
+        // Get required information for page
         await this.getRecordedWorkouts();
         if(this.state.recordedWorkouts.length > 0){
             this.calculateWorkoutInfo();
         }
-        
     }
 
     async getRecordedWorkouts(){
@@ -79,11 +78,6 @@ export default class Home extends Component{
         })
         
     }
-
-
-
-
-    
 
     render() {
         return (

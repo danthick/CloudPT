@@ -89,6 +89,7 @@ module.exports = function (app) {
     app.post("/api/user", async function(req, res){
         var user = await getUserByEmail(req.body.email)
         var currentUser = await getUserByEmail(req.session.passport.user)
+        // Checking user exists
         if (user.length != 0){
             return res.json({
                 user: {
@@ -159,8 +160,11 @@ module.exports = function (app) {
         })
     });
 
+    // Route to change user role
     app.post("/api/user/role", async function(req, res) {
         var user = await getUserByEmail(req.session.passport.user);
+
+        // If user is a PT then change to client and vise versa
         if(user[0].ptBool){
             await schemas.User.findOneAndUpdate({email: user[0].email}, {ptBool: false}, {new: true, useFindAndModify: false});
             return res.json({

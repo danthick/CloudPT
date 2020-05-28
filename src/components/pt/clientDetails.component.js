@@ -24,12 +24,14 @@ export default class ClientDetails extends Component{
             
         }
 
+        // Check if new user is being passed in or use local storage
         if(typeof this.state.user !== "undefined"){
             localStorage.clear();
         }
     }
 
     async componentDidMount() {
+        // Reload states from memory
         const rehydrate = JSON.parse(localStorage.getItem('user'))
         this.setState(rehydrate)
         this.setState({show: true})
@@ -44,10 +46,12 @@ export default class ClientDetails extends Component{
     }
 
     componentWillUnmount() {
+        // Store states
         localStorage.setItem('user', JSON.stringify(this.state))
     }
 
     viewWorkoutHistory(){
+        // Pass user to next page
         this.props.history.push({
             pathname: '/home/details/history',
             user: this.state.user,
@@ -128,7 +132,6 @@ export default class ClientDetails extends Component{
         
     }
 
-
     removeClient(){
         let removeClient = window.confirm("Click OK if you want to remove this client. All workouts assigned to them will also be removed.");
         if (removeClient){
@@ -158,8 +161,11 @@ export default class ClientDetails extends Component{
                 <AppBar width="100%" pageName="CLIENT DETAILS" back={"/home"}/>
                 {this.state.show?
                     <div>
-                    <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.state.user.firstName} {this.state.user.lastName}</div>
 
+                    {/* Show client name */}
+                    <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.state.user.firstName} {this.state.user.lastName}</div>
+                    
+                    {/* Show information about clients workouts */}
                     {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                     : this.state.recordedWorkouts.length > 0 &&
                     <div>
@@ -171,7 +177,8 @@ export default class ClientDetails extends Component{
                         <p style={{textAlign: "center",fontSize: "36px"}}>{this.state.lastWorkout}</p>
                         <p style={{textAlign: "center"}}>Last completed workout!</p>
                     </div>
-
+                    
+                    {/* Show weight graph of current client */}
                     {this.state.allWeights.length > 0 &&
                         <div><WeightGraph weights={this.state.allWeights} /></div>
                     
@@ -179,8 +186,7 @@ export default class ClientDetails extends Component{
 
                     </div>}
 
-
-
+                    {/* View workout histroy or remove client buttons */}
                     <button type="button" className="btn btn-primary container" onClick={this.viewWorkoutHistory}>View Workout History</button><br/>
                     <input type="button" value="Remove Client" className="btn btn-danger container" onClick={this.removeClient} />
                     </div>

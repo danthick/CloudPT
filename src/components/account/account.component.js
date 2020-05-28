@@ -16,7 +16,7 @@ export default class Account extends Component{
         super(props);
         this.listClick = this.listClick.bind(this);
     }
-
+    
     logout() {
         fetch('/api/logout', {
                 method: 'GET',
@@ -39,9 +39,6 @@ export default class Account extends Component{
     listClick(url){
         this.props.history.push({pathname: url})
     }
-    
-
-    
     
     render() {
         const classes = this.props;

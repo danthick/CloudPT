@@ -43,6 +43,7 @@ export default class Workout extends Component{
     }
 
     componentDidMount(){
+        // Checking if a new workout is being made or one is being edited
         if(this.props.location.workout !== "null"){
             savedExercises = this.props.location.workout.exercises
             this.setState({
@@ -167,6 +168,7 @@ export default class Workout extends Component{
     }
 
     deleteExercise(index){
+        // Remove exercise from array and refresh list
         const filteredItems = savedExercises.slice(0, index).concat(savedExercises.slice(index + 1, savedExercises.length))
         savedExercises = filteredItems
         this.setState({showExercises: false});

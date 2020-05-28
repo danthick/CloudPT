@@ -44,6 +44,7 @@ export default class accountEdit extends Component {
             showError: false,
             showSuccess: false,
         })
+        // Checking passwords match
         e.preventDefault();
         if(this.state.newConPassword !== this.state.newPassword){
             this.setState({
@@ -95,6 +96,7 @@ export default class accountEdit extends Component {
             <Fragment>
                 <AppBar width="100%" pageName="CHANGE PASSWORD" back="/account"/>
                 
+                {/* Success or error messages */}
                 <form onSubmit={this.onSubmit} autoComplete="new-password"  style={{color: "grey"}}>
                     { this.state.showError?
                         <div>
@@ -109,6 +111,7 @@ export default class accountEdit extends Component {
                     : null
                     }
 
+                    {/* Password change form */}
                     <div className="form-group">
                         <input  type="password"
                                 className="form-control"

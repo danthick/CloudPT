@@ -20,10 +20,7 @@ export default class Workout extends Component{
         }
     }
 
-    async componentDidMount(){
-
-    }
-
+    // Store whether exercise was completed or not
     completedExercise(index){
         completedExercises[index] = {completed: true, exerciseID: this.props.location.workout.exercises[index]._id};
     }
@@ -32,7 +29,9 @@ export default class Workout extends Component{
         completedExercises[index] = {completed: false, exerciseID: this.props.location.workout.exercises[index]._id};
     }
 
+
     async finishWorkout(){
+        // Checking all exercises have been marked completed or missed, is so save workout
         if(completedExercises.length !== this.props.location.workout.exercises.length){
             this.setState({
                 showMessage: true,
@@ -68,11 +67,9 @@ export default class Workout extends Component{
         return (
             <Fragment>
                 <AppBar width="100%" pageName="RECORD WORKOUT" back="/workout"/>
-
-
-
                 <h2 style={{textAlign: "center"}}>{this.props.location.workout.workout.name}</h2>
 
+                {/* List of exercises */}
                 <div>
                     {this.props.location.workout.exercises.map((exercise, index) => 
                         <div key={index}><ExerciseList exercise={exercise} index={index} complete={this.completedExercise} missed={this.missedExercise}/></div>
@@ -81,6 +78,7 @@ export default class Workout extends Component{
 
                 <textarea rows="3" onChange={(e) => this.setState({notes: e.target.value})} value={this.state.notes} className="form-control" placeholder="How did it go?" style={{marginTop: "20px"}}/><br/>
                 
+                {/* Show error message */}
                 { this.state.showMessage?
                     <h6 className="alert alert-danger alert-dismissible" role="alert"> {this.state.message} </h6>
                 :   null  

@@ -54,6 +54,7 @@ export default class accountEdit extends Component {
             }).then(res => {
                 res.json().then(log => {
                     if(log.success){
+                        // If role changed succesfully, log user out
                         this.setState({
                             showSuccess: true,
                             successMessage: "User role has been updated. You must re-login for changes to take effect. You will now be logged out."
@@ -95,6 +96,7 @@ export default class accountEdit extends Component {
             <Fragment>
                 <AppBar width="100%" pageName="USER ROLE" back="/account"/>
 
+                    {/* Success or err message */}
                     { this.state.showSuccess?
                         <div>
                         <h4 className="alert alert-success alert-dismissible" role="alert" style={{textAlign: "center", fontSize: "16px"}}> { this.state.successMessage } </h4>
@@ -109,6 +111,7 @@ export default class accountEdit extends Component {
                     }
 
                     
+                    {/* Information about the role of the current user */}
                     <div style={{background: "lightgrey", borderRadius: "5px", padding: "5px", textAlign: "center", fontSize: "16px"}}>
                         You are currently using the app as a:
                         {this.state.user.ptBool?

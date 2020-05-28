@@ -14,6 +14,8 @@ export default class Messages extends Component{
             userTo: this.props.location.userTo
         }
         this.onChangeText = this.onChangeText.bind(this);
+
+        // Mark all messages as read
         try{
             this.props.location.messages.forEach(message => this.markMessageAsRead(message))
         } catch (e){
@@ -62,7 +64,7 @@ export default class Messages extends Component{
         e.preventDefault();
         if(this.state.text !== "")
         {
-            
+            // Push new message to local array
             messages.push({
                 text: this.state.text,
                 userTo:{
@@ -104,6 +106,7 @@ export default class Messages extends Component{
         }))
     }
 
+    // Mark all messages as read when chat window is opened
     markMessageAsRead(message){
         const messageData = JSON.stringify(message)
         if(message.userTo === this.state.currentUser[0].email || message.newMessage){
@@ -121,6 +124,7 @@ export default class Messages extends Component{
 
     }
 
+    // Function to return message as send or recieved (either show on left or right side of chat window)
     renderMessage(message){
         var classname, messageFrom;
         if(message.userTo === this.props.location.currentUser[0].email){
@@ -136,7 +140,6 @@ export default class Messages extends Component{
         }
         return (
                 <div className={classname}>
-
                     <div className="messageContent">
                         <div className="username">
                             {this.captitaliseFirstLetter(messageFrom.firstName)} {this.captitaliseFirstLetter(messageFrom.lastName)}
@@ -160,10 +163,12 @@ export default class Messages extends Component{
             <Fragment>
                 <AppBar width="100%" pageName={userTo.firstName.toUpperCase() + " " + userTo.lastName.toUpperCase()} back="/messages"/>
 
-                    
+                    {/* Show list of messages */}
                     {messages.map((message, index) => <ul key={index}>{this.renderMessage(message)}</ul>)}
                     
                     <br/><br/><br/><br/><br/><br/>
+
+                    {/* Show send button and input text */}
                     <div id="scroll"></div>
                     <div className="chatInput">
                         <form className="chatInputForm" onSubmit={e => this.onSubmit(e)}  >

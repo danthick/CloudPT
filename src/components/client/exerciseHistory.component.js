@@ -19,10 +19,6 @@ export default class Workout extends Component{
         }
     }
 
-    async componentDidMount(){
-
-    }
-
     completedExercise(index){
         completedExercises[index] = {completed: true, exerciseID: this.props.location.workout.exercises[index]._id};
     }
@@ -44,6 +40,7 @@ export default class Workout extends Component{
                 }
                 <h2 style={{textAlign: "center"}}>{this.props.location.workoutInfo.workout.name}</h2>
 
+                {/* Lists all exercises completed in workout */}
                 <div>
                     {this.props.location.workoutInfo.exercises.map((exercise, index) => 
                         <div key={index}><ExerciseHistoryList exercise={exercise} recordedInfo={this.props.location.recordedWorkout.completedExercises[index].completed} index={index} complete={this.completedExercise} missed={this.missedExercise}/></div>

@@ -199,8 +199,7 @@ export default class Home extends Component{
 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#addClient">ADD CLIENT</button><br/><br/>
 
-                
-
+                {/* Show success or error message */}
                 { this.state.showError?
                     <h6 className="alert alert-danger alert-dismissible" role="alert"> {this.state.message} </h6>
                 :   null  
@@ -210,9 +209,12 @@ export default class Home extends Component{
                 :   null  
                 }
 
+                {/* Show loading animation */}
                 {this.state.clientsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 :
                 <div>
+
+                {/* Show list of clients */}
                 <h4 style={{textAlign:"center"}}>Clients</h4>
                 {this.state.clients.map((client, index) => {
                     return (
@@ -220,11 +222,14 @@ export default class Home extends Component{
                         
                     )
                 })}
+
+                {/* Show if user has no clients */}
                 {this.state.clients.length < 1 &&
                 <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}>You currently do not have any clients.</div>
                 }
                 </div>}
-
+                
+                {/* Modal to add a new client */}
                 <form onSubmit={e => this.addClient(e)}>
                 <div className="container">
                     <div className="modal fade" id="addClient" style={{top: "20px"}}>

@@ -63,6 +63,7 @@ export default class WorkoutHistory extends Component{
 
 
     viewRecordedWorkout(index){
+        // Pass workout to next page
         this.props.history.push({
             pathname: '/workout/history/view',
             recordedWorkout: this.state.recordedWorkouts[index],
@@ -75,13 +76,16 @@ export default class WorkoutHistory extends Component{
             <Fragment>
                 <AppBar width="100%" pageName="WORKOUT HISTORY" back={"/workout"}/>
 
+                {/* Loading animation */}
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : null }
 
+                {/* Show if no workouts recorded */}
                 {this.state.workoutsLoading? null
                 : this.state.recordedWorkouts.length < 1 &&
                 <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "26px"}} onClick={() => window.location.replace("/workout")}>Head over to the workouts section to get started!</div>}
                 
+                {/* List of all workouts recorded */}
                 {this.state.workoutsLoading? null :
                 this.state.recordedWorkouts.map((workout, index) => {
                 return (

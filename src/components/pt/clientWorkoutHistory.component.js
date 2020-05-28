@@ -19,12 +19,14 @@ export default class WorkoutHistory extends Component{
             show: false,     
         }
 
+        // Checking is user has been passed in or use local storage
         if(typeof this.state.user !== "undefined"){
             localStorage.clear();
         }
     }
 
     async componentDidMount(){
+        // statting states from local storage
         const rehydrate = JSON.parse(localStorage.getItem('userDetails'))
         await this.setState(rehydrate, async () => {
             await this.loadInformation();
@@ -35,6 +37,7 @@ export default class WorkoutHistory extends Component{
         })
     }
 
+    // Saving state to local storage
     componentWillUnmount() {
         localStorage.setItem('userDetails', JSON.stringify(this.state))
     }
@@ -100,14 +103,17 @@ export default class WorkoutHistory extends Component{
                 {this.state.show?
                 <div>
                 <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.state.user.firstName} {this.state.user.lastName}</div>
-
+                
+                {/* Show loading animation */}
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : null }
 
+                {/* Show if no workouts have been completed */}
                 {this.state.workoutsLoading? null
                 : this.state.recordedWorkouts.length < 1 &&
                 <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}>This user has not completed any workouts yet.</div>}
                 
+                {/* Show list of all completed workouts */}
                 {this.state.workoutsLoading? null :
                 this.state.recordedWorkouts.map((workout, index) => {
                 return (

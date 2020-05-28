@@ -63,6 +63,7 @@ export default class ClientSchedule extends Component{
         
     }
 
+    // Store each workout is seperate array depending on the day
     loadWorkouts(){
         for (var i = 0; i< this.state.assignment.length; i++){
             if(this.state.assignment[i].day === "Monday"){
@@ -109,6 +110,7 @@ export default class ClientSchedule extends Component{
             body: JSON.stringify({workout: workout.workout, recordedInfo: recordedInfo})
         })
 
+        // Refresh all states
         this.setState({
             workoutsLoading: false,
             workouts: [],
@@ -131,18 +133,19 @@ export default class ClientSchedule extends Component{
             <Fragment>
                 <AppBar width="100%" pageName="CLIENT SCHEDULE" back={"/home"}/>
                 
+                {/* Show success message */}
                 { this.state.showMessage?
                     <h6 className="alert alert-success alert-dismissible" role="alert"> {this.state.message} </h6>
                 :   null  
                 }
 
-                
+                {/* Show loading animation */}
                 {this.state.workoutsLoading? <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}><Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} /> </div>
                 : this.state.workouts.length > 0 &&
                 <div><div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "36px"}}>{this.props.location.user.firstName}'s Schedule</div>
 
 
-                    
+                    {/* Show schedule organised by day */}
                     {this.state.monday.length > 0 &&
                     <div className="clientWorkoutList"><h4>Monday</h4>
                         {this.state.monday.map((workout, index) => {
@@ -209,6 +212,7 @@ export default class ClientSchedule extends Component{
                 </div>
                 }
 
+                {/* Show if no workouts are assigned to the client */}
                 {this.state.workoutsLoading? null : this.state.workouts.length < 1 &&
                     <div className="alert alert-info" role="alert" style={{textAlign: "center",fontSize: "18px"}}> No workouts are assigned to this client! </div>
                 }

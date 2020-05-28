@@ -93,6 +93,7 @@ export default class Login extends Component {
         return (
             <Fragment>
             <div>
+            {/* Background video */}
             <div className="fullscreen-bg">
                 <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
                     <source src="/login-video.mp4" type="video/mp4"/>
@@ -105,6 +106,7 @@ export default class Login extends Component {
                     CloudPT
                 </p><br/>
                 
+                {/* Show error message */}
                 <div className="homeBackground">
                 { this.state.showError?
                     <div>
@@ -112,6 +114,8 @@ export default class Login extends Component {
                     </div>
                 : null
                 }
+
+                {/* Form for login details */}
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group"> 
                         <input  type="email"
@@ -147,13 +151,13 @@ export default class Login extends Component {
                 <a href="/register" className="btn btn-primary container">SIGN UP HERE</a>
             </div><br/><br/>
 
-
+            {/* PWA information */}
             <div className="bubbleCard">
                     <h6>  <b>Install this app on your phone: Tap </b>
                     <img src="./safari.png" width="25px" height="25px" alt="Safari Share Button"/> or <img src="./chrome.png" width="8px" height="25px" alt="Chrome Menu Button"/> and then Add to Homescreen! </h6>
             </div><br/>
 
-            
+            {/* List of app features */}
             <div className="scroll-down-info"> Check out the app features!</div>
                 <section>
                     <a href="#scroll" className="scroll-down"> </a>

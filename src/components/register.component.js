@@ -89,6 +89,7 @@ export default class Login extends Component {
         return (
             
             <div style={{marginTop: 10}}>
+                {/* Background video */}
                 <div className="fullscreen-bg">
                     <video autoPlay loop muted playsInline poster="" className="fullscreen-bg__video">
                         <source src="/login-video.mp4" type="video/mp4"/>
@@ -106,6 +107,7 @@ export default class Login extends Component {
                 <h3>CREATE YOUR ACCOUNT</h3>
                 <form onSubmit={this.onSubmit}>
                     
+                    {/* Show error message */}
                     { this.state.showError?
                         <div>
                         <h4 className="alert alert-danger alert-dismissible" role="alert"> { this.state.errorMessage } </h4>
@@ -113,6 +115,7 @@ export default class Login extends Component {
                     : null
                     }
 
+                    {/* Register form */}
                     <div className="form-group"> 
                         <input  type="text"
                                 id="firstName"

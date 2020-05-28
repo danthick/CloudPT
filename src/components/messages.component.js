@@ -102,7 +102,7 @@ export default class Messages extends Component{
             email: e.target.value
         });
     }
-
+    
     async getAllUsers(){
         if(this.state.currentUser !== "" && this.state.messages !== ""){
             for (var i = 0; i < this.state.messages.length; i++){
@@ -132,6 +132,7 @@ export default class Messages extends Component{
         }
     }
 
+    // Create list of previous messages and users
     createMessageLists(){
         for (var i = 0; i < this.state.userList.length; i++){
             var newUserList = this.state.userList;
@@ -149,6 +150,7 @@ export default class Messages extends Component{
                 }
             }
         }
+        // Sort message list by data
         this.state.userList.sort((a, b) => new Date((b[1])[b[1].length - 1].date) - new Date((a[1])[a[1].length - 1].date))
     }
 
@@ -253,6 +255,7 @@ export default class Messages extends Component{
             }).catch(error => console.log(error))
     }
 
+    // Function to capitlise first and last name
     captitaliseFirstLetter(string){
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -262,6 +265,7 @@ export default class Messages extends Component{
             <Fragment>
                 <AppBar width="100%" pageName="MESSAGES"/>
 
+                {/* Show error message */}
                 { this.state.showError?
                     <h6 className="alert alert-danger alert-dismissible" role="alert"> {this.state.errorMsg} </h6>
                 :   null  
@@ -270,6 +274,7 @@ export default class Messages extends Component{
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#newChatModal">Start New Chat</button>
 
                 <List>
+                    {/* List all past chat converstations, with name and last message */}
                     {this.state.userListLoaded?  this.state.userList.map((users, index) => {
                         return (
                             <ListItem key={index} style={(index + 1) % 2? {background: "#e3e3e3", borderRadius:"10px"}:{background: "white", borderRadius:"10px"}}>
@@ -287,12 +292,13 @@ export default class Messages extends Component{
                             </ListItem>
                         )
                         }) : 
+                        // Loading animation
                         <div style={{width: "100px", marginLeft: "auto", marginRight: "auto"}}>
                             <Loader type="ThreeDots" color="rgb(53, 141, 58)" height={100} width={100} />
                         </div>}
                 </List>
 
-
+                {/* Start new chat modal */}
                 <div className="container">
                     <div className="modal fade" id="newChatModal" style={{top: "20px"}}>
                         <div className="modal-dialog">

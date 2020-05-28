@@ -41,6 +41,7 @@ export default class accountEdit extends Component {
         });
     }
 
+    // Get all user details and fill the form
     async fillDetails(){
         await this.getCurrentUser();
         this.setState({
@@ -96,6 +97,7 @@ export default class accountEdit extends Component {
                             showSuccess: true,
                             successMessage: "User account has been updated. You must re-login for changes to take effect. You will now be logged out."
                         })
+                        // Log user out
                         setTimeout(this.logout, 6000);
                     }
                 } else {
@@ -135,8 +137,8 @@ export default class accountEdit extends Component {
             <Fragment>
                 <AppBar width="100%" pageName="UPDATE ACCOUNT DETAILS" back="/account"/>
                 
+                {/* Either show error or success message */}
                 <form onSubmit={this.onSubmit} autoComplete="new-password"  style={{color: "grey"}}>
-
                     { this.state.showSuccess?
                         <div>
                         <h4 className="alert alert-success alert-dismissible" role="alert" style={{textAlign: "center", fontSize: "16px"}}> { this.state.successMessage } </h4>
@@ -150,6 +152,7 @@ export default class accountEdit extends Component {
                     : null
                     }
 
+                    {/* Form for updating user details */}
                     <div className="form-group">
                         First Name
                         <input  type="text"

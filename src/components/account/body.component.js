@@ -45,6 +45,8 @@ export default class Weight extends Component{
     this.setState({height: value});
     }
 
+
+    // Sliders for the height and weight
     renderSlideRulerWeight(){
         return new SlideRuler({
             el: this.refs.slideRulerWeight,
@@ -118,7 +120,6 @@ export default class Weight extends Component{
             )
             window.location.reload();
         }
-        
       }
 
       updateHeight(e){
@@ -163,7 +164,7 @@ export default class Weight extends Component{
                 <AppBar width="100%" pageName="HEIGHT & WEIGHT" back="/account"/>
                 
             
-            
+                {/* Text showing users current weigth and height */}
                 {this.state.userHeight?
                 <h4><div style={{textAlign: "center"}}>Current Height</div>  <p style={{textAlign: "center"}}><b>{this.state.userHeight} cm</b></p></h4>
                 : null }
@@ -176,12 +177,14 @@ export default class Weight extends Component{
                 
                 <button type="button" className="btn btn-primary container" data-toggle="modal" data-target="#weightModal">Update Weight</button>
                 
+                {/* Graph showing all user weights */}
                 {this.state.allWeights.length > 0 &&
                     <div><WeightGraph weights={this.state.allWeights} /></div>
                 
                 }
                 
 
+                {/* List of all user weights, with delete button next to each one */}
                 {this.state.allWeights.length > 0 && 
                 <List className="weightList">
                         {this.state.allWeights && this.state.allWeights.map((weightsData, index) => {
@@ -205,6 +208,7 @@ export default class Weight extends Component{
                 </List>
                 }
                 
+                {/* Modals for weight and height slider */}
                 <div className="container">
                 <div className="modal fade" id="weightModal">
                     <div className="modal-dialog"><br/><br/><br/><br/><br/>

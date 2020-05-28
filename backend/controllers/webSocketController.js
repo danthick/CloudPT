@@ -29,9 +29,6 @@ module.exports = function (app, server) {
                 }
             }
             if(message.messageType === "messageSent"){
-                // new message has been sent
-                // send out message to client with email address of userTo!
-
                 // Check which client message was sent to
                 clients.forEach(function(client){
                     if (client[1] == message.userTo.email){

@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
+// Styling for the app bar
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -33,6 +34,8 @@ export default function ButtonAppBar(props) {
         <div className={classes.root}>
         <AppBar position="fixed" style={{ background: "linear-gradient(90deg, rgba(117,236,117,1) 0%, rgba(92,184,92,1) 52%, rgba(71,140,71,1) 100%)", boxShadow: 'none', paddingTop: "30px"}}>
             <Toolbar>
+
+            {/* Check if back button has been passed in */}
             {props.back? 
             <Link to={props.back} style={{color: "#a3a3a3", width: "20px"}}>
             <IconButton edge="start" color="inherit" aria-label="ArrowBackIosIcon">
@@ -42,6 +45,7 @@ export default function ButtonAppBar(props) {
             
             : null}
             
+            {/* Show title of page */}
             <Typography variant="h6" className={classes.title}>
                 {props.pageName}
             </Typography>
