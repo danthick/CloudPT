@@ -10,6 +10,7 @@ export default class Workout extends Component{
         this.finishWorkout = this.finishWorkout.bind(this);
         this.completedExercise = this.completedExercise.bind(this);
         this.missedExercise = this.missedExercise.bind(this);
+        completedExercises = [];
 
         this.state = {
             notes: "",

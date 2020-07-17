@@ -11,7 +11,7 @@ export default class Workout extends Component{
 
         this.addExercise = this.addExercise.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
-
+        savedExercises = [];
         this.state = {
             exerciseType: ["Cardio", "Stretching", "Body Weight", "Barbell", "Dumbbell"],
             exerciseTypeValue: -1,

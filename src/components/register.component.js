@@ -11,6 +11,7 @@ export default class Login extends Component {
         this.changePtTrue = this.changePtTrue.bind(this);
         this.changePtFalse = this.changePtFalse.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.login = this.login.bind(this);
 
         this.state = {
             firstName: '',
@@ -59,19 +60,20 @@ export default class Login extends Component {
         });
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         e.preventDefault();
         const registerData = JSON.stringify(this.state);
 
-        fetch('/api/register', {
+        await fetch('/api/register', {
             method: 'POST',
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},
             body: registerData
-        }).then(res => {
-            res.json().then(log => {
+        }).then(async res => {
+            await res.json().then(async log => {
                 if (log.redirect === '/') {
-                    window.location = '/'
+                    //window.location = '/'
+                    await this.login()
                 } else {                  
                     this.setState({errorMessage: "Email is already in use"});
                     this.setState({showError: true})
@@ -83,6 +85,29 @@ export default class Login extends Component {
             email: '',
             password: '',
         })
+    }
+
+    async login(){
+        const loginData = JSON.stringify(this.state);
+
+        fetch('/api/login', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: loginData
+        }).then(res => {
+            res.json().then(log => {
+                if (log.auth === true) {
+                    window.location = '/home'
+                } else {
+                    this.setState({
+                        errorMessage: "Incorrect email or password",
+                        showError: true,
+                        password: ""                    
+                    });
+                }
+            });
+        }).catch(error => console.log(error))
     }
 
     render() {

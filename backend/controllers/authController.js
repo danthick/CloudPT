@@ -148,6 +148,18 @@ module.exports = function (app) {
                 await schemas.Weight.updateMany({email: user[0].email}, {email: req.body.email}, {new: true, useFindAndModify: false});
                 await schemas.Message.updateMany({userTo: user[0].email}, {userTo: req.body.email}, {new: true, useFindAndModify: false});
                 await schemas.Message.updateMany({userFrom: user[0].email}, {userFrom: req.body.email}, {new: true, useFindAndModify: false});
+                await schemas.Relationship.updateMany({user1: user[0].email}, {user1: req.body.email}, {new: true, useFindAndModify: false});
+                await schemas.Relationship.updateMany({user2: user[0].email}, {user2: req.body.email}, {new: true, useFindAndModify: false});
+                
+                // If they are a PT update assigned and created workouts
+                if(user[0].ptBool){
+                    await schemas.AssignedWorkout.updateMany({pt: user[0].email}, {pt: req.body.email}, {new: true, useFindAndModify: false})
+                    await schemas.Workout.updateMany({userCreated: user[0].email}, {userCreated: req.body.email}, {new: true, useFindAndModify: false})
+                // If they are a client update recorded and assigned workouts
+                } else {
+                    await schemas.AssignedWorkout.updateMany({user: user[0].email}, {user: req.body.email}, {new: true, useFindAndModify: false})
+                    await schemas.RecordedWorkout.updateMany({user: user[0].email}, {user: req.body.email}, {new: true, useFindAndModify: false})
+                }
                 await schemas.User.findOneAndUpdate({email: user[0].email}, {email: req.body.email}, {new: true, useFindAndModify: false});
             } else {
                 return res.json({

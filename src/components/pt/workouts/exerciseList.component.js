@@ -3,7 +3,8 @@ import { Box, Flex, Text } from '@chakra-ui/core'
 import linkifyHtml from 'linkifyjs/html';
 import Exercise from '../../../data/exercises';
 
-var name, notes = false;
+var name = false;
+var notes = false;
 export default class exerciseList extends Component{
     constructor(props) {
         super(props);

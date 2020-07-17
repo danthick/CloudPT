@@ -94,6 +94,8 @@ export default class Home extends Component{
                             message: "Client has been added!",
                             email: ""
                         })
+                        clientAssignedWorkout = [];
+                        recordedWorkouts = [];
                         await this.load();
                     } else if (log.success === "taken") {
                         this.setState({

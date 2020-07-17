@@ -11,6 +11,7 @@ export default class WorkoutHistory extends Component{
         this.getRecordedWorkouts = this.getRecordedWorkouts.bind(this);
         this.getWorkoutInfo = this.getWorkoutInfo.bind(this);
         this.viewRecordedWorkout = this.viewRecordedWorkout.bind(this);
+        //workoutInfo = [];
 
         this.state = {
             workoutsLoading: false,
@@ -123,7 +124,7 @@ export default class WorkoutHistory extends Component{
                     </div>
                 )})}
                 </div>
-                : null }
+                : null } <br/><br/><br/><br/>
               
             </Fragment>
         )

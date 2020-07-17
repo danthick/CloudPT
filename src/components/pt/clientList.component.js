@@ -15,7 +15,6 @@ export default class exerciseList extends Component{
 
     componentDidMount(){
         if(this.props.recordedWorkouts.length > 0){
-            
             // Check if the client has completed a workout in the last week
             var min = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);  // Get date a week ago
             var max = new Date();   // Get todays date
@@ -26,6 +25,11 @@ export default class exerciseList extends Component{
             if(isBetween(date, min, max)){
                 this.setState({
                     withinWeek: true,
+                    lastWorkout: date
+                })
+            } else {
+                this.setState({
+                    withinWeek: false,
                     lastWorkout: date
                 })
             }

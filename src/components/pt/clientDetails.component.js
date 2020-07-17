@@ -41,8 +41,6 @@ export default class ClientDetails extends Component{
             this.calculateWorkoutInfo();
         }
         await this.getWeight();
-        console.log(this.state.allWeights)
-
     }
 
     componentWillUnmount() {

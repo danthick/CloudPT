@@ -52,7 +52,7 @@ export default class Weight extends Component{
             el: this.refs.slideRulerWeight,
             maxValue: 250,
             minValue: 30,
-            currentValue: this.state.allWeights[0].weight,
+            currentValue: 80,
             handleValue: this.handleValueWeight,
             precision: 0.1,
             fontColor: "#FFFFFF"
@@ -64,7 +64,7 @@ export default class Weight extends Component{
             el: this.refs.slideRulerHeight,
             maxValue: 250,
             minValue: 30,
-            currentValue: this.state.userHeight,
+            currentValue: 150,
             handleValue: this.handleValueHeight,
             precision: 0.5,
             fontColor: "#FFFFFF"
