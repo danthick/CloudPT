@@ -26,14 +26,14 @@ The application should open on:
 http://localhost:3000
 
 ## Hosting
-The application is hosted on Heroku and can be found at: [https://cloudpt.me/](CloudPT)
+The application is hosted on Heroku and can be found at: [CloudPT](https://cloudpt.me/).
 
 ## Notes
 The application is a progressive web app and can be installed via Chrome and Safari (and Microsoft Edge...) on desktop and mobile.
 The UI is designed for mobile use but is usable on a desktop browser.
 
 ## Report
-The full report on this project can be found [https://github.com/danthick/PRCO304/blob/master/report.pdf](here).
+The full report on this project can be found [here](https://github.com/danthick/PRCO304/blob/master/report.pdf).
 
 ## Project Supervisor
 Marius Varga
