@@ -35,5 +35,8 @@ The UI is designed for mobile use but is usable on a desktop browser.
 ## Report
 The full report on this project can be found [here](https://github.com/danthick/PRCO304/blob/master/report.pdf).
 
+## Demo Video
+A demonstration of the application can be seen [here](https://www.youtube.com/watch?v=-jwZ912HSNw).
+
 ## Project Supervisor
 Marius Varga
