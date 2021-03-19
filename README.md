@@ -2,7 +2,7 @@
 Final Year University Project - CloudPT
 
 ## Build Status
-[![Build Status](https://travis-ci.com/danthick/PRCO304.svg?token=TxZAJ6udeP3cTDCTxJVG&branch=master)](https://travis-ci.com/danthick/PRCO304)
+[![Build Status](https://travis-ci.com/github/danthick/CloudPT)](https://travis-ci.com/danthick/CloudPT)
 
 ## Project Vision
 CloudPT is an application designed at making it easier for personal trainers to interact and work with their clients.
