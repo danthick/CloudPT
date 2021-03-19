@@ -1,5 +1,5 @@
 # CloudPT
-PRCO304 - Final Year Project - CloudPT
+Final Year University Project - CloudPT
 
 ## Build Status
 [![Build Status](https://travis-ci.com/danthick/PRCO304.svg?token=TxZAJ6udeP3cTDCTxJVG&branch=master)](https://travis-ci.com/danthick/PRCO304)
