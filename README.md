@@ -16,8 +16,8 @@ A [Trello Board](https://trello.com/b/64o70mwh/prco304-dan-thick-apps) was used 
 To run the application use the following commands, assuming that [Node.js is installed](https://nodejs.org/en/download/):
 
 ```
-git clone https://github.com/danthick/PRCO304.git
-cd prco304
+git clone https://github.com/danthick/CloudPT.git
+cd CloudPT
 npm install
 npm start
 ```
@@ -33,7 +33,7 @@ The application is a progressive web app and can be installed via Chrome and Saf
 The UI is designed for mobile use but is usable on a desktop browser.
 
 ## Report
-The full report on this project can be found [here](https://github.com/danthick/PRCO304/blob/master/report.pdf).
+The full report on this project can be found [here](https://github.com/danthick/CloudPT/blob/master/report.pdf).
 
 ## Demo Video
 A demonstration of the application can be seen [here](https://www.youtube.com/watch?v=-jwZ912HSNw).
