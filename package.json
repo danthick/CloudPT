@@ -30,7 +30,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.4.1",
     "linkifyjs": "^2.1.9",
-    "mocha": "^7.2.0",
+    "mocha": "^10.2.0",
     "mongoose": "^5.9.15",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
